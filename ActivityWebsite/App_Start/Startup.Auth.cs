@@ -54,9 +54,9 @@ namespace ActivityWebsite
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "243407530453003",
+               appSecret: "a5f29a2d7fe635d41eb531e5c4c81a6a");
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {

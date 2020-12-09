@@ -224,10 +224,20 @@ namespace ActivityWebsite.Controllers
         {
             if (userId == null || code == null)
             {
-                return View("Error");
+                ViewBag.errorMessage = "Missing user Id or Code!";
+                return View();
+            }
+            if(UserManager.FindById(userId) == null)
+            {
+                ViewBag.errorMessage = "User Not Exist!";
+                return View();
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            if(!result.Succeeded)
+            {
+                ViewBag.errorMessage = "Confirm email failed!";
+            }
+            return View();
         }
 
         //
@@ -279,7 +289,11 @@ namespace ActivityWebsite.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code, string userId)
         {
-            return code == null || userId == null ? View("Error") : View();
+            if (code == null || userId == null)
+            {
+                ViewBag.errorMessage = "Invalid code or userId";
+            }
+            return View();
         }
 
         //
@@ -358,15 +372,15 @@ namespace ActivityWebsite.Controllers
                 // User not register yet
                 case SignInStatus.Failure:
                 default:
-                    // Check if email is exist
                     var user = UserManager.FindByEmail(loginInfo.Email);
-                    if(user != null)
+                    // Check if email is exist
+                    if (user != null)
                     {
                         ViewBag.errorMessage = $"Email {loginInfo.Email} is existed already!";
                         return View("ExternalLoginFailure");
                     }
 
-                    // If the user does not have an account, then prompt the user to create an account
+                    // User does not create an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email, DisplayName = loginInfo.DefaultUserName });

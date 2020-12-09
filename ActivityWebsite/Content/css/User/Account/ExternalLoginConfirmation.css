@@ -1,0 +1,78 @@
+﻿.signup {
+    padding: 40px 20px;
+    background-color: white;
+    border-radius: 30px;
+    width: 100%;
+}
+
+.signup-google-text {
+    color: white;
+    font-weight: 500;
+    display: block;
+    margin: 0 auto;
+}
+
+.signup-already {
+    text-align: center;
+    color: #363a40;
+    font-size: 13px;
+}
+
+.signup-already-link {
+    color: #4c6ef4;
+    text-decoration: none;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    display: inline-block;
+    cursor: pointer;
+    color: #363a40;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.form-input {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    border-radius: 15px;
+    border: 0;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+    background-color: #f2f3f5;
+    color: #363a40;
+    font-size: 16px;
+}
+
+    .form-input::-webkit-input-placeholder {
+        color: #b4bdc1;
+    }
+
+.form-submit {
+    display: block;
+    margin-top: 45px;
+    width: 100%;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    border: 0;
+    border-radius: 15px;
+    background-color: #81c91d;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Poppins", sans-serif;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 20px -5px rgba(129, 201, 29, 0.9);
+    outline: none;
+}
+
+@media screen and (max-width: 767px) {
+    .signup {
+        padding: 30px 20px;
+    }
+}

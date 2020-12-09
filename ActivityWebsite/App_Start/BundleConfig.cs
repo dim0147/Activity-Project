@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace ActivityWebsite
 {
@@ -8,23 +7,44 @@ namespace ActivityWebsite
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+            #region helper
+            // jQuery
+            bundles.Add(new ScriptBundle("~/plugin/jquery").Include(
+                        "~/Plugins/jQuery/js/jquery-3.3.1.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+            bundles.Add(new ScriptBundle("~/plugin/jqueryval").Include(
+                        "~/Plugins/jQuery/js/jquery.validate*"));
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
+            // Bootstrap
+            bundles.Add(new ScriptBundle("~/plugin/bootstrap/js").Include(
+                      "~/Plugins/Bootstrap/bootstrap.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+            bundles.Add(new StyleBundle("~/plugin/bootstrap/css").Include(
+                      "~/Plugins/Bootstrap/bootstrap.min.css"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+            // Font-awesome
+            bundles.Add(new ScriptBundle("~/plugin/font-awesome").Include(
+                      "~/Plugins/Font-awesome/css/font-awesome.min.css"));
+            #endregion
+
+            #region User
+            bundles.Add(new StyleBundle("~/User/Shared/css").Include(
+                    "~/Plugins/ElegantIcons/css/elegant-icons.css",
+                    "~/Plugins/jQuery/css/nice-select.css",
+                    "~/Plugins/jQuery/css/barfiller.css",
+                    "~/Plugins/jQuery/css/owl.carousel.min.css",
+                    "~/Plugins/jQuery/css/slicknav.min.css",
+                    "~/Content/css/Shared/style.css"
+                    ));
+
+            bundles.Add(new ScriptBundle("~/User/Shared/js").Include(
+                    "~/Plugins/jQuery/js/jquery.nice-select.min.js",
+                    "~/Plugins/jQuery/js/jquery.barfiller.js",
+                    "~/Plugins/jQuery/js/jquery.slicknav.js",
+                    "~/Plugins/jQuery/js/owl.carousel.min.js",
+                    "~/Scripts/User/Shared/main.js"
+                ));
+            #endregion
         }
     }
 }
