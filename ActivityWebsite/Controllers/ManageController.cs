@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ActivityWebsite.Models;
+using System.Text.RegularExpressions;
 
 namespace ActivityWebsite.Controllers
 {
@@ -32,9 +33,9 @@ namespace ActivityWebsite.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -54,24 +55,17 @@ namespace ActivityWebsite.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
+            if (user == null)
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                return RedirectToAction("Index", "Home");
+            }
+
+            user.Email = Regex.Replace(user.Email, @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)", m => new string('*', m.Length));
+
+            var model = new IndexViewModel { user = user };
             return View(model);
         }
 
@@ -333,7 +327,7 @@ namespace ActivityWebsite.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -373,6 +367,24 @@ namespace ActivityWebsite.Controllers
             return false;
         }
 
+        private string GetEmail()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user == null) return null;
+
+            string pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
+            return Regex.Replace(user.Email, pattern, m => new string('*', m.Length));
+        }
+
+        private bool EmailIsConfirm()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user == null) return false;
+
+            return user.EmailConfirmed;
+
+        }
+
         public enum ManageMessageId
         {
             AddPhoneSuccess,
@@ -384,6 +396,6 @@ namespace ActivityWebsite.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

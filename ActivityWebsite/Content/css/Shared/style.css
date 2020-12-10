@@ -3011,3 +3011,49 @@ ol {
 		font-size: 16px;
 	}
 }
+
+.active-link {
+	color: green;
+}
+
+.link-edit {
+	color: rgb(39, 173, 214);
+	/* color: rgb(0, 195, 255); */
+}
+
+.link-edit:hover {
+	/* color: rgb(46, 159, 194); */
+	color: rgb(0, 195, 255);
+}
+
+
+.sidebar-menu {
+	padding: 20px;
+	background-color: white;
+	border-radius: 10px;
+	width: 250px;
+}
+
+.sidebar-item {
+	display: flex;
+	align-items: center;
+	padding: 15px;
+	border-radius: 10px;
+	color: #333132;
+	transition: all 0.15s ease-in;
+}
+
+.sidebar-item:hover {
+	color: white;
+	background-color: #7a6ed2;
+}
+
+.sidebar-icon {
+	font-size: 16px;
+	margin-right: 10px;
+}
+
+.sidebar-text {
+	font-weight: 500;
+}
+		 
