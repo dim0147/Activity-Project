@@ -1,0 +1,71 @@
+﻿<div class="col-lg-4 order-lg-1 order-2">
+
+    <!-- CARD -->
+    <div class="card" style="width: 18rem;">
+
+        <div class="image d-flex justify-content-center">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
+                 width="150px" height="157px" alt="Cinque Terre">
+        </div>
+
+        <div class="card-body">
+            <h5 class="card-title text-center">@ViewBag.user.DisplayName</h5>
+
+            <div class="text-center">
+                <p>Joined at @ViewBag.user.CreatedAt.ToString("dd, MMM yyyy")</p>
+                <p class="userId">
+                    ID: @ViewBag.user.Id <i title="Copy"
+                                            user-id="5f55b66889b8060040bd7632"
+                                            style="cursor:pointer;color: rgb(99, 99, 219)" class="copyIdIcon fas fa-copy"
+                                            aria-hidden="true"></i><span class="sr-only">Copy</span>
+                </p>
+
+                @if (ViewBag.user.authenticateType == "Facebook")
+                {
+                    <i title="Authenticate With Facebook" style="color: blue" class="fab fa-facebook-f"></i>
+                }
+                else if (ViewBag.user.authenticateType == "Google")
+                {
+                    <i title="Authenticate With Google" style="color: red" class="fab fa-google"></i>
+                }
+            </div>
+
+        </div>
+    </div>
+
+    <div style="margin: 10px;"></div>
+
+    <!-- Menu Navigation -->
+    <div style="width: 18rem;">
+
+        <div class="sidebar-menu">
+            <a href="@Url.Action("Index", "Manage")" class="sidebar-item">
+                <i class="sidebar-icon fas fa-user-circle"></i>
+                <span class="sidebar-text @ViewBag.ProfileLinkClass">Profile</span>
+                <span class="sidebar-status"></span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="sidebar-icon fas fa-baseball-ball"></i>
+                <span class="sidebar-text @ViewBag.ClubLinkClass">Clubs And Facilities</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="sidebar-icon fas fa-book-medical"></i>
+                <span class="sidebar-text @ViewBag.FollowLinkClass">Following</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="sidebar-icon fas fa-history"></i>
+                <span class="sidebar-text @ViewBag.HistoryLinkClass">History</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="sidebar-icon fas fa-bug"></i>
+                <span class="sidebar-text @ViewBag.ReportLinkClass">Reports</span>
+            </a>
+        </div>
+
+
+    </div>
+
+
+
+</div>
+

@@ -3012,6 +3012,7 @@ ol {
 	}
 }
 
+/* <a> element */
 .active-link {
 	color: green;
 }
@@ -3027,6 +3028,7 @@ ol {
 }
 
 
+/*Left panel*/
 .sidebar-menu {
 	padding: 20px;
 	background-color: white;
@@ -3057,3 +3059,31 @@ ol {
 	font-weight: 500;
 }
 		 
+/*Input*/
+.ip-focus {
+	padding: 1.5rem;
+	width: 100%;
+	display: block;
+	border: 1px solid #b5bfc9;
+	border-radius: 6px;
+	color: #0d1f36;
+	font-size: 1.6rem;
+	outline: none;
+	background-color: white;
+	transition: all 0.2s ease;
+	margin-bottom: 10px;
+}
+
+.ip-focus::-webkit-input-placeholder {
+	color: #8d97a9;
+}
+
+.ip-focus::-moz-input-placeholder {
+	color: #8d97a9;
+}
+
+.ip-focus:focus {
+	border-color: #ff695b;
+	box-shadow: 0 0 0 4px #ffe2df;
+}
+        

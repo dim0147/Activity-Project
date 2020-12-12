@@ -1,135 +1,74 @@
-﻿@model ActivityWebsite.Models.IndexViewModel
-@{
+﻿@{
     ViewBag.Title = "Manage";
-}
+    ViewBag.BCHeader = "Manage Account";
+    ViewBag.BCAction = "Index";
+    ViewBag.BCController = "Home";
+    ViewBag.BCActionText = "Home";
 
-@section introdution{
-    <!-- Breadcrumb Begin -->
-    <section class="breadcrumb-option set-bg" data-setbg="/Content/Media/Images/templates/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__text">
-                        <h2>Manage Account</h2>
-                        <div class="breadcrumb__widget">
-                            <a href="@Url.Action("Index", "Home")">Index</a>
-                            <span>Manage Account</span>
-                        </div>
-                    </div>
-                </div>
+    ViewBag.ProfileLinkClass = "active-link";
+}
+<!-- Confirm Email Modal -->
+<div class="modal fade" id="confirmEmailModal" tabindex="-1" role="dialog" aria-labelledby="confirmEmailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmEmailModalLabel">Confirm Email</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalContext">
+                We will send you an email to confirm your email.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSendConfirmEmail">Send Now</button>
             </div>
         </div>
-    </section>
-    <!-- Breadcrumb End -->
-}
+    </div>
+</div>
 
-<!-- Blog Details Section Begin -->
+
+
+@Html.Partial("_Breadcrumb")
+
 <section class="blog-details spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 order-lg-1 order-2">
-
-                <!-- CARD -->
-                <div class="card" style="width: 18rem;">
-
-                    <div class="image d-flex justify-content-center">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
-                             width="150px" height="157px" alt="Cinque Terre">
-                    </div>
-
-                    <div class="card-body">
-                        <h5 class="card-title text-center">@Model.user.DisplayName</h5>
-
-                        <div class="text-center">
-                            <p>Joined at @Model.user.CreatedAt.ToString("dd, MMM yyyy")</p>
-                            <p class="userId">
-                                ID: @Model.user.Id <i title="Copy"
-                                                      user-id="5f55b66889b8060040bd7632"
-                                                      style="cursor:pointer;color: rgb(99, 99, 219)" class="copyIdIcon fas fa-copy"
-                                                      aria-hidden="true"></i><span class="sr-only">Copy</span>
-                            </p>
-
-                            @if (Model.user.authenticateType == "Facebook")
-                            {
-                                <i title="Authenticate With Facebook" style="color: blue" class="fab fa-facebook-f"></i>
-                            }
-                            else if (Model.user.authenticateType == "Google")
-                            {
-                                <i title="Authenticate With Google" style="color: red" class="fab fa-google"></i>
-                            }
-                        </div>
-
-                    </div>
-                </div>
-
-                <div style="margin: 10px;"></div>
-
-                <!-- Menu Navigation -->
-                <div style="width: 18rem;">
-
-                    <div class="sidebar-menu">
-                        <a href="#" class="sidebar-item">
-                            <i class="sidebar-icon fas fa-user-circle"></i>
-                            <span class="sidebar-text active-link">Profile</span>
-                            <span class="sidebar-status"></span>
-                        </a>
-                        <a href="#" class="sidebar-item">
-                            <i class="sidebar-icon fas fa-baseball-ball"></i>
-                            <span class="sidebar-text">Clubs And Facilities</span>
-                        </a>
-                        <a href="#" class="sidebar-item">
-                            <i class="sidebar-icon fas fa-book-medical"></i>
-                            <span class="sidebar-text">Following</span>
-                        </a>
-                        <a href="#" class="sidebar-item">
-                            <i class="sidebar-icon fas fa-history"></i>
-                            <span class="sidebar-text">History</span>
-                        </a>
-                        <a href="#" class="sidebar-item">
-                            <i class="sidebar-icon fas fa-bug"></i>
-                            <span class="sidebar-text">Reports</span>
-                        </a>
-                    </div>
-
-
-                </div>
-
-
-
-            </div>
+            @Html.Partial("_LeftPanel")
             <div class="col-lg-8 order-lg-2 order-1">
                 <div class="border text-center" style="padding: 10px;">
                     <h3><i class="fas fa-shield-alt"></i>   Security</h3>
-                    <p><strong>Username:</strong> @Model.user.UserName [<a class="link-edit" href="#"> Change </a>]</p>
+                    <p><strong>Username:</strong> @ViewBag.user.UserName [<a class="link-edit" href="@Url.Action("ChangeUsername", "Manage")"> Change </a>]</p>
                     <p>
-                        <strong>Password:</strong> @(Model.user.PasswordHash == null ? "Don't have password" : "******") [
-                        @if (Model.user.PasswordHash != null)
+                        <strong>Password:</strong> @(ViewBag.user.PasswordHash == null ? "Don't have password" : "******") [
+                        @if (ViewBag.user.PasswordHash != null)
                         {
-                            <a class="link-edit" href="#"> Change Password </a>
+                            <a class="link-edit" href="@Url.Action("ChangePassword", "Manage")"> Change Password </a>
                         }
                         else
                         {
-                            <a class="link-edit" href="#"> Setup </a>
+                            <a class="link-edit" href="@Url.Action("SetPassword", "Manage")"> Setup </a>
                         }
                         ]
                     </p>
                     <p>
-                        <strong>Email:</strong> @Model.user.Email
-                        @if (Model.user.EmailConfirmed)
+                        <strong>Email:</strong> @ViewBag.user.gererateEmailMask()
+                        @if (ViewBag.user.EmailConfirmed)
                         {
                             <i style="color:green" title="Email has been confirm" class="fas fa-check-circle"></i>@Html.Raw("   [")<a class="link-edit" href="#"> Change Email </a>@Html.Raw("]")
                         }
                         else
                         {
-                            <i style="color:red" title="Email not confirm" class="far fa-times-circle"></i>@Html.Raw("   [")<a class="link-edit" href="#"> Confirm Email </a> @Html.Raw("]")
+                            <i style="color:red" title="Email not confirm" class="far fa-times-circle"></i>@Html.Raw("   [")<a class="link-edit" href="#" data-toggle="modal" data-target="#confirmEmailModal"> Confirm Email </a> @Html.Raw("]")
                         }
                     </p>
                 </div>
 
                 <div class="border text-center mt-3" style="padding: 10px;">
                     <h3 style="margin: 10px;"><i class="fas fa-user-edit"></i>   Personal Information</h3>
-                    <p><strong>Display Name:</strong> @Model.user.DisplayName</p>
-                    <p><strong>Phone Number:</strong> @Model.user.PhoneNumber</p>
+                    <p><strong>Display Name:</strong> @ViewBag.user.DisplayName</p>
+                    <p><strong>Phone Number:</strong> @ViewBag.user.PhoneNumber</p>
                     <div class="text-center">
                         <button class="btn btn-primary"><i class="fas fa-edit"></i>   Edit</button>
                     </div>
@@ -141,85 +80,8 @@
         </div>
     </div>
 </section>
-<!-- Blog Details Section End -->
-@*
-        <h2>@ViewBag.Title.</h2>
 
-        <p class="text-success">@ViewBag.StatusMessage</p>
-        <div>
-            <h4>Change your account settings</h4>
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>Password:</dt>
-                <dd>
-                    [
-                    @if (Model.HasPassword)
-                    {
-                        @Html.ActionLink("Change your password", "ChangePassword")
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Create", "SetPassword")
-                    }
-                    ]
-                </dd>
-                <dt>External Logins:</dt>
-                <dd>
-                    @Model.Logins.Count [
-                    @Html.ActionLink("Manage", "ManageLogins") ]
-                </dd>
-                @*
-                    Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+@section scripts{
+    <script src="~/Scripts/User/Manage/ConfirmEmail.js" type="text/javascript"></script>
+}
 
-                     See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                        for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-
-                     Uncomment the following block after you have set up two-factor authentication
-        <dt>Phone Number:</dt>
-        <dd>
-            @(Model.PhoneNumber ?? "None")
-            @if (Model.PhoneNumber != null)
-            {
-                <br />
-                <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                }
-            }
-            else
-            {
-                <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-            }
-        </dd>
-    <dt>Two-Factor Authentication:</dt>
-    <dd>
-        <p>
-            There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-            for details on setting up this ASP.NET application to support two-factor authentication.
-        </p>
-        if (Model.TwoFactor)
-            {
-                using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <text>Enabled
-                    <input type="submit" value="Disable" class="btn btn-link" />
-                    </text>
-                }
-            }
-            else
-            {
-                using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <text>Disabled
-                    <input type="submit" value="Enable" class="btn btn-link" />
-                    </text>
-                }
-            }
-    </dd>
-        </dl>
-    </div>
-*@

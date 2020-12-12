@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 
 namespace ActivityWebsite.Models
 {
@@ -23,7 +24,15 @@ namespace ActivityWebsite.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime UpdatedAt { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public string status { get; set; }
+
         public string authenticateType { get; set; }
+
+        public string gererateEmailMask()
+        {
+            return Regex.Replace(this.Email, @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)", m => new string('*', m.Length));
+        }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

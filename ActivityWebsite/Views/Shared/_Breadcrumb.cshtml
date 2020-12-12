@@ -1,0 +1,17 @@
+﻿<!-- Breadcrumb Begin -->
+<section class="breadcrumb-option set-bg" data-setbg="/Content/Media/Images/templates/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h2>@ViewBag.BCHeader</h2>
+                    <div class="breadcrumb__widget">
+                        <a href="@Url.Action(ViewBag.BCAction, ViewBag.BCController)">@ViewBag.BCActionText</a>
+                        <span>@ViewBag.BCHeader</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb End -->

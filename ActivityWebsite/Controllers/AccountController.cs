@@ -53,6 +53,7 @@ namespace ActivityWebsite.Controllers
             }
         }
 
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -449,12 +450,18 @@ namespace ActivityWebsite.Controllers
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     return RedirectToLocal(returnUrl);
                 }
-                catch (Exception)
+                catch (Exception err)
                 {
                     ModelState.AddModelError("", "Something wrong happened, please try again later");
                     return View(model);
                 }
             }
+        }
+
+        public ActionResult Disabled(string status)
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return View();
         }
 
         //

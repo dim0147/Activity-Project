@@ -220,3 +220,5 @@ D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.csproj.Cor
 D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.csproj.CopyComplete
 D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.dll
 D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.pdb
+D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.Migrations.AddStatus.resources
+D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.Migrations.EditAddStatus.resources
