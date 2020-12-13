@@ -1,0 +1,60 @@
+﻿@model ActivityWebsite.Models.EditPersonalInformationViewModel
+@{
+    ViewBag.Title = "Edit Personal Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ViewBag.BCHeader = "Edit Personal Information";
+    ViewBag.BCAction = "Index";
+    ViewBag.BCController = "Manage";
+    ViewBag.BCActionText = "Manage";
+    ViewBag.ProfileLinkClass = "active-link";
+}
+
+@Html.Partial("_Breadcrumb")
+
+
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row">
+            @Html.Partial("_LeftPanel")
+            <div class="col-lg-8 order-lg-2 order-1">
+                @if (ViewBag.successMessage != null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @ViewBag.successMessage
+                    </div>
+                }
+
+                @using (Html.BeginForm("EditPersonalInformation", "Manage", FormMethod.Post))
+                {
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        <label>Display Name:</label>
+                        @Html.TextBoxFor(m => m.DisplayName, new { @class = "ip-focus", placeholder = "Enter your display name" })
+                        @Html.ValidationMessageFor(m => m.DisplayName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone:</label>
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "ip-focus", placeholder = "Enter your phone number" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    @Scripts.Render("~/plugin/jqueryval")
+}
+
+

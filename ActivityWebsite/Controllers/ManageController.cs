@@ -167,6 +167,7 @@ namespace ActivityWebsite.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> sendCodeConfirmEmail()
         {
 
@@ -186,10 +187,106 @@ namespace ActivityWebsite.Controllers
             // Sending email
             await UserManager.SendEmailAsync(user.Id, "Confirm Email", "Please confirm your email by clicking this URL: " + callbackUrl);
 
+            // Log in user again
+            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
             // Response success handle
-            JsonResult successResponse = gerenateJsonRs(new { success = true, message = "Send code success!"});
+            JsonResult successResponse = gerenateJsonRs(new { success = true, message = "Send code success!" });
             ControllerContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
             return successResponse;
+        }
+
+        public ActionResult ChangeEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeEmail(ChangeEmailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // Check if Old Email is correct
+            string OldEmail = ViewBag.user.Email;
+            if (!model.OldEmail.Equals(OldEmail))
+            {
+                ModelState.AddModelError("", $"Old email not correct!");
+                return View(model);
+            }
+
+            // Check if new email is exist
+            var EmailIsExist = await UserManager.FindByEmailAsync(model.NewEmail);
+            if (EmailIsExist != null)
+            {
+                ModelState.AddModelError("", $"Email {model.NewEmail} is exist already!");
+                return View(model);
+            }
+
+            // Update new email and set confirm email equal false
+            ApplicationUser user = ViewBag.user;
+            user.Email = model.NewEmail;
+            user.EmailConfirmed = false;
+            IdentityResult updateResult = await UserManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                AddErrors(updateResult);
+                return View(model);
+            }
+
+            // Gerenate email confirm url
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            string callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+            // Sending email
+            await UserManager.SendEmailAsync(user.Id, "Confirm New Email", "Please confirm your new email by clicking this URL: " + callbackUrl);
+
+            // Log in user
+            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+            ViewBag.successMessage = "We have send you email confirm, please go check your email to confirm new email!";
+            return View(model);
+        }
+
+        public ActionResult EditPersonalInformation()
+        {
+            EditPersonalInformationViewModel model = new EditPersonalInformationViewModel()
+            {
+                DisplayName = ViewBag.user.DisplayName,
+                PhoneNumber = ViewBag.user.PhoneNumber
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditPersonalInformation(EditPersonalInformationViewModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // Update user
+            ApplicationUser user = ViewBag.user;
+            user.DisplayName = model.DisplayName;
+            user.PhoneNumber = model.PhoneNumber;
+
+            IdentityResult updateResult = await UserManager.UpdateAsync(user);
+            if(!updateResult.Succeeded)
+            {
+                AddErrors(updateResult);
+                return View(model);
+            }
+
+            // Log in user
+            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+            ViewBag.successMessage = "Update personal information success!";
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)

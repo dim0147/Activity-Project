@@ -47,4 +47,30 @@ namespace ActivityWebsite.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class ChangeEmailViewModel
+    { 
+        [Required]
+        [EmailAddress]
+        public string OldEmail { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string NewEmail { get; set; }
+
+
+    }
+
+    public class EditPersonalInformationViewModel
+    {
+        [Required]
+        [StringLength(25, MinimumLength = 3)]
+        [Display(Name = "Display Name")]
+        public string DisplayName { get; set; }
+
+        [Required]
+        [Phone]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+    }
 }

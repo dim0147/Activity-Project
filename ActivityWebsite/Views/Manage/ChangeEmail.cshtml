@@ -1,0 +1,60 @@
+﻿@model ActivityWebsite.Models.ChangeEmailViewModel
+@{
+    ViewBag.Title = "Change Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ViewBag.BCHeader = "Change Email";
+    ViewBag.BCAction = "Index";
+    ViewBag.BCController = "Manage";
+    ViewBag.BCActionText = "Manage";
+    ViewBag.ProfileLinkClass = "active-link";
+}
+
+@Html.Partial("_Breadcrumb")
+
+
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row">
+            @Html.Partial("_LeftPanel")
+            <div class="col-lg-8 order-lg-2 order-1">
+                @if (ViewBag.successMessage != null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @ViewBag.successMessage
+                    </div>
+                }
+
+                @using (Html.BeginForm("ChangeEmail", "Manage", FormMethod.Post))
+                {
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        <label>Old Email:</label>
+                        @Html.TextBoxFor(m => m.OldEmail, new { @class = "ip-focus", placeholder = "Enter your old email" })
+                        @Html.ValidationMessageFor(m => m.OldEmail, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>New Email:</label>
+                        @Html.TextBoxFor(m => m.NewEmail, new { @class = "ip-focus", placeholder = "Enter your new email" })
+                        @Html.ValidationMessageFor(m => m.NewEmail, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Change Email</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    @Scripts.Render("~/plugin/jqueryval")
+}
+
+

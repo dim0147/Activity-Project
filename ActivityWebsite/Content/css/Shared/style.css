@@ -3019,12 +3019,14 @@ ol {
 
 .link-edit {
 	color: rgb(39, 173, 214);
-	/* color: rgb(0, 195, 255); */
 }
 
 .link-edit:hover {
-	/* color: rgb(46, 159, 194); */
 	color: rgb(0, 195, 255);
+}
+
+.link-edit:active {
+	color: aquamarine;
 }
 
 

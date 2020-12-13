@@ -366,6 +366,8 @@
     <Content Include="Views\Account\Disabled.cshtml" />
     <Content Include="Views\Manage\_LeftPanel.cshtml" />
     <Content Include="Views\Manage\ChangeUsername.cshtml" />
+    <Content Include="Views\Manage\ChangeEmail.cshtml" />
+    <Content Include="Views\Manage\EditPersonalInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
