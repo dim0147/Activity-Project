@@ -1,0 +1,31 @@
+﻿@model ActivityWebsite.Areas.Admin.Models.CategoryViewModel
+@{
+    ViewBag.title = "Create category";
+}
+
+<h2>Create category</h2>
+
+@using (Html.BeginForm("Create", "Category", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    if(ViewBag.successMessage != null)
+    {
+        <div class="alert alert-success">@ViewBag.successMessage</div>
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Enter caterogy name (required)" })
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description)
+        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", placeholder = "Enter description of category" })
+        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+}
