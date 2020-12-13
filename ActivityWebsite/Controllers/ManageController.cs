@@ -124,8 +124,10 @@ namespace ActivityWebsite.Controllers
             {
                 AddErrors(result);
                 return View(model);
-
             }
+
+            // Signout current cookie
+            HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
             // Login user
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());

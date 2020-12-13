@@ -113,39 +113,6 @@ namespace ActivityWebsite.Controllers
             }
         }
 
-        #region CUSTOME
-        public class CustomAuthorizeAttribute : AuthorizeAttribute
-        {
-            protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
-            {
-                if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
-                {
-                    // Not login
-                    base.HandleUnauthorizedRequest(filterContext);
-                }
-                else
-                {
-                    // Not admin
-                    filterContext.Result = new RedirectToRouteResult(new
-                    RouteValueDictionary(new { controller = "Account", action = "AccessDenied" }));
-                }
-            }
-        }
-
-        public ActionResult AccessDenied()
-        {
-            return Content("Access No allow");
-        }
-
-
-        [CustomAuthorizeAttribute(Roles = "Admin")]
-        public ActionResult admin()
-        {
-            Console.WriteLine("What");
-            return Content("OKE");
-        }
-        #endregion
-
         //
         // GET: /Account/Register
         [AllowAnonymous]
@@ -444,6 +411,17 @@ namespace ActivityWebsite.Controllers
                         ViewBag.ReturnUrl = returnUrl;
                         return View(model);
                     }
+
+                    // Add Role to user
+                    IdentityResult resultCreateUserRole = await UserManager.AddToRoleAsync(user.Id, "Member");
+                    if (!resultCreateUserRole.Succeeded)
+                    {
+                        AddErrors(resultCreateUserRole);
+                        ViewBag.ReturnUrl = returnUrl;
+                        return View(model);
+                    }
+
+                    // Commit transaction
                     contextTransaction.Commit();
 
                     // Signin to website

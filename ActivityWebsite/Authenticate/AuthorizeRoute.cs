@@ -3,9 +3,11 @@ using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.UI.WebControls;
 
 namespace ActivityWebsite.Authenticate
 {
@@ -43,5 +45,22 @@ namespace ActivityWebsite.Authenticate
             }
         }
 
+
+        public  class ManageAuthorize : AuthorizeAttribute
+        {
+            protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+            {
+                if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+                {
+                    // Not login
+                    base.HandleUnauthorizedRequest(filterContext);
+                }
+                else
+                {
+                    // Not admin or moderator
+                    filterContext.Result = new ContentResult() { Content = "You don't have permission to access this page" };
+                }
+            }
+        }
     }
 }

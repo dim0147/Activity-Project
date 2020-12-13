@@ -5,9 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static ActivityWebsite.Authenticate.AuthorizeRoute;
 
 namespace ActivityWebsite.Areas.Admin.Controllers
 {
+    [ManageAuthorize(Roles = "Admin,Moderator")]
+    [VerifyUser]
     public class CategoryController : Controller
     {
         // GET: Admin/Category
