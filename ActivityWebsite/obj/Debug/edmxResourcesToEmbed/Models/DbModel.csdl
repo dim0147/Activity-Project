@@ -31,15 +31,6 @@
     <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
   </EntityType>
-  <EntityType Name="EntityCategory">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Identity" />
-  </EntityType>
   <Association Name="AspNetUserRoles">
     <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
     <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -47,10 +38,22 @@
   <EntityContainer Name="DbModel" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
-    <EntitySet Name="EntityCategories" EntityType="Self.EntityCategory" />
     <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
     </AssociationSet>
+    <EntitySet Name="Categories" EntityType="ActivityModel.Category" />
   </EntityContainer>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="image" Type="String" Nullable="false" MaxLength="300" FixedLength="true" Unicode="false" />
+    <Property Name="type" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+    <Property Name="slug" Type="String" Nullable="false" MaxLength="80" FixedLength="true" Unicode="false" />
+  </EntityType>
 </Schema>

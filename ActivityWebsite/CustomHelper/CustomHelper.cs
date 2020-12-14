@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Slugify;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,11 @@ namespace ActivityWebsite.CustomHelper
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet,
                 Data = JSONObject
             };
+        }
+
+        public static string GerenateUrlSlug(string url)
+        {
+            return new SlugHelper().GenerateSlug(url);
         }
 
     }

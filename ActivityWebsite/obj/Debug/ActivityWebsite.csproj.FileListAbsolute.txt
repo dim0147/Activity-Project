@@ -222,3 +222,14 @@ D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.dll
 D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.pdb
 D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.Migrations.AddStatus.resources
 D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.Migrations.EditAddStatus.resources
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\Slugify.Core.dll
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Buffers.dll
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Memory.dll
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Numerics.Vectors.dll
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Text.Encoding.CodePages.dll
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Buffers.xml
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Memory.xml
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Numerics.Vectors.xml
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Text.Encoding.CodePages.xml

@@ -37,7 +37,7 @@
     <Property Name="authenticateType" Type="nvarchar(max)" />
     <Property Name="status" Type="nvarchar(max)" />
   </EntityType>
-  <EntityType Name="EntityCategories">
+  <EntityType Name="Categories">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -45,6 +45,9 @@
     <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="description" Type="nvarchar" MaxLength="2000" />
     <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="image" Type="char" MaxLength="300" Nullable="false" />
+    <Property Name="type" Type="char" MaxLength="20" Nullable="false" />
+    <Property Name="slug" Type="char" MaxLength="80" Nullable="false" />
   </EntityType>
   <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
     <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
@@ -78,7 +81,7 @@
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="EntityCategories" EntityType="Self.EntityCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />

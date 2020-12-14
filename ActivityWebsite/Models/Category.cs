@@ -12,11 +12,14 @@ namespace ActivityWebsite.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EntityCategory
+    public partial class Category
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public System.DateTime CreatedAt { get; set; }
+        public string image { get; set; }
+        public string type { get; set; }
+        public string slug { get; set; }
     }
 }

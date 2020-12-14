@@ -7,8 +7,8 @@
       <Diagram DiagramId="0f0fefb6aef04248b2856cf7da35453e" Name="Diagram1">
         <EntityTypeShape EntityType="ActivityModel.AspNetRole" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ActivityModel.AspNetUser" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ActivityModel.EntityCategory" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="ActivityModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ActivityModel.Category" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

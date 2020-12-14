@@ -1,0 +1,47 @@
+﻿@model ActivityWebsite.Areas.Admin.Models.CategoryEditViewModel
+@{
+    ViewBag.title = "Edit category";
+}
+
+<h2>Edit category @Model.Name</h2>
+
+@using (Html.BeginForm("Edit", "Category", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    if (ViewBag.successMessage != null)
+    {
+        <div class="alert alert-success">@ViewBag.successMessage</div>
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Enter caterogy name (required)" })
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.HiddenFor(m => m.CurrentImage)
+        @Html.LabelFor(m => m.CurrentImage)
+        <img src="@Url.Content($"~/Content/Media/Images/Category/{Model.CurrentImage}")" class="rounded mx-auto d-block">
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.NewImage)
+        @Html.TextBoxFor(m => m.NewImage, new { @class = "form-control", type = "file", accept = "image/*", placeholder = "Choose an image (required)" })
+        @Html.ValidationMessageFor(m => m.NewImage, "", new { @class = "text-danger" })
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description)
+        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", placeholder = "Enter description of category" })
+        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+}
+
+@section scripts{
+    @Scripts.Render("~/plugin/jqueryval")
+}
