@@ -12,7 +12,7 @@
 
 <div id="root">
     <!-- Leave Comment Begin -->
-    <div class="leave-comment spad">
+    <!--<div class="leave-comment spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -29,6 +29,10 @@
                                 <div class="col-lg-12 col-md-12">
                                     <label class="label-for">Address:</label>
                                     <input type="text" placeholder="Enter your club address">
+                                </div>
+
+                                <div id="google-map-preview">
+
                                 </div>
 
                                 <div class="col-lg-12 col-md-12">
@@ -61,7 +65,6 @@
                                 </div>
 
                                 <div class="col-lg-12 text-center">
-                                    @*<textarea placeholder="Your Comment"></textarea>*@
                                     <button class="site-btn">Submit</button>
                                 </div>
 
@@ -71,7 +74,15 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <!-- Leave Comment End -->
+
+
+    <div id="test">
+
+    </div>
 </div>
 
+@section Scripts{
+    @Scripts.Render("~/dist/FormCreate.js")
+}

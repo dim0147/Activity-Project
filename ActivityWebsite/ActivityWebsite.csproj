@@ -344,7 +344,6 @@
     <Content Include="Content\Media\Images\templates\team\team-1.png" />
     <Content Include="Content\Media\Images\templates\team\team-2.png" />
     <Content Include="Content\Media\Images\templates\testimonial\testimonial-1.png" />
-    <Content Include="dist\App.js" />
     <Content Include="Models\DbModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DbModel.edmx</DependentUpon>
@@ -410,8 +409,9 @@
     <Content Include="Plugins\jQuery\js\jquery.validate.min.js" />
     <Content Include="Plugins\jQuery\js\jquery.validate.unobtrusive.js" />
     <Content Include="Plugins\jQuery\js\jquery.validate.unobtrusive.min.js" />
-    <Content Include="ReactJS\App.js" />
-    <Content Include="ReactJS\button.js" />
+    <Content Include="ReactJS\Club\FormCreate.js" />
+    <Content Include="ReactJS\Components\DescriptionArea.js" />
+    <Content Include="ReactJS\Components\InputCol12.js" />
     <Content Include="Scripts\User\Account\Login.js" />
     <Content Include="Scripts\User\Manage\ConfirmEmail.js" />
     <Content Include="Scripts\User\Shared\main.js" />
@@ -455,6 +455,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="dist\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

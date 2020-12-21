@@ -69,7 +69,7 @@
     <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="OperationHours" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
     <Property Name="Slug" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="EstablishedAt" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="EstablishedAt" Type="DateTime" Nullable="false" />
     <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
   </EntityType>

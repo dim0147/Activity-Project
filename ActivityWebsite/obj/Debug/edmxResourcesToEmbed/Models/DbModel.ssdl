@@ -61,7 +61,7 @@
     <Property Name="Description" Type="ntext" Nullable="false" />
     <Property Name="OperationHours" Type="nvarchar" MaxLength="60" />
     <Property Name="Slug" Type="varchar" MaxLength="100" />
-    <Property Name="EstablishedAt" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="EstablishedAt" Type="date" Nullable="false" />
     <Property Name="CreatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="UpdatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
   </EntityType>
