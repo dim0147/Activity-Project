@@ -9,6 +9,7 @@
         <EntityTypeShape EntityType="ActivityModel.AspNetUser" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="ActivityModel.AspNetUserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ActivityModel.Category" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ActivityModel.Club" Width="1.5" PointX="7.5" PointY="2.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

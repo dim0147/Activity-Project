@@ -54,6 +54,22 @@
           <Property Name="type" Type="char" MaxLength="20" Nullable="false" />
           <Property Name="slug" Type="char" MaxLength="80" Nullable="false" />
         </EntityType>
+        <EntityType Name="Clubs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Lat" Type="float" />
+          <Property Name="Lng" Type="float" />
+          <Property Name="Description" Type="ntext" Nullable="false" />
+          <Property Name="OperationHours" Type="nvarchar" MaxLength="60" />
+          <Property Name="Slug" Type="varchar" MaxLength="100" />
+          <Property Name="EstablishedAt" Type="date" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UpdatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+        </EntityType>
         <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -87,6 +103,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clubs" EntityType="Self.Clubs" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
@@ -143,6 +160,7 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="Categories" EntityType="ActivityModel.Category" />
+          <EntitySet Name="Clubs" EntityType="ActivityModel.Club" />
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -155,6 +173,22 @@
           <Property Name="image" Type="String" Nullable="false" MaxLength="300" FixedLength="true" Unicode="false" />
           <Property Name="type" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
           <Property Name="slug" Type="String" Nullable="false" MaxLength="80" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Club">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lat" Type="Double" />
+          <Property Name="Lng" Type="Double" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OperationHours" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Slug" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EstablishedAt" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -210,6 +244,23 @@
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clubs">
+            <EntityTypeMapping TypeName="ActivityModel.Club">
+              <MappingFragment StoreEntitySet="Clubs">
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="EstablishedAt" ColumnName="EstablishedAt" />
+                <ScalarProperty Name="Slug" ColumnName="Slug" />
+                <ScalarProperty Name="OperationHours" ColumnName="OperationHours" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Lng" ColumnName="Lng" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

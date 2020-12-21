@@ -29,6 +29,7 @@ namespace ActivityWebsite.Authenticate
                     }));
                     return;
                 }
+                // User status not normal
                 if (user.status != "normal")
                 {
                     string status = user.status == "lock" ? "Account Disabled" : "User not valid";

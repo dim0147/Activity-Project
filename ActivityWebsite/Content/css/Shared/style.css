@@ -3089,3 +3089,8 @@ ol {
 	box-shadow: 0 0 0 4px #ffe2df;
 }
         
+
+.label-for{
+	margin: 10px;
+	font-weight: bold;
+}

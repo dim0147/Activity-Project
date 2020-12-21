@@ -43,6 +43,7 @@
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
     </AssociationSet>
     <EntitySet Name="Categories" EntityType="ActivityModel.Category" />
+    <EntitySet Name="Clubs" EntityType="ActivityModel.Club" />
   </EntityContainer>
   <EntityType Name="Category">
     <Key>
@@ -55,5 +56,21 @@
     <Property Name="image" Type="String" Nullable="false" MaxLength="300" FixedLength="true" Unicode="false" />
     <Property Name="type" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
     <Property Name="slug" Type="String" Nullable="false" MaxLength="80" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Club">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Lat" Type="Double" />
+    <Property Name="Lng" Type="Double" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OperationHours" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="Slug" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EstablishedAt" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
   </EntityType>
 </Schema>

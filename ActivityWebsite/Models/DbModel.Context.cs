@@ -28,5 +28,6 @@ namespace ActivityWebsite.Models
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Club> Clubs { get; set; }
     }
 }

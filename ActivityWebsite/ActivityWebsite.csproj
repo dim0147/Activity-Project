@@ -194,6 +194,7 @@
     <Compile Include="Areas\Admin\Models\CategoryViewModel.cs" />
     <Compile Include="Authenticate\AuthorizeRoute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClubController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="CustomHelper\CustomHelper.cs" />
@@ -229,6 +230,9 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Club.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DbModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -250,6 +254,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config\webpack.config.js" />
     <Content Include="Content\css\User\Account\ExternalLoginConfirmation.css" />
     <Content Include="Content\css\User\Account\ForgotPassword.css" />
     <Content Include="Content\css\User\Account\Login.css" />
@@ -339,6 +344,7 @@
     <Content Include="Content\Media\Images\templates\team\team-1.png" />
     <Content Include="Content\Media\Images\templates\team\team-2.png" />
     <Content Include="Content\Media\Images\templates\testimonial\testimonial-1.png" />
+    <Content Include="dist\App.js" />
     <Content Include="Models\DbModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DbModel.edmx</DependentUpon>
@@ -398,11 +404,14 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
+    <Content Include="package.json" />
     <None Include="Plugins\jQuery\js\jquery.validate-vsdoc.js" />
     <Content Include="Plugins\jQuery\js\jquery.validate.js" />
     <Content Include="Plugins\jQuery\js\jquery.validate.min.js" />
     <Content Include="Plugins\jQuery\js\jquery.validate.unobtrusive.js" />
     <Content Include="Plugins\jQuery\js\jquery.validate.unobtrusive.min.js" />
+    <Content Include="ReactJS\App.js" />
+    <Content Include="ReactJS\button.js" />
     <Content Include="Scripts\User\Account\Login.js" />
     <Content Include="Scripts\User\Manage\ConfirmEmail.js" />
     <Content Include="Scripts\User\Shared\main.js" />
@@ -441,6 +450,7 @@
     <Content Include="Views\Manage\ChangeUsername.cshtml" />
     <Content Include="Views\Manage\ChangeEmail.cshtml" />
     <Content Include="Views\Manage\EditPersonalInformation.cshtml" />
+    <Content Include="Views\Club\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -474,6 +484,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
+  <PropertyGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />

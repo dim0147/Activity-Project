@@ -53,5 +53,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Clubs">
+      <EntityTypeMapping TypeName="ActivityModel.Club">
+        <MappingFragment StoreEntitySet="Clubs">
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="EstablishedAt" ColumnName="EstablishedAt" />
+          <ScalarProperty Name="Slug" ColumnName="Slug" />
+          <ScalarProperty Name="OperationHours" ColumnName="OperationHours" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Lng" ColumnName="Lng" />
+          <ScalarProperty Name="Lat" ColumnName="Lat" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

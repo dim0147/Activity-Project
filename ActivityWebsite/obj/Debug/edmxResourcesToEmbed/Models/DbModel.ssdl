@@ -49,6 +49,22 @@
     <Property Name="type" Type="char" MaxLength="20" Nullable="false" />
     <Property Name="slug" Type="char" MaxLength="80" Nullable="false" />
   </EntityType>
+  <EntityType Name="Clubs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Lat" Type="float" />
+    <Property Name="Lng" Type="float" />
+    <Property Name="Description" Type="ntext" Nullable="false" />
+    <Property Name="OperationHours" Type="nvarchar" MaxLength="60" />
+    <Property Name="Slug" Type="varchar" MaxLength="100" />
+    <Property Name="EstablishedAt" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+  </EntityType>
   <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
     <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -82,6 +98,7 @@
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Clubs" EntityType="Self.Clubs" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
