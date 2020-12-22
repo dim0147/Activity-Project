@@ -37,6 +37,7 @@ class FormCreate extends Component {
     }
 
     setDescriptionChange = (data) => {
+        console.log(data);
         this.setState({ description: data });
     }
 

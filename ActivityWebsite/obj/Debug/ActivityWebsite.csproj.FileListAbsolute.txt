@@ -233,3 +233,9 @@ D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Memory.xml
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Numerics.Vectors.xml
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Runtime.CompilerServices.Unsafe.xml
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Text.Encoding.CodePages.xml
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Net.Http.Formatting.dll
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Web.Http.dll
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Web.Http.WebHost.dll
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Net.Http.Formatting.xml
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Web.Http.xml
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Web.Http.WebHost.xml

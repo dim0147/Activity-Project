@@ -23,6 +23,20 @@ namespace ActivityWebsite.EF
             }
         }
 
+        public static string SaveImg(HttpPostedFile image, string virtualDirUpload)
+        {
+            try
+            {
+                string fileName = $"{Guid.NewGuid()}_{GerenateUrlSlug(image.FileName)}";
+                image.SaveAs(HttpContext.Current.Server.MapPath($"{virtualDirUpload}/{fileName}"));
+                return fileName;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
         public static bool DelImg(string virtualImgPath)
         {

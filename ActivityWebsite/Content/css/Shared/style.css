@@ -3094,3 +3094,11 @@ ol {
 	margin: 10px;
 	font-weight: bold;
 }
+
+.ck-editor__editable {
+	min-height: 150px;
+}
+
+.custom-checkbox {
+	margin: 5px;
+}
