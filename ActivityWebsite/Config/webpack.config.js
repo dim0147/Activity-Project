@@ -1,6 +1,7 @@
 ﻿const path = require('path');
 
 module.exports = {
+    mode: 'development',
     entry: {
          FormCreate: "./ReactJS/Club/FormCreate.js"
     },

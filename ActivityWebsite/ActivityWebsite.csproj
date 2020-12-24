@@ -192,6 +192,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\CategoryController.cs" />
     <Compile Include="Api\ImageController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -420,9 +421,13 @@
     <Content Include="Plugins\jQuery\js\jquery.validate.min.js" />
     <Content Include="Plugins\jQuery\js\jquery.validate.unobtrusive.js" />
     <Content Include="Plugins\jQuery\js\jquery.validate.unobtrusive.min.js" />
+    <Content Include="ReactJS\API\Category.js" />
     <Content Include="ReactJS\Club\FormCreate.js" />
     <Content Include="ReactJS\Components\DescriptionArea.js" />
     <Content Include="ReactJS\Components\InputCol12.js" />
+    <Content Include="ReactJS\Components\ListCategory.js" />
+    <Content Include="ReactJS\Components\GoogleMap.js" />
+    <Content Include="ReactJS\Components\GoogleMapSearchBox.js" />
     <Content Include="Scripts\User\Account\Login.js" />
     <Content Include="Scripts\User\Manage\ConfirmEmail.js" />
     <Content Include="Scripts\User\Shared\main.js" />

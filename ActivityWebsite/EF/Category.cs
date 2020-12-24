@@ -8,6 +8,15 @@ namespace ActivityWebsite.EF
 {
     public class CategoryHandle
     {
+
+        public static List<Category> GetAllCategory()
+        {
+            using(var db = new DbModel())
+            {
+                return db.Categories.AsNoTracking().ToList();
+            }
+        }
+
         public static Category FindCategoryById(long id)
         {
             using (var db = new DbModel())

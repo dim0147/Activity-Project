@@ -1,8 +1,13 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import GoogleMapReact from 'google-map-react';
 
+import { getAllCategory } from '../API/Category';
 import InputCol12 from '../Components/InputCol12';
 import DescriptionArea from '../Components/DescriptionArea';
+import ListCategory from '../Components/ListCategory';
+import GoogleMap from '../Components/GoogleMap'; 
+
 
 class FormCreate extends Component {
 
@@ -15,8 +20,32 @@ class FormCreate extends Component {
             operationHours: '',
             establishedAt: '',
             description: '',
+            categories: []
         }
-        
+
+    }
+
+    async componentDidMount() {
+        // Load category from server
+        const categories = await getAllCategory().catch(err => []);
+        categories.forEach(category => {
+            category.isChecked = false;
+        });
+        this.setState({ categories });
+    }
+
+    handleCheckCategoryElement = (event) => {
+        const categories = this.state.categories;
+        const categoryId = Number(event.target.id);
+        const isChecked = event.target.checked;
+
+        categories.forEach(category => {
+            if (category.Id === categoryId)
+                category.isChecked = isChecked;
+        })
+        this.setState({ categories }, () => {
+            console.log(categories);
+        });
     }
 
     setNameChange = (event) => {
@@ -66,10 +95,9 @@ class FormCreate extends Component {
                                             placeholder="Enter your club address"
                                         />
 
-                                  
-                                        <div id="google-map-preview">
-                                        </div>
 
+                                        <GoogleMap />
+                                        
                                         <InputCol12
                                             title='Operation Hours'
                                             value={this.state.operationHours}
@@ -89,13 +117,13 @@ class FormCreate extends Component {
                                             value={this.state.description}
                                             setValue={this.setDescriptionChange}
                                         />
-           
+
                                         {/*<div className="col-lg-12">
                                             <label className="label-for">Description:</label>
                                             <textarea placeholder="Enter some description about your club" defaultValue={""} />
                                         </div>*/}
 
-                                        <div className="col-lg-12 col-md-12" style={{ marginBottom: '10px' }}>
+                                        {/*<div className="col-lg-12 col-md-12" style={{ marginBottom: '10px' }}>
                                             <label className="label-for">Category:</label>
                                             <br />
                                             <div className="custom-control custom-checkbox d-inline">
@@ -106,7 +134,14 @@ class FormCreate extends Component {
                                                 <input type="checkbox" className="custom-control-input" id="customCheck1" name="customCheck1" />
                                                 <label className="custom-control-label" htmlFor="customCheck1">Check this custom checkbox</label>
                                             </div>
-                                        </div>
+                                        </div>*/}
+
+                                        <ListCategory
+                                            handleCheckElement={this.handleCheckCategoryElement}
+                                            categories={this.state.categories}
+                                        />
+
+
                                         <div className="col-lg-12 text-center">
                                             <button className="site-btn">Submit</button>
                                         </div>
