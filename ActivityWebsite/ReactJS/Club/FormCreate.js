@@ -97,6 +97,7 @@ class FormCreate extends Component {
     }
 
     onClickButton = (e) => {
+        console.log(e);
         alert("E");
     }
 
@@ -164,7 +165,7 @@ class FormCreate extends Component {
                                         />
 
                                         <div className="col-lg-12 text-center">
-                                            <button className="site-btn" onClick={this.onClickButton}>Submit</button>
+                                            <button type="button" className="site-btn" onClick={this.onClickButton}>Submit</button>
                                         </div>
                                     </div>
                                 </form>

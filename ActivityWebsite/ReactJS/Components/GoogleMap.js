@@ -101,11 +101,13 @@ const GoogleMap = ({ address, setAddress }) => {
                 </GoogleMapReact>
             </div>
 
-            <div class="text-center">
+            <div className="text-center">
                 <h3>Street View</h3>
             </div>
 
-            <div style={{ height: '50vh', width: '100%' }} ref={divStreetView} class="m-3"/>
+            <div className="m-3">
+                <div style={{ height: '50vh', width: '100%' }} ref={divStreetView} />
+            </div>
         </div>
     )
 }
