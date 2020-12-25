@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useRef } from 'react';
 import GoogleMapReact from 'google-map-react';
 import GoogleMapSearchBox from '../Components/GoogleMapSearchBox';
 
@@ -7,6 +7,12 @@ const GoogleMap = ({ address, setAddress }) => {
     const [googlemaps, setGooglemaps] = useState(null);
     const [map, setMap] = useState(null);
     const [markers, setMarkers] = useState([]);
+    const divStreetView = useRef(null);
+
+    const defaultLocation = {
+        lat: 1.2987376,
+        lng: 103.8434403
+    }
 
     const clearAllMarkers = () => {
         for (let i = 0; i < markers.length; i++) {
@@ -39,7 +45,24 @@ const GoogleMap = ({ address, setAddress }) => {
             lng: objectAddress.geometry.location.lng()
         })
 
+        // Set location 
         map.setCenter({ lat: objectAddress.geometry.location.lat(), lng: objectAddress.geometry.location.lng() });
+
+        // Set street view
+        const panorama = new googlemaps.StreetViewPanorama(
+            divStreetView.current,
+            {
+                position: {
+                    lat: objectAddress.geometry.location.lat(),
+                    lng: objectAddress.geometry.location.lng()
+                },
+                pov: {
+                    heading: 34,
+                    pitch: 10,
+                },
+            }
+        );
+        map.setStreetView(panorama);
     }
 
     const apiHasLoaded = ({ map, maps }) => {
@@ -48,6 +71,18 @@ const GoogleMap = ({ address, setAddress }) => {
             setMap(map);
             setApiReady(true);
 
+            // Add street view by default
+            const panorama = new maps.StreetViewPanorama(
+                divStreetView.current,
+                {
+                    position: defaultLocation,
+                    pov: {
+                        heading: 34,
+                        pitch: 10,
+                    },
+                }
+            );
+            map.setStreetView(panorama);
         }
     }
 
@@ -58,16 +93,19 @@ const GoogleMap = ({ address, setAddress }) => {
             <div style={{ height: '50vh', width: '100%' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: 'AIzaSyDzFLST4xAWh60rNDeZQoOi2WRNWJak7rA', region: 'SG', libraries: 'places' }}
-                    defaultCenter={{
-                        lat: 1.3010111504664552,
-                        lng: 103.85514811535603
-                    }}
+                    defaultCenter={defaultLocation}
                     defaultZoom={15}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={apiHasLoaded}
                 >
                 </GoogleMapReact>
             </div>
+
+            <div class="text-center">
+                <h3>Street View</h3>
+            </div>
+
+            <div style={{ height: '50vh', width: '100%' }} ref={divStreetView} class="m-3"/>
         </div>
     )
 }

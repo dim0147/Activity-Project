@@ -6,8 +6,8 @@ import { getAllCategory } from '../API/Category';
 import InputCol12 from '../Components/InputCol12';
 import DescriptionArea from '../Components/DescriptionArea';
 import ListCategory from '../Components/ListCategory';
-import GoogleMap from '../Components/GoogleMap'; 
-import InputFile from '../Components/InputFile'; 
+import GoogleMap from '../Components/GoogleMap';
+import InputFile from '../Components/InputFile';
 
 
 class FormCreate extends Component {
@@ -82,13 +82,22 @@ class FormCreate extends Component {
     }
 
     setHeaderImg = (imgs) => {
-        if(imgs.length === 0) return
+        if (imgs.length === 0) return
         this.setState({ headerImg: imgs[0] });
     }
 
     setThumbnailImg = (imgs) => {
         if (imgs.length === 0) return
         this.setState({ thumbnails: imgs });
+    }
+
+    onSubmitForm = (e) => {
+        e.preventDefault();
+        return false;
+    }
+
+    onClickButton = (e) => {
+        alert("E");
     }
 
     render() {
@@ -99,7 +108,7 @@ class FormCreate extends Component {
                         <div className="col-lg-12">
                             <div className="leave__comment__text">
                                 <h2>Create New Club</h2>
-                                <form action="#">
+                                <form onSubmit={this.onSubmitForm}>
                                     <div className="row">
 
                                         <InputCol12
@@ -113,7 +122,7 @@ class FormCreate extends Component {
                                             address={this.state.address}
                                             setAddress={this.setAddressChange}
                                         />
-                                        
+
                                         <InputCol12
                                             title='Operation Hours'
                                             value={this.state.operationHours}
@@ -155,8 +164,8 @@ class FormCreate extends Component {
                                         />
 
                                         <div className="col-lg-12 text-center">
-                                            <button className="site-btn">Submit</button>
-                                        </div>  
+                                            <button className="site-btn" onClick={this.onClickButton}>Submit</button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
