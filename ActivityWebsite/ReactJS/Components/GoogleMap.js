@@ -1,39 +1,73 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import GoogleMapSearchBox from '../Components/GoogleMapSearchBox';
 
-const GoogleMap = ({ googleMap }) => {
+const GoogleMap = ({ address, setAddress }) => {
     const [apiReady, setApiReady] = useState(false);
     const [googlemaps, setGooglemaps] = useState(null);
+    const [map, setMap] = useState(null);
+    const [markers, setMarkers] = useState([]);
+
+    const clearAllMarkers = () => {
+        for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        setMarkers([]);
+    }
 
     const onPlacesChanged = (data) => {
-        console.log(data);
-        console.log('Addess');
-        console.log(data[0].geometry.location.lat());
-        console.log(data[0].geometry.location.lng());
+
+        // Check required field
+        if (!data || data.length === 0) return;
+        const objectAddress = data[0];
+        if (!objectAddress.geometry || !objectAddress.geometry.location) return;
+        if (!objectAddress.name) return;
+
+        // CLear all markets and add newest marker
+        clearAllMarkers();
+        const marker = new googlemaps.Marker({
+            position: { lat: data[0].geometry.location.lat(), lng: data[0].geometry.location.lng() },
+            map,
+            title: objectAddress.name
+        });
+        setMarkers([...markers, marker]);
+
+        // In FormCreate
+        setAddress({
+            name: objectAddress.name,
+            lat: objectAddress.geometry.location.lat(),
+            lng: objectAddress.geometry.location.lng()
+        })
+
+        map.setCenter({ lat: objectAddress.geometry.location.lat(), lng: objectAddress.geometry.location.lng() });
     }
 
     const apiHasLoaded = ({ map, maps }) => {
         if (map && maps) {
             setGooglemaps(maps);
+            setMap(map);
             setApiReady(true);
+
         }
     }
 
     return (
-        <div id="google-map-preview" style={{ height: '100vh', width: '100%' }}>
-            <GoogleMapReact
-                bootstrapURLKeys={{ key: 'AIzaSyDzFLST4xAWh60rNDeZQoOi2WRNWJak7rA', libraries: 'places' }}
-                defaultCenter={{
-                    lat: 1.3010111504664552,
-                    lng: 103.85514811535603
-                }}
-                defaultZoom={15}
-                yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={ apiHasLoaded }
-            >
-                {apiReady && <GoogleMapSearchBox onPlacesChanged={onPlacesChanged} googlemaps={googlemaps} placeholder="Enter your address here" />}
-            </GoogleMapReact>
+        <div className="col-lg-12 col-md-12">
+            <label className="label-for">Address:</label>
+            {apiReady && <GoogleMapSearchBox onPlacesChanged={onPlacesChanged} googlemaps={googlemaps} placeholder="Enter your address here" />}
+            <div style={{ height: '50vh', width: '100%' }}>
+                <GoogleMapReact
+                    bootstrapURLKeys={{ key: 'AIzaSyDzFLST4xAWh60rNDeZQoOi2WRNWJak7rA', region: 'SG', libraries: 'places' }}
+                    defaultCenter={{
+                        lat: 1.3010111504664552,
+                        lng: 103.85514811535603
+                    }}
+                    defaultZoom={15}
+                    yesIWantToUseGoogleMapApiInternals
+                    onGoogleApiLoaded={apiHasLoaded}
+                >
+                </GoogleMapReact>
+            </div>
         </div>
     )
 }

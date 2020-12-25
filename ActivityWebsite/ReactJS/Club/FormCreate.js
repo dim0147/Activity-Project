@@ -7,6 +7,7 @@ import InputCol12 from '../Components/InputCol12';
 import DescriptionArea from '../Components/DescriptionArea';
 import ListCategory from '../Components/ListCategory';
 import GoogleMap from '../Components/GoogleMap'; 
+import InputFile from '../Components/InputFile'; 
 
 
 class FormCreate extends Component {
@@ -20,7 +21,14 @@ class FormCreate extends Component {
             operationHours: '',
             establishedAt: '',
             description: '',
-            categories: []
+            categories: [],
+            address: {
+                name: null,
+                lat: null,
+                lng: null
+            },
+            headerImg: null,
+            thumbnails: []
         }
 
     }
@@ -52,10 +60,6 @@ class FormCreate extends Component {
         this.setState({ name: event.target.value });
     }
 
-    setAdressChange = (event) => {
-        this.setState({ address: event.target.value });
-    }
-
     setOperationHoursChange = (event) => {
         this.setState({ operationHours: event.target.value });
     }
@@ -68,6 +72,23 @@ class FormCreate extends Component {
     setDescriptionChange = (data) => {
         console.log(data);
         this.setState({ description: data });
+    }
+
+    setAddressChange = (address) => {
+        this.setState({ address }, () => {
+            console.log("State");
+            console.log(this.state.address);
+        });
+    }
+
+    setHeaderImg = (imgs) => {
+        if(imgs.length === 0) return
+        this.setState({ headerImg: imgs[0] });
+    }
+
+    setThumbnailImg = (imgs) => {
+        if (imgs.length === 0) return
+        this.setState({ thumbnails: imgs });
     }
 
     render() {
@@ -88,15 +109,10 @@ class FormCreate extends Component {
                                             placeholder="Enter your club name"
                                         />
 
-                                        <InputCol12
-                                            title='Address'
-                                            value={this.state.address}
-                                            setValue={this.setAdressChange}
-                                            placeholder="Enter your club address"
+                                        <GoogleMap
+                                            address={this.state.address}
+                                            setAddress={this.setAddressChange}
                                         />
-
-
-                                        <GoogleMap />
                                         
                                         <InputCol12
                                             title='Operation Hours'
@@ -118,33 +134,29 @@ class FormCreate extends Component {
                                             setValue={this.setDescriptionChange}
                                         />
 
-                                        {/*<div className="col-lg-12">
-                                            <label className="label-for">Description:</label>
-                                            <textarea placeholder="Enter some description about your club" defaultValue={""} />
-                                        </div>*/}
-
-                                        {/*<div className="col-lg-12 col-md-12" style={{ marginBottom: '10px' }}>
-                                            <label className="label-for">Category:</label>
-                                            <br />
-                                            <div className="custom-control custom-checkbox d-inline">
-                                                <input type="checkbox" className="custom-control-input" id="customCheck" name="example1" />
-                                                <label className="custom-control-label" htmlFor="customCheck">Check this custom checkbox</label>
-                                            </div>
-                                            <div className="custom-control custom-checkbox d-inline">
-                                                <input type="checkbox" className="custom-control-input" id="customCheck1" name="customCheck1" />
-                                                <label className="custom-control-label" htmlFor="customCheck1">Check this custom checkbox</label>
-                                            </div>
-                                        </div>*/}
 
                                         <ListCategory
                                             handleCheckElement={this.handleCheckCategoryElement}
                                             categories={this.state.categories}
                                         />
 
+                                        <InputFile
+                                            files={[this.state.headerImg]}
+                                            setFiles={this.setHeaderImg}
+                                            header="Header Image"
+                                            title="+ Drag and drop header image here, or click to select image"
+                                        />
+
+                                        <InputFile
+                                            files={this.state.thumbnails}
+                                            setFiles={this.setThumbnailImg}
+                                            header="Thumbnails"
+                                            title="+ Drag and drop thumbnail images here, or click to select images"
+                                        />
 
                                         <div className="col-lg-12 text-center">
                                             <button className="site-btn">Submit</button>
-                                        </div>
+                                        </div>  
                                     </div>
                                 </form>
                             </div>

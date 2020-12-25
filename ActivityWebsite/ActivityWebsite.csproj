@@ -424,6 +424,8 @@
     <Content Include="ReactJS\API\Category.js" />
     <Content Include="ReactJS\Club\FormCreate.js" />
     <Content Include="ReactJS\Components\DescriptionArea.js" />
+    <Content Include="ReactJS\Components\InputFile.css" />
+    <Content Include="ReactJS\Components\InputFile.js" />
     <Content Include="ReactJS\Components\InputCol12.js" />
     <Content Include="ReactJS\Components\ListCategory.js" />
     <Content Include="ReactJS\Components\GoogleMap.js" />
