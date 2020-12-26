@@ -205,6 +205,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Models\CategoryViewModel.cs" />
     <Compile Include="Authenticate\AuthorizeRoute.cs" />
+    <Compile Include="Config\FormDataBinding.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClubController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClubViewModels.cs" />
     <Compile Include="Models\Club.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>

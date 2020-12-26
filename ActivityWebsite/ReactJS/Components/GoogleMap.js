@@ -23,11 +23,13 @@ const GoogleMap = ({ address, setAddress }) => {
 
     const onPlacesChanged = (data) => {
 
+        console.log(data);
+
         // Check required field
         if (!data || data.length === 0) return;
         const objectAddress = data[0];
         if (!objectAddress.geometry || !objectAddress.geometry.location) return;
-        if (!objectAddress.name) return;
+        if (!objectAddress.formatted_address) return;
 
         // CLear all markets and add newest marker
         clearAllMarkers();
@@ -40,7 +42,7 @@ const GoogleMap = ({ address, setAddress }) => {
 
         // In FormCreate
         setAddress({
-            name: objectAddress.name,
+            name: objectAddress.formatted_address,
             lat: objectAddress.geometry.location.lat(),
             lng: objectAddress.geometry.location.lng()
         })

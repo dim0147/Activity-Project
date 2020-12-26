@@ -3102,3 +3102,14 @@ ol {
 .custom-checkbox {
 	margin: 5px;
 }
+
+.custom-checkbox:hover {
+	cursor: pointer;
+}
+
+
+.l-checkbox {
+	column-count: 10;
+	column-gap: 2rem;
+	list-style: none;
+}

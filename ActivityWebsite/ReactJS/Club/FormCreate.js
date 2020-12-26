@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
+import axios from 'axios';
 
 import { getAllCategory } from '../API/Category';
 import InputCol12 from '../Components/InputCol12';
@@ -16,11 +17,10 @@ class FormCreate extends Component {
         super(props);
 
         this.state = {
-            name: '',
-            address: '',
-            operationHours: '',
-            establishedAt: '',
-            description: '',
+            name: null,
+            operationHours: null,
+            establishedAt: null,
+            description: null,
             categories: [],
             address: {
                 name: null,
@@ -28,7 +28,12 @@ class FormCreate extends Component {
                 lng: null
             },
             headerImg: null,
-            thumbnails: []
+            thumbnails: [],
+
+            message: {
+                type: null,
+                text: null
+            }
         }
 
     }
@@ -51,9 +56,7 @@ class FormCreate extends Component {
             if (category.Id === categoryId)
                 category.isChecked = isChecked;
         })
-        this.setState({ categories }, () => {
-            console.log(categories);
-        });
+        this.setState({ categories });
     }
 
     setNameChange = (event) => {
@@ -65,20 +68,15 @@ class FormCreate extends Component {
     }
 
     setEstablishedAtChange = (event) => {
-        console.log(this.state.establishedAt)
         this.setState({ establishedAt: event.target.value });
     }
 
     setDescriptionChange = (data) => {
-        console.log(data);
         this.setState({ description: data });
     }
 
     setAddressChange = (address) => {
-        this.setState({ address }, () => {
-            console.log("State");
-            console.log(this.state.address);
-        });
+        this.setState({ address });
     }
 
     setHeaderImg = (imgs) => {
@@ -96,9 +94,54 @@ class FormCreate extends Component {
         return false;
     }
 
+    renderMessage() {
+        let className;
+        switch (this.state.message.type) {
+            case 'success':
+                className = 'success';
+                break;
+            case 'error':
+                className = 'danger';
+                break;
+        }
+        return (
+            <div className={'alert alert-' + className} role="alert">
+                {this.state.message.text}
+            </div>
+        )
+    }
+
     onClickButton = (e) => {
-        console.log(e);
-        alert("E");
+        const formData = new FormData();
+
+        formData.append('name', this.state.name);
+        //formData.append('operationHours', this.state.operationHours);
+        //formData.append('establishedAt', this.state.establishedAt);
+        //formData.append('description', this.state.description);
+        formData.append('address', JSON.stringify(this.state.address));
+
+        this.state.categories.forEach(category => {
+            if (category.isChecked)
+                formData.append('categories', category.Id)
+        });
+
+        //formData.append('headerImg', this.state.headerImg);
+        //this.state.thumbnails.forEach(thumbnail => formData.append('thumbnails', thumbnail));
+
+        axios({
+            method: 'post',
+            url: '/club/create',
+            data: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(res => {
+
+            })
+            .catch(err => {
+
+            })
     }
 
     render() {
@@ -163,6 +206,10 @@ class FormCreate extends Component {
                                             header="Thumbnails"
                                             title="+ Drag and drop thumbnail images here, or click to select images"
                                         />
+
+                                        <div className="col-lg-12 text-center">
+                                            {this.renderMessage()}
+                                        </div>
 
                                         <div className="col-lg-12 text-center">
                                             <button type="button" className="site-btn" onClick={this.onClickButton}>Submit</button>

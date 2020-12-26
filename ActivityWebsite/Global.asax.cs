@@ -1,3 +1,5 @@
+using ActivityWebsite.Config;
+using ActivityWebsite.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace ActivityWebsite
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ModelBinders.Binders.DefaultBinder = new FormDataBinding();
         }
     }
 }
