@@ -18,7 +18,6 @@ const DescriptionArea = ({ value, setValue }) => {
                 onChange={(event, editor) => {
                 const data = editor.getData();
                 setValue(data);
-                console.log({ event, editor, data });
             }}
             />
         </div>

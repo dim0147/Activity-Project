@@ -9,6 +9,7 @@ import DescriptionArea from '../Components/DescriptionArea';
 import ListCategory from '../Components/ListCategory';
 import GoogleMap from '../Components/GoogleMap';
 import InputFile from '../Components/InputFile';
+import ErrorAlert from '../Components/ErrorAlert';
 
 
 class FormCreate extends Component {
@@ -17,22 +18,20 @@ class FormCreate extends Component {
         super(props);
 
         this.state = {
-            name: null,
-            operationHours: null,
-            establishedAt: null,
-            description: null,
+            name: '',
+            operationHours: '',
+            establishedAt: '',
+            description: '',
             categories: [],
-            address: {
-                name: null,
-                lat: null,
-                lng: null
-            },
-            headerImg: null,
+            address: '',
+            headerImg: '',
             thumbnails: [],
 
-            message: {
+            isCreating: false,
+
+            notification: {
                 type: null,
-                text: null
+                messages: null
             }
         }
 
@@ -94,39 +93,31 @@ class FormCreate extends Component {
         return false;
     }
 
-    renderMessage() {
-        let className;
-        switch (this.state.message.type) {
-            case 'success':
-                className = 'success';
-                break;
-            case 'error':
-                className = 'danger';
-                break;
-        }
-        return (
-            <div className={'alert alert-' + className} role="alert">
-                {this.state.message.text}
-            </div>
-        )
-    }
 
     onClickButton = (e) => {
+        this.setState({
+            notification: {
+                type: null,
+                messages: null
+            },
+            isCreating: true
+        })
+
         const formData = new FormData();
 
         formData.append('name', this.state.name);
-        //formData.append('operationHours', this.state.operationHours);
-        //formData.append('establishedAt', this.state.establishedAt);
-        //formData.append('description', this.state.description);
+        formData.append('operationHours', this.state.operationHours);
+        formData.append('establishedAt', this.state.establishedAt);
+        formData.append('description', this.state.description);
         formData.append('address', JSON.stringify(this.state.address));
+
+        formData.append('headerImg', this.state.headerImg);
+        this.state.thumbnails.forEach(thumbnail => formData.append('thumbnails', thumbnail));
 
         this.state.categories.forEach(category => {
             if (category.isChecked)
                 formData.append('categories', category.Id)
         });
-
-        //formData.append('headerImg', this.state.headerImg);
-        //this.state.thumbnails.forEach(thumbnail => formData.append('thumbnails', thumbnail));
 
         axios({
             method: 'post',
@@ -137,10 +128,28 @@ class FormCreate extends Component {
             }
         })
             .then(res => {
-
+                console.log('success')
             })
-            .catch(err => {
-
+            .catch(error => {
+                if (error.response && error.response.data) {
+                    const listErrors = error.response.data.errors;
+                    this.setState({
+                        notification: {
+                            type: 'error',
+                            messages: listErrors
+                        },
+                        isCreating: false
+                    })
+                }
+                else {
+                    this.setState({
+                        notification: {
+                            type: 'error',
+                            messages: ['Unexpected Error From Server!']
+                        },
+                        isCreating: false
+                    });
+                }
             })
     }
 
@@ -207,13 +216,20 @@ class FormCreate extends Component {
                                             title="+ Drag and drop thumbnail images here, or click to select images"
                                         />
 
-                                        <div className="col-lg-12 text-center">
-                                            {this.renderMessage()}
+                                        <div className="col-lg-12 col-md-12 text-center">
+                                            {this.state.notification.type === 'error' && <ErrorAlert listErrors={this.state.notification.messages} />}
                                         </div>
 
-                                        <div className="col-lg-12 text-center">
-                                            <button type="button" className="site-btn" onClick={this.onClickButton}>Submit</button>
-                                        </div>
+                                        {this.state.isCreating
+                                            ?
+                                            <div className="col-lg-12 col-md-12 text-center">
+                                                <p>Creating...<i className="fas fa-spinner fa-spin"></i></p>
+                                            </div>
+                                            :
+                                            <div className="col-lg-12 col-md-12 text-center">
+                                                <button type="button" className="site-btn" onClick={this.onClickButton}>Submit</button>
+                                            </div>
+                                        }
                                     </div>
                                 </form>
                             </div>

@@ -205,6 +205,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Models\CategoryViewModel.cs" />
     <Compile Include="Authenticate\AuthorizeRoute.cs" />
+    <Compile Include="CustomHelper\CustomValidation.cs" />
     <Compile Include="Config\FormDataBinding.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClubController.cs" />
@@ -426,6 +427,7 @@
     <Content Include="ReactJS\API\Category.js" />
     <Content Include="ReactJS\Club\FormCreate.js" />
     <Content Include="ReactJS\Components\DescriptionArea.js" />
+    <Content Include="ReactJS\Components\ErrorAlert.js" />
     <Content Include="ReactJS\Components\InputFile.css" />
     <Content Include="ReactJS\Components\InputFile.js" />
     <Content Include="ReactJS\Components\InputCol12.js" />
