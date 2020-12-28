@@ -5,7 +5,6 @@ import './InputFile.css';
 const InputFiles = ({ files, setFiles, header, title }) => {
 
     const previewImg = () => {
-        console.log(files);
         return files.map((file, i) => {
             return (
                 <div className="col-lg-2 col-md-2 img-preview-div-element" key={i}>

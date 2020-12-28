@@ -13,7 +13,7 @@ namespace ActivityWebsite.EF
         {
             using(var db = new DbModel())
             {
-                return db.Categories.AsNoTracking().OrderBy(c => c.name).ToList();
+                return db.Categories.OrderBy(c => c.name).ToList();
             }
         }
 

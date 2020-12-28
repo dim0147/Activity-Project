@@ -40,6 +40,36 @@
         <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Clubs">
+      <EntityTypeMapping TypeName="ActivityModel.Club">
+        <MappingFragment StoreEntitySet="Clubs">
+          <ScalarProperty Name="HeaderImg" ColumnName="HeaderImg" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="EstablishedAt" ColumnName="EstablishedAt" />
+          <ScalarProperty Name="Slug" ColumnName="Slug" />
+          <ScalarProperty Name="OperationHours" ColumnName="OperationHours" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Lng" ColumnName="Lng" />
+          <ScalarProperty Name="Lat" ColumnName="Lat" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Images">
+      <EntityTypeMapping TypeName="ActivityModel.Image">
+        <MappingFragment StoreEntitySet="Images">
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="ClubId" ColumnName="ClubId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Categories">
       <EntityTypeMapping TypeName="ActivityModel.Category">
         <MappingFragment StoreEntitySet="Categories">
@@ -53,20 +83,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Clubs">
-      <EntityTypeMapping TypeName="ActivityModel.Club">
-        <MappingFragment StoreEntitySet="Clubs">
-          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-          <ScalarProperty Name="EstablishedAt" ColumnName="EstablishedAt" />
-          <ScalarProperty Name="Slug" ColumnName="Slug" />
-          <ScalarProperty Name="OperationHours" ColumnName="OperationHours" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Lng" ColumnName="Lng" />
-          <ScalarProperty Name="Lat" ColumnName="Lat" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
+    <EntitySetMapping Name="ClubCategories">
+      <EntityTypeMapping TypeName="ActivityModel.ClubCategory">
+        <MappingFragment StoreEntitySet="ClubCategories">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="ClubId" ColumnName="ClubId" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

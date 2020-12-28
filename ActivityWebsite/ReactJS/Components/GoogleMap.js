@@ -23,8 +23,6 @@ const GoogleMap = ({ address, setAddress }) => {
 
     const onPlacesChanged = (data) => {
 
-        console.log(data);
-
         // Check required field
         if (!data || data.length === 0) return;
         const objectAddress = data[0];

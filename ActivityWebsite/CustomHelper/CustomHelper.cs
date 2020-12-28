@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -22,6 +23,22 @@ namespace ActivityWebsite.CustomHelper
         {
             return new SlugHelper().GenerateSlug(url);
         }
+
+        public static string GerenateClubNameSlug(string name)
+        {
+            return new SlugHelper().GenerateSlug(name);
+        }
+
+        public static ActionResult ResponseHandle(HttpStatusCode httpStatusCode, object dataResponse)
+        {
+            HttpContext.Current.Response.StatusCode = (int)httpStatusCode;
+            return new JsonResult
+            {
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                Data = dataResponse
+            };
+        }
+
 
         public static JsonResult AddModelError(ModelStateDictionary ModelState)
         {

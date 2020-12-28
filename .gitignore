@@ -440,3 +440,8 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+ActivityWebsite/Content/Media/Images/Category/*
+ActivityWebsite/Content/Media/Images/Club/*
+ActivityWebsite/Content/Media/Images/Description/*
+ActivityWebsite/Content/Media/Images/templates/*

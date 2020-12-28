@@ -14,16 +14,31 @@ namespace ActivityWebsite.Models
     
     public partial class Club
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Club()
+        {
+            this.Images = new HashSet<Image>();
+            this.ClubCategories = new HashSet<ClubCategory>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public Nullable<double> Lat { get; set; }
-        public Nullable<double> Lng { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
         public string Description { get; set; }
         public string OperationHours { get; set; }
         public string Slug { get; set; }
         public System.DateTime EstablishedAt { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }
+        public string Owner { get; set; }
+        public string HeaderImg { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Image> Images { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClubCategory> ClubCategories { get; set; }
     }
 }

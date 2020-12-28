@@ -166,7 +166,7 @@ namespace ActivityWebsite.Areas.Admin.Controllers
             // Remove old Image
             if (nameOldImg != null)
             {
-                bool resultDelImg = EF.ImageHandle.DelImg($"{IMAGE_UPLOAD_DIR}/{nameOldImg}");
+                bool resultDelImg = EF.ImageHandle.DelImg(nameOldImg, IMAGE_UPLOAD_DIR);
                 model.CurrentImage = category.image;
             }
 

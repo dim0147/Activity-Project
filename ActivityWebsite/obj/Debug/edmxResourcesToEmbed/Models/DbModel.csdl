@@ -30,47 +30,142 @@
     <Property Name="authenticateType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+    <NavigationProperty Name="Clubs" Relationship="ActivityModel.FK_Clubs_Users" FromRole="AspNetUser" ToRole="Club" />
   </EntityType>
   <Association Name="AspNetUserRoles">
     <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
     <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
   </Association>
-  <EntityContainer Name="DbModel" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="DbModel" annotation:LazyLoadingEnabled="false">
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
     <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
     </AssociationSet>
-    <EntitySet Name="Categories" EntityType="ActivityModel.Category" />
     <EntitySet Name="Clubs" EntityType="ActivityModel.Club" />
+    <EntitySet Name="Images" EntityType="ActivityModel.Image" />
+    <AssociationSet Name="FK_Images_Club" Association="ActivityModel.FK_Images_Club">
+      <End Role="Club" EntitySet="Clubs" />
+      <End Role="Image" EntitySet="Images" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Clubs_Users" Association="ActivityModel.FK_Clubs_Users">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Club" EntitySet="Clubs" />
+    </AssociationSet>
+    <EntitySet Name="Categories" EntityType="ActivityModel.Category" />
+    <EntitySet Name="ClubCategories" EntityType="ActivityModel.ClubCategory" />
+    <AssociationSet Name="FK_ClubCategories_Clubs" Association="ActivityModel.FK_ClubCategories_Clubs">
+      <End Role="Club" EntitySet="Clubs" />
+      <End Role="ClubCategory" EntitySet="ClubCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClubCategories_Categories" Association="ActivityModel.FK_ClubCategories_Categories">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="ClubCategory" EntitySet="ClubCategories" />
+    </AssociationSet>
   </EntityContainer>
-  <EntityType Name="Category">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="image" Type="String" Nullable="false" MaxLength="300" FixedLength="true" Unicode="false" />
-    <Property Name="type" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
-    <Property Name="slug" Type="String" Nullable="false" MaxLength="80" FixedLength="true" Unicode="false" />
-  </EntityType>
   <EntityType Name="Club">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Lat" Type="Double" />
-    <Property Name="Lng" Type="Double" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Lat" Type="Double" Nullable="false" />
+    <Property Name="Lng" Type="Double" Nullable="false" />
     <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="OperationHours" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-    <Property Name="Slug" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="EstablishedAt" Type="DateTime" Nullable="false" />
+    <Property Name="OperationHours" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Slug" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EstablishedAt" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="Images" Relationship="ActivityModel.FK_Images_Club" FromRole="Club" ToRole="Image" />
+    <Property Name="Owner" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="ActivityModel.FK_Clubs_Users" FromRole="Club" ToRole="AspNetUser" />
+    <NavigationProperty Name="ClubCategories" Relationship="ActivityModel.FK_ClubCategories_Clubs" FromRole="Club" ToRole="ClubCategory" />
+    <Property Name="HeaderImg" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="Image">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClubId" Type="Int32" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Club" Relationship="ActivityModel.FK_Images_Club" FromRole="Image" ToRole="Club" />
+  </EntityType>
+  <Association Name="FK_Images_Club">
+    <End Type="ActivityModel.Club" Role="Club" Multiplicity="0..1" />
+    <End Type="ActivityModel.Image" Role="Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Club">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Image">
+        <PropertyRef Name="ClubId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Clubs_Users">
+    <End Type="ActivityModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="ActivityModel.Club" Role="Club" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Club">
+        <PropertyRef Name="Owner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="image" Type="String" Nullable="false" MaxLength="300" FixedLength="true" Unicode="false" />
+    <Property Name="type" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+    <Property Name="slug" Type="String" Nullable="false" MaxLength="80" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="ClubCategories" Relationship="ActivityModel.FK_ClubCategories_Categories" FromRole="Category" ToRole="ClubCategory" />
+  </EntityType>
+  <EntityType Name="ClubCategory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="CategoryId" Type="Int32" Nullable="false" />
+    <Property Name="ClubId" Type="Int32" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Club" Relationship="ActivityModel.FK_ClubCategories_Clubs" FromRole="ClubCategory" ToRole="Club" />
+    <NavigationProperty Name="Category" Relationship="ActivityModel.FK_ClubCategories_Categories" FromRole="ClubCategory" ToRole="Category" />
+  </EntityType>
+  <Association Name="FK_ClubCategories_Clubs">
+    <End Type="ActivityModel.Club" Role="Club" Multiplicity="1" />
+    <End Type="ActivityModel.ClubCategory" Role="ClubCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Club">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ClubCategory">
+        <PropertyRef Name="ClubId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClubCategories_Categories">
+    <End Type="ActivityModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="ActivityModel.ClubCategory" Role="ClubCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ClubCategory">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

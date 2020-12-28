@@ -18,6 +18,7 @@ namespace ActivityWebsite.Models
         public DbModel()
             : base("name=DbModel")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -27,7 +28,9 @@ namespace ActivityWebsite.Models
     
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Club> Clubs { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<ClubCategory> ClubCategories { get; set; }
     }
 }

@@ -46,7 +46,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="description" Type="nvarchar" MaxLength="2000" />
           <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" StoreGeneratedPattern="Identity" />
@@ -54,22 +54,79 @@
           <Property Name="type" Type="char" MaxLength="20" Nullable="false" />
           <Property Name="slug" Type="char" MaxLength="80" Nullable="false" />
         </EntityType>
+        <EntityType Name="ClubCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="ClubId" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="Clubs">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Lat" Type="float" />
-          <Property Name="Lng" Type="float" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Lat" Type="float" Nullable="false" />
+          <Property Name="Lng" Type="float" Nullable="false" />
           <Property Name="Description" Type="ntext" Nullable="false" />
-          <Property Name="OperationHours" Type="nvarchar" MaxLength="60" />
-          <Property Name="Slug" Type="varchar" MaxLength="100" />
+          <Property Name="OperationHours" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Slug" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="EstablishedAt" Type="date" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UpdatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="Owner" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="HeaderImg" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ClubId" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ClubCategories_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="ClubCategories" Type="Self.ClubCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClubCategories">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClubCategories_Clubs">
+          <End Role="Clubs" Type="Self.Clubs" Multiplicity="1" />
+          <End Role="ClubCategories" Type="Self.ClubCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClubCategories">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clubs_Users">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Clubs" Type="Self.Clubs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Clubs">
+              <PropertyRef Name="Owner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -98,12 +155,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Images_Club">
+          <End Role="Clubs" Type="Self.Clubs" Multiplicity="0..1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ActivityModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClubCategories" EntityType="Self.ClubCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clubs" EntityType="Self.Clubs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ClubCategories_Categories" Association="Self.FK_ClubCategories_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="ClubCategories" EntitySet="ClubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClubCategories_Clubs" Association="Self.FK_ClubCategories_Clubs">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="ClubCategories" EntitySet="ClubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clubs_Users" Association="Self.FK_Clubs_Users">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Clubs" EntitySet="Clubs" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
@@ -111,6 +194,10 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Images_Club" Association="Self.FK_Images_Club">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="Images" EntitySet="Images" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -147,50 +234,145 @@
           <Property Name="authenticateType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <NavigationProperty Name="Clubs" Relationship="ActivityModel.FK_Clubs_Users" FromRole="AspNetUser" ToRole="Club" />
         </EntityType>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="DbModel" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DbModel" annotation:LazyLoadingEnabled="false">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="Categories" EntityType="ActivityModel.Category" />
           <EntitySet Name="Clubs" EntityType="ActivityModel.Club" />
-        </EntityContainer>
-        <EntityType Name="Category">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="image" Type="String" Nullable="false" MaxLength="300" FixedLength="true" Unicode="false" />
-          <Property Name="type" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
-          <Property Name="slug" Type="String" Nullable="false" MaxLength="80" FixedLength="true" Unicode="false" />
-        </EntityType>
+          <EntitySet Name="Images" EntityType="ActivityModel.Image" />
+          <AssociationSet Name="FK_Images_Club" Association="ActivityModel.FK_Images_Club">
+            <End Role="Club" EntitySet="Clubs" />
+            <End Role="Image" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clubs_Users" Association="ActivityModel.FK_Clubs_Users">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Club" EntitySet="Clubs" />
+          </AssociationSet>
+          <EntitySet Name="Categories" EntityType="ActivityModel.Category" />
+          <EntitySet Name="ClubCategories" EntityType="ActivityModel.ClubCategory" />
+          <AssociationSet Name="FK_ClubCategories_Clubs" Association="ActivityModel.FK_ClubCategories_Clubs">
+            <End Role="Club" EntitySet="Clubs" />
+            <End Role="ClubCategory" EntitySet="ClubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClubCategories_Categories" Association="ActivityModel.FK_ClubCategories_Categories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="ClubCategory" EntitySet="ClubCategories" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Club">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Lat" Type="Double" />
-          <Property Name="Lng" Type="Double" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Lat" Type="Double" Nullable="false" />
+          <Property Name="Lng" Type="Double" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OperationHours" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="Slug" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="EstablishedAt" Type="DateTime" Nullable="false" />
+          <Property Name="OperationHours" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Slug" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EstablishedAt" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Images" Relationship="ActivityModel.FK_Images_Club" FromRole="Club" ToRole="Image" />
+          <Property Name="Owner" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="ActivityModel.FK_Clubs_Users" FromRole="Club" ToRole="AspNetUser" />
+          <NavigationProperty Name="ClubCategories" Relationship="ActivityModel.FK_ClubCategories_Clubs" FromRole="Club" ToRole="ClubCategory" />
+          <Property Name="HeaderImg" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-      </Schema>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClubId" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Club" Relationship="ActivityModel.FK_Images_Club" FromRole="Image" ToRole="Club" />
+        </EntityType>
+        <Association Name="FK_Images_Club">
+          <End Type="ActivityModel.Club" Role="Club" Multiplicity="0..1" />
+          <End Type="ActivityModel.Image" Role="Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clubs_Users">
+          <End Type="ActivityModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="ActivityModel.Club" Role="Club" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Club">
+              <PropertyRef Name="Owner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="image" Type="String" Nullable="false" MaxLength="300" FixedLength="true" Unicode="false" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="slug" Type="String" Nullable="false" MaxLength="80" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="ClubCategories" Relationship="ActivityModel.FK_ClubCategories_Categories" FromRole="Category" ToRole="ClubCategory" />
+        </EntityType>
+        <EntityType Name="ClubCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="ClubId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Club" Relationship="ActivityModel.FK_ClubCategories_Clubs" FromRole="ClubCategory" ToRole="Club" />
+          <NavigationProperty Name="Category" Relationship="ActivityModel.FK_ClubCategories_Categories" FromRole="ClubCategory" ToRole="Category" />
+        </EntityType>
+        <Association Name="FK_ClubCategories_Clubs">
+          <End Type="ActivityModel.Club" Role="Club" Multiplicity="1" />
+          <End Type="ActivityModel.ClubCategory" Role="ClubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClubCategory">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClubCategories_Categories">
+          <End Type="ActivityModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="ActivityModel.ClubCategory" Role="ClubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClubCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -235,6 +417,36 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Clubs">
+            <EntityTypeMapping TypeName="ActivityModel.Club">
+              <MappingFragment StoreEntitySet="Clubs">
+                <ScalarProperty Name="HeaderImg" ColumnName="HeaderImg" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="EstablishedAt" ColumnName="EstablishedAt" />
+                <ScalarProperty Name="Slug" ColumnName="Slug" />
+                <ScalarProperty Name="OperationHours" ColumnName="OperationHours" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Lng" ColumnName="Lng" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="ActivityModel.Image">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="ClubId" ColumnName="ClubId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="ActivityModel.Category">
               <MappingFragment StoreEntitySet="Categories">
@@ -248,20 +460,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Clubs">
-            <EntityTypeMapping TypeName="ActivityModel.Club">
-              <MappingFragment StoreEntitySet="Clubs">
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="EstablishedAt" ColumnName="EstablishedAt" />
-                <ScalarProperty Name="Slug" ColumnName="Slug" />
-                <ScalarProperty Name="OperationHours" ColumnName="OperationHours" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Lng" ColumnName="Lng" />
-                <ScalarProperty Name="Lat" ColumnName="Lat" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="ClubCategories">
+            <EntityTypeMapping TypeName="ActivityModel.ClubCategory">
+              <MappingFragment StoreEntitySet="ClubCategories">
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="ClubId" ColumnName="ClubId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

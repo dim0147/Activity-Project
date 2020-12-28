@@ -38,11 +38,11 @@ namespace ActivityWebsite.EF
         }
 
 
-        public static bool DelImg(string virtualImgPath)
+        public static bool DelImg(string nameImage,string virtualImgPath)
         {
             try
             {
-                String path = HttpContext.Current.Server.MapPath(virtualImgPath);
+                String path = HttpContext.Current.Server.MapPath($"{virtualImgPath}/{nameImage}");
                 System.IO.File.Delete(path);
                 return true;
             }

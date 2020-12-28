@@ -9,7 +9,7 @@ import DescriptionArea from '../Components/DescriptionArea';
 import ListCategory from '../Components/ListCategory';
 import GoogleMap from '../Components/GoogleMap';
 import InputFile from '../Components/InputFile';
-import ErrorAlert from '../Components/ErrorAlert';
+import Alert from '../Components/Alert';
 
 
 class FormCreate extends Component {
@@ -119,6 +119,9 @@ class FormCreate extends Component {
                 formData.append('categories', category.Id)
         });
 
+        const csrfToken = document.getElementsByName('__RequestVerificationToken')[0].value;
+        formData.append('__RequestVerificationToken', csrfToken);
+
         axios({
             method: 'post',
             url: '/club/create',
@@ -128,10 +131,26 @@ class FormCreate extends Component {
             }
         })
             .then(res => {
-                console.log('success')
+                if (res.status === 201 && res.data && Array.isArray(res.data.messages)) {
+                    this.setState({
+                        notification: {
+                            type: 'success',
+                            messages: res.data.messages
+                        },
+                        isCreating: false
+                    })
+                } else {
+                    this.setState({
+                        notification: {
+                            type: 'success',
+                            messages: "Can't not know if create success or not but response return is OK!"
+                        },
+                        isCreating: false
+                    })
+                }
             })
             .catch(error => {
-                if (error.response && error.response.data) {
+                if (error.response && error.response.data && Array.isArray(error.response.data.errors)) {
                     const listErrors = error.response.data.errors;
                     this.setState({
                         notification: {
@@ -217,13 +236,14 @@ class FormCreate extends Component {
                                         />
 
                                         <div className="col-lg-12 col-md-12 text-center">
-                                            {this.state.notification.type === 'error' && <ErrorAlert listErrors={this.state.notification.messages} />}
+                                            {this.state.notification.type === 'error' && <Alert listMessages={this.state.notification.messages} alertType='error' />}
+                                            {this.state.notification.type === 'success' && <Alert listMessages={this.state.notification.messages} alertType='success' />}
                                         </div>
 
                                         {this.state.isCreating
                                             ?
                                             <div className="col-lg-12 col-md-12 text-center">
-                                                <p>Creating...<i className="fas fa-spinner fa-spin"></i></p>
+                                                <p>Creating...   <i className="fas fa-spinner fa-spin"></i></p>
                                             </div>
                                             :
                                             <div className="col-lg-12 col-md-12 text-center">
