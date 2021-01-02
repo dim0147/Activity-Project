@@ -3,11 +3,17 @@
 module.exports = {
     mode: 'development',
     entry: {
-         FormCreate: "./ReactJS/Club/FormCreate.js"
+        EditForm: "./ReactJS/Club/EditForm.js"
     },
     output: {
         path: path.resolve(__dirname, "../dist"),
         filename: "[name].js"
+    },
+    resolve: {
+        fallback: {
+            url: false,
+            path: false
+        }
     },
     module: {
         rules: [

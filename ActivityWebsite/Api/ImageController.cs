@@ -9,24 +9,12 @@ using System.Web.Mvc;
 using ActivityWebsite.Models;
 using static ActivityWebsite.CustomHelper.Helper;
 using ActivityWebsite.EF;
+using ActivityWebsite.Config;
 
 namespace ActivityWebsite.Api
 {
     public class ImageController : ApiController
     {
-        private const string DIR_UPLOAD_DESCRIPTION = "~/Content/Media/Images/Description";
-
-        // GET: api/Image
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/Image/5
-        public IHttpActionResult Get(int id)
-        {
-            return Content(HttpStatusCode.Conflict, new { name = "hello" });
-        }
 
         // POST: api/Image
         public IHttpActionResult Post(string typeUpload)
@@ -47,7 +35,7 @@ namespace ActivityWebsite.Api
             }
 
             // Save image to storage
-            string nameImage = EF.ImageHandle.SaveImg(imageUploaded, DIR_UPLOAD_DESCRIPTION);
+            string nameImage = EF.ImageHandle.SaveImg(imageUploaded, ConfigurationApp.VIRTUAL_DIR_CLUB_DESCRIPTION_IMAGE);
 
             // Upload failed
             if(nameImage == null)
@@ -66,18 +54,9 @@ namespace ActivityWebsite.Api
             return Content(HttpStatusCode.OK, new
             {
                 uploaded = true,
-                url = $"/Content/Media/Images/Description/{nameImage}"
+                url = $"{ConfigurationApp.URL_DIR_CLUB_DESCRIPTION_IMAGE}/{nameImage}"
             });
         }
 
-        // PUT: api/Image/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/Image/5
-        public void Delete(int id)
-        {
-        }
     }
 }

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using static ActivityWebsite.Authenticate.AuthorizeRoute;
 using static ActivityWebsite.CustomHelper.Helper;
 using ActivityWebsite.EF;
+using ActivityWebsite.Config;
 
 namespace ActivityWebsite.Areas.Admin.Controllers
 {
@@ -16,9 +17,6 @@ namespace ActivityWebsite.Areas.Admin.Controllers
     [VerifyUser]
     public class CategoryController : Controller
     {
-
-        private const string IMAGE_UPLOAD_DIR = "~/Content/Media/Images/Category";
-
 
         // GET: Admin/Category
         public ActionResult Index()
@@ -56,7 +54,7 @@ namespace ActivityWebsite.Areas.Admin.Controllers
             }
 
             // Upload Image
-            string fileName = EF.ImageHandle.SaveImg(model.image, IMAGE_UPLOAD_DIR);
+            string fileName = EF.ImageHandle.SaveImg(model.image, ConfigurationApp.VIRTUAL_DIR_CATEGORY_IMAGE);
             if (fileName == null)
             {
                 ModelState.AddModelError("", "Error while upload image!");
@@ -139,7 +137,7 @@ namespace ActivityWebsite.Areas.Admin.Controllers
             string nameOldImg = null;
             if (model.NewImage != null && model.NewImage.ContentLength > 0)
             {
-                string NewImgFileName = EF.ImageHandle.SaveImg(model.NewImage, IMAGE_UPLOAD_DIR);
+                string NewImgFileName = EF.ImageHandle.SaveImg(model.NewImage, ConfigurationApp.VIRTUAL_DIR_CATEGORY_IMAGE);
                 if (NewImgFileName == null)
                 {
                     ModelState.AddModelError("", "Can't upload image!");
@@ -166,7 +164,7 @@ namespace ActivityWebsite.Areas.Admin.Controllers
             // Remove old Image
             if (nameOldImg != null)
             {
-                bool resultDelImg = EF.ImageHandle.DelImg(nameOldImg, IMAGE_UPLOAD_DIR);
+                bool resultDelImg = EF.ImageHandle.DelImg(nameOldImg, ConfigurationApp.VIRTUAL_DIR_CATEGORY_IMAGE);
                 model.CurrentImage = category.image;
             }
 

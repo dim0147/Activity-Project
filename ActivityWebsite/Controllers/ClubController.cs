@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ActivityWebsite.Models;
 using Newtonsoft.Json;
 using ActivityWebsite.CustomHelper;
+using ActivityWebsite.Config;
 using static ActivityWebsite.Authenticate.AuthorizeRoute;
 using System.Net;
 
@@ -14,7 +15,6 @@ namespace ActivityWebsite.Controllers
 
     public class ClubController : Controller
     {
-        private const string DIR_UPLOAD_CLUB_IMAGE = "~/Content/Media/Images/Club";
 
         [Authorize]
         [VerifyUser]
@@ -58,7 +58,7 @@ namespace ActivityWebsite.Controllers
                     {
 
                         // Add header images
-                        string nameHeaderImg = EF.ImageHandle.SaveImg(model.headerImg, DIR_UPLOAD_CLUB_IMAGE);
+                        string nameHeaderImg = EF.ImageHandle.SaveImg(model.headerImg, ConfigurationApp.VIRTUAL_DIR_CLUB_IMAGE);
                         if (nameHeaderImg == null)
                         {
                             return Helper.ResponseHandle(HttpStatusCode.InternalServerError, new
@@ -102,7 +102,7 @@ namespace ActivityWebsite.Controllers
                         IList<Image> listImgs = new List<Image>();
                         foreach(var img in model.thumbnails)
                         {
-                            string nameImg = EF.ImageHandle.SaveImg(img, DIR_UPLOAD_CLUB_IMAGE);
+                            string nameImg = EF.ImageHandle.SaveImg(img, ConfigurationApp.VIRTUAL_DIR_CLUB_IMAGE);
                             if(nameImg == null)
                             {
                                 return Helper.ResponseHandle(HttpStatusCode.InternalServerError, new
@@ -145,5 +145,14 @@ namespace ActivityWebsite.Controllers
                 
             }
         }
+    
+        [Authorize]
+        [VerifyUser]
+        public ActionResult Edit(int id)
+        {
+            ViewBag.ClubId = id;
+            return View();
+        }
+
     }
 }

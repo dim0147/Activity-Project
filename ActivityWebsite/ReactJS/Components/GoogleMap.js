@@ -8,10 +8,9 @@ const GoogleMap = ({ address, setAddress }) => {
     const [map, setMap] = useState(null);
     const [markers, setMarkers] = useState([]);
     const divStreetView = useRef(null);
-
     const defaultLocation = {
-        lat: 1.2987376,
-        lng: 103.8434403
+        lat: address.lat ? address.lat : 1.2987376,
+        lng: address.lng ? address.lng : 103.8434403
     }
 
     const clearAllMarkers = () => {
@@ -83,6 +82,16 @@ const GoogleMap = ({ address, setAddress }) => {
                 }
             );
             map.setStreetView(panorama);
+
+            // Add markets
+            if (address) {
+                const marker = new maps.Marker({
+                    position: defaultLocation,
+                    map,
+                    title: address.name
+                });
+                setMarkers([...markers, marker]);
+            }
         }
     }
 

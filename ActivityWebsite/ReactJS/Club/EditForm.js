@@ -1,7 +1,9 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import moment from 'moment';
 
+import { getClubDetail } from '../API/Club';
 import { getAllCategory } from '../API/Category';
 import InputCol12 from '../Components/InputCol12';
 import DescriptionArea from '../Components/DescriptionArea';
@@ -9,7 +11,7 @@ import ListCategory from '../Components/ListCategory';
 import GoogleMap from '../Components/GoogleMap';
 import InputFile from '../Components/InputFile';
 import Alert from '../Components/Alert';
-
+import DisplayThumbImg from '../Components/DisplayThumbImg'
 
 class FormCreate extends Component {
 
@@ -17,6 +19,15 @@ class FormCreate extends Component {
         super(props);
 
         this.state = {
+            csrfToken: '',
+            clubId: '',
+
+            previewHeaderImg: '',
+            previewThumbnailImg: [],
+            previewLat: '',
+            previewLng: '',
+
+            originalName: '',
             name: '',
             operationHours: '',
             establishedAt: '',
@@ -26,7 +37,9 @@ class FormCreate extends Component {
             headerImg: '',
             thumbnails: [],
 
-            isCreating: false,
+            listImgIdNeedDelete: [],
+
+            isEditing: false,
 
             notification: {
                 type: null,
@@ -37,12 +50,48 @@ class FormCreate extends Component {
     }
 
     async componentDidMount() {
-        // Load category from server
+        // Get CSRF Token and club Id
+        const csrfToken = document.getElementsByName('__RequestVerificationToken')[0].value;
+        const clubId = document.getElementsByName('__ClubId')[0].value;
+
+        await this.setState({
+            csrfToken,
+            clubId
+        });
+
+        // Get Club by Id
+        const club = await getClubDetail(this.state.clubId).catch(err => null);
+        if (club) {
+            this.setState({
+                originalName: club.Name,
+                name: club.Name,
+                operationHours: club.OperationHours,
+                establishedAt: moment(club.EstablishedAt).format('YYYY-MM-DD'),
+                description: club.Description,
+                address: {
+                    lat: club.Lat,
+                    lng: club.Lng,
+                    name: club.Address
+                },
+                previewLat: club.Lat,
+                previewLng: club.Lng,
+                previewHeaderImg: club.HeaderImg,
+                previewThumbnailImg: club.Thumbnails
+            })
+        }
+
+        // Get all category and filter club's category
         const categories = await getAllCategory().catch(err => []);
         categories.forEach(category => {
-            category.isChecked = false;
+            const isIncluded = club.ClubCategories.some(clubCategory => {
+                if (clubCategory.Id == category.Id) return true;
+                else return false;
+            })
+            category.isChecked = isIncluded;
         });
         this.setState({ categories });
+
+
     }
 
     handleCheckCategoryElement = (event) => {
@@ -55,6 +104,25 @@ class FormCreate extends Component {
                 category.isChecked = isChecked;
         })
         this.setState({ categories });
+    }
+
+    handleClickRemoveThumbnailImg = (imgId) => {
+        if (this.state.listImgIdNeedDelete.includes(imgId))
+            return;
+
+        // Add Image's Id need to delete
+        const listImg = this.state.listImgIdNeedDelete;
+        listImg.push(imgId);
+
+        // Remove from previewThumbnail
+        const newPreviewThumbnail = this.state.previewThumbnailImg.filter(img => {
+            return img.Id != imgId 
+        });
+
+        this.setState({
+            listImgIdNeedDelete: listImg,
+            previewThumbnailImg: newPreviewThumbnail
+        });
     }
 
     setNameChange = (event) => {
@@ -79,7 +147,7 @@ class FormCreate extends Component {
 
     setHeaderImg = (imgs) => {
         if (imgs.length === 0) return
-        this.setState({ headerImg: imgs[0] });
+        this.setState({ headerImg: imgs[0], previewHeaderImg: '' });
     }
 
     setThumbnailImg = (imgs) => {
@@ -92,14 +160,13 @@ class FormCreate extends Component {
         return false;
     }
 
-
     onClickButton = (e) => {
         this.setState({
             notification: {
                 type: null,
                 messages: null
             },
-            isCreating: true
+            isEditing: true
         })
 
         const formData = new FormData();
@@ -109,9 +176,14 @@ class FormCreate extends Component {
         formData.append('establishedAt', this.state.establishedAt);
         formData.append('description', this.state.description);
         formData.append('address', JSON.stringify(this.state.address));
+        this.state.listImgIdNeedDelete.forEach(imgId => formData.append('listImgIdNeedDelete', imgId));
 
         formData.append('headerImg', this.state.headerImg);
-        this.state.thumbnails.forEach(thumbnail => formData.append('thumbnails', thumbnail));
+
+        if (this.state.thumbnails.length > 0)
+            this.state.thumbnails.forEach(thumbnail => formData.append('thumbnails', thumbnail));
+        else
+            formData.append('thumbnails', '');
 
         this.state.categories.forEach(category => {
             if (category.isChecked)
@@ -136,7 +208,7 @@ class FormCreate extends Component {
                             type: 'success',
                             messages: res.data.messages
                         },
-                        isCreating: false
+                        isEditing: false
                     })
                 } else {
                     this.setState({
@@ -144,7 +216,7 @@ class FormCreate extends Component {
                             type: 'success',
                             messages: "Can't not know if create success or not but response return is OK!"
                         },
-                        isCreating: false
+                        isEditing: false
                     })
                 }
             })
@@ -156,7 +228,7 @@ class FormCreate extends Component {
                             type: 'error',
                             messages: listErrors
                         },
-                        isCreating: false
+                        isEditing: false
                     })
                 }
                 else {
@@ -165,7 +237,7 @@ class FormCreate extends Component {
                             type: 'error',
                             messages: ['Unexpected Error From Server!']
                         },
-                        isCreating: false
+                        isEditing: false
                     });
                 }
             })
@@ -178,9 +250,10 @@ class FormCreate extends Component {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="leave__comment__text">
-                                <h2>Create New Club</h2>
+                                <h2>Edit "{this.state.originalName}" Club</h2>
                                 <form onSubmit={this.onSubmitForm}>
                                     <div className="row">
+
 
                                         <InputCol12
                                             title='Name'
@@ -227,6 +300,13 @@ class FormCreate extends Component {
                                             title="+ Drag and drop header image here, or click to select image"
                                         />
 
+ 
+                                        {this.state.previewHeaderImg && 
+                                            <div className="col-lg-2 col-md-2 img-preview-div-element">
+                                                <img className="img-fluid img-pv" src={this.state.previewHeaderImg} />
+                                            </div>
+                                        }
+
                                         <InputFile
                                             files={this.state.thumbnails}
                                             setFiles={this.setThumbnailImg}
@@ -234,15 +314,25 @@ class FormCreate extends Component {
                                             title="+ Drag and drop thumbnail images here, or click to select images"
                                         />
 
+                                        {this.state.previewThumbnailImg &&
+                                            <div>
+                                                <p>Click the 'trash' icon to remove the images that currently have</p>
+                                                <DisplayThumbImg
+                                                    files={this.state.previewThumbnailImg}
+                                                    handleClickRemoveThumbnailImg={this.handleClickRemoveThumbnailImg}
+                                                />
+                                            </div>
+                                        }
+
                                         <div className="col-lg-12 col-md-12 text-center">
                                             {this.state.notification.type === 'error' && <Alert listMessages={this.state.notification.messages} alertType='error' />}
                                             {this.state.notification.type === 'success' && <Alert listMessages={this.state.notification.messages} alertType='success' />}
                                         </div>
 
-                                        {this.state.isCreating
+                                        {this.state.isEditing
                                             ?
                                             <div className="col-lg-12 col-md-12 text-center">
-                                                <p>Creating...   <i className="fas fa-spinner fa-spin"></i></p>
+                                                <p>Updating...   <i className="fas fa-spinner fa-spin"></i></p>
                                             </div>
                                             :
                                             <div className="col-lg-12 col-md-12 text-center">

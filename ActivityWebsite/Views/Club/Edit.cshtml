@@ -1,7 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "Create Club";
-    ViewBag.BCHeader = "Create Club";
+    ViewBag.Title = "Edit Club";
+    ViewBag.BCHeader = "Edit Club";
     ViewBag.BCAction = "";
     ViewBag.BCController = "";
     ViewBag.BCActionText = "";
@@ -11,6 +11,8 @@
 
 @Html.AntiForgeryToken()
 
+@Html.Hidden("__ClubId", (int)ViewBag.ClubId)
+
 <div id="root">
 
     <div id="root">
@@ -19,5 +21,5 @@
 </div>
 
 @section Scripts{
-    @Scripts.Render("~/dist/FormCreate.js")
+    @Scripts.Render("~/dist/EditForm.js")
 }

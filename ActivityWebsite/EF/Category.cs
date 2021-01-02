@@ -23,7 +23,7 @@ namespace ActivityWebsite.EF
             {
                 // Check if category is exist
                 var query = from ct in db.Categories
-                            where ct.Id.Equals(id)
+                            where ct.Id == id
                             select ct;
                 return query.FirstOrDefault();
             }

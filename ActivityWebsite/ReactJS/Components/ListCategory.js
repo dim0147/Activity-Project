@@ -26,7 +26,7 @@ const ListCategory = ({ handleCheckElement, categories }) => {
                     categories.map(category =>
                         <li key={category.Id}>
                             <div className="custom-control custom-checkbox d-inline">
-                                <input type="checkbox" className="custom-control-input" id={category.Id} name={category.name} onChange={handleCheckElement} />
+                                <input type="checkbox" className="custom-control-input" id={category.Id} name={category.name} onChange={handleCheckElement} defaultChecked={category.isChecked} />
                                 <label className="custom-control-label" htmlFor={category.Id} checked={category.isChecked}>{category.name}  <i className="fas fa-info-circle" style={styleSeeDetail} data-tip={tooltipCategory(category)}></i> </label>
                             </div>
                             <ReactTooltip type="light" effect="float" html={true} delayShow={10} />

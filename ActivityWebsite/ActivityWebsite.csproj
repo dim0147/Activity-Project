@@ -193,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\CategoryController.cs" />
+    <Compile Include="Api\ClubController.cs" />
     <Compile Include="Api\ImageController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Models\CategoryViewModel.cs" />
     <Compile Include="Authenticate\AuthorizeRoute.cs" />
+    <Compile Include="Config\Configuration.cs" />
     <Compile Include="CustomHelper\CustomValidation.cs" />
     <Compile Include="Config\FormDataBinding.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -213,6 +215,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="CustomHelper\CustomHelper.cs" />
     <Compile Include="EF\Category.cs" />
+    <Compile Include="EF\Club.cs" />
     <Compile Include="EF\Image.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -431,9 +434,12 @@
     <Content Include="Plugins\jQuery\js\jquery.validate.unobtrusive.js" />
     <Content Include="Plugins\jQuery\js\jquery.validate.unobtrusive.min.js" />
     <Content Include="ReactJS\API\Category.js" />
+    <Content Include="ReactJS\API\Club.js" />
+    <Content Include="ReactJS\Club\EditForm.js" />
     <Content Include="ReactJS\Club\FormCreate.js" />
     <Content Include="ReactJS\Components\DescriptionArea.js" />
     <Content Include="ReactJS\Components\Alert.js" />
+    <Content Include="ReactJS\Components\DisplayThumbImg.js" />
     <Content Include="ReactJS\Components\InputFile.css" />
     <Content Include="ReactJS\Components\InputFile.js" />
     <Content Include="ReactJS\Components\InputCol12.js" />
@@ -479,6 +485,7 @@
     <Content Include="Views\Manage\ChangeEmail.cshtml" />
     <Content Include="Views\Manage\EditPersonalInformation.cshtml" />
     <Content Include="Views\Club\Create.cshtml" />
+    <Content Include="Views\Club\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
