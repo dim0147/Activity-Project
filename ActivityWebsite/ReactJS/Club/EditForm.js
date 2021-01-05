@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 
-import { getClubDetail } from '../API/Club';
+import { getClubOwner } from '../API/Club';
 import { getAllCategory } from '../API/Category';
 import InputCol12 from '../Components/InputCol12';
 import DescriptionArea from '../Components/DescriptionArea';
@@ -40,6 +40,8 @@ class FormCreate extends Component {
             listImgIdNeedDelete: [],
 
             isEditing: false,
+            doneLoadingClub: false,
+            errorLoadingClub: null,
 
             notification: {
                 type: null,
@@ -60,7 +62,15 @@ class FormCreate extends Component {
         });
 
         // Get Club by Id
-        const club = await getClubDetail(this.state.clubId).catch(err => null);
+        const club = await getClubOwner(this.state.clubId)
+            .catch(err => {
+                if (err.response && err.response.data && err.response.data.error === true) 
+                    this.setState({ errorLoadingClub: err.response.data.errors });
+                else
+                    this.setState({ errorLoadingClub: ['Unexpected error from server!'] });
+                return null;
+            });
+
         if (club) {
             this.setState({
                 originalName: club.Name,
@@ -76,7 +86,9 @@ class FormCreate extends Component {
                 previewLat: club.Lat,
                 previewLng: club.Lng,
                 previewHeaderImg: club.HeaderImg,
-                previewThumbnailImg: club.Thumbnails
+                previewThumbnailImg: club.Thumbnails,
+
+                doneLoadingClub: true
             })
         }
 
@@ -116,7 +128,7 @@ class FormCreate extends Component {
 
         // Remove from previewThumbnail
         const newPreviewThumbnail = this.state.previewThumbnailImg.filter(img => {
-            return img.Id != imgId 
+            return img.Id != imgId
         });
 
         this.setState({
@@ -182,8 +194,6 @@ class FormCreate extends Component {
 
         if (this.state.thumbnails.length > 0)
             this.state.thumbnails.forEach(thumbnail => formData.append('thumbnails', thumbnail));
-        else
-            formData.append('thumbnails', '');
 
         this.state.categories.forEach(category => {
             if (category.isChecked)
@@ -195,14 +205,14 @@ class FormCreate extends Component {
 
         axios({
             method: 'post',
-            url: '/club/create',
+            url: window.location.href,
             data: formData,
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
             .then(res => {
-                if (res.status === 201 && res.data && Array.isArray(res.data.messages)) {
+                if (res.status === 200 && res.data && Array.isArray(res.data.messages)) {
                     this.setState({
                         notification: {
                             type: 'success',
@@ -214,7 +224,7 @@ class FormCreate extends Component {
                     this.setState({
                         notification: {
                             type: 'success',
-                            messages: "Can't not know if create success or not but response return is OK!"
+                            messages: ["Edit success!"]
                         },
                         isEditing: false
                     })
@@ -244,109 +254,120 @@ class FormCreate extends Component {
     }
 
     render() {
-        return (
-            <div className="leave-comment spad">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="leave__comment__text">
-                                <h2>Edit "{this.state.originalName}" Club</h2>
-                                <form onSubmit={this.onSubmitForm}>
-                                    <div className="row">
+        if (!this.state.doneLoadingClub) {
+            if (this.state.errorLoadingClub)
+                return (
+                    <Alert listMessages={this.state.errorLoadingClub} alertType='error' />   
+                )
+            else
+                return (
+                    <div className="text-center"><i className="fas fa-spinner fa-spin"></i>   Loading Club Detail...</div>
+                )
+        }
+        else
+            return (
+                <div className="leave-comment spad">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <div className="leave__comment__text">
+                                    <h2>Edit "{this.state.originalName}" Club</h2>
+                                    <form onSubmit={this.onSubmitForm}>
+                                        <div className="row">
 
 
-                                        <InputCol12
-                                            title='Name'
-                                            value={this.state.name}
-                                            setValue={this.setNameChange}
-                                            placeholder="Enter your club name"
-                                        />
+                                            <InputCol12
+                                                title='Name'
+                                                value={this.state.name}
+                                                setValue={this.setNameChange}
+                                                placeholder="Enter your club name"
+                                            />
 
-                                        <GoogleMap
-                                            address={this.state.address}
-                                            setAddress={this.setAddressChange}
-                                        />
+                                            <GoogleMap
+                                                address={this.state.address}
+                                                setAddress={this.setAddressChange}
+                                            />
 
-                                        <InputCol12
-                                            title='Operation Hours'
-                                            value={this.state.operationHours}
-                                            setValue={this.setOperationHoursChange}
-                                            placeholder="Enter your operation hours, ex: Mon- Fri, 10:30 AM to 11:00 PM"
-                                        />
+                                            <InputCol12
+                                                title='Operation Hours'
+                                                value={this.state.operationHours}
+                                                setValue={this.setOperationHoursChange}
+                                                placeholder="Enter your operation hours, ex: Mon- Fri, 10:30 AM to 11:00 PM"
+                                            />
 
-                                        <InputCol12
-                                            title='Established at'
-                                            value={this.state.establishedAt}
-                                            setValue={this.setEstablishedAtChange}
-                                            type="date"
-                                            placeholder="Enter your club establish time"
-                                        />
+                                            <InputCol12
+                                                title='Established at'
+                                                value={this.state.establishedAt}
+                                                setValue={this.setEstablishedAtChange}
+                                                type="date"
+                                                placeholder="Enter your club establish time"
+                                            />
 
-                                        <DescriptionArea
-                                            value={this.state.description}
-                                            setValue={this.setDescriptionChange}
-                                        />
+                                            <DescriptionArea
+                                                value={this.state.description}
+                                                setValue={this.setDescriptionChange}
+                                            />
 
 
-                                        <ListCategory
-                                            handleCheckElement={this.handleCheckCategoryElement}
-                                            categories={this.state.categories}
-                                        />
+                                            <ListCategory
+                                                handleCheckElement={this.handleCheckCategoryElement}
+                                                categories={this.state.categories}
+                                            />
 
-                                        <InputFile
-                                            files={[this.state.headerImg]}
-                                            setFiles={this.setHeaderImg}
-                                            header="Header Image"
-                                            title="+ Drag and drop header image here, or click to select image"
-                                        />
+                                            <InputFile
+                                                files={[this.state.headerImg]}
+                                                setFiles={this.setHeaderImg}
+                                                header="Header Image"
+                                                title="+ Drag and drop header image here, or click to select image"
+                                            />
 
- 
-                                        {this.state.previewHeaderImg && 
-                                            <div className="col-lg-2 col-md-2 img-preview-div-element">
-                                                <img className="img-fluid img-pv" src={this.state.previewHeaderImg} />
+
+                                            {this.state.previewHeaderImg &&
+                                                <div className="col-lg-2 col-md-2 img-preview-div-element">
+                                                    <img className="img-fluid img-pv" src={this.state.previewHeaderImg} />
+                                                </div>
+                                            }
+
+                                            <InputFile
+                                                files={this.state.thumbnails}
+                                                setFiles={this.setThumbnailImg}
+                                                header="Thumbnails"
+                                                title="+ Drag and drop thumbnail images here, or click to select images"
+                                            />
+
+                                            {this.state.previewThumbnailImg &&
+                                                <div>
+                                                    <p>Click the 'trash' icon to remove the images that currently have</p>
+                                                    <DisplayThumbImg
+                                                        files={this.state.previewThumbnailImg}
+                                                        handleClickRemoveThumbnailImg={this.handleClickRemoveThumbnailImg}
+                                                    />
+                                                </div>
+                                            }
+
+                                            <div className="col-lg-12 col-md-12 text-center">
+                                                {this.state.notification.type === 'error' && <Alert listMessages={this.state.notification.messages} alertType='error' />}
+                                                {this.state.notification.type === 'success' && <Alert listMessages={this.state.notification.messages} alertType='success' />}
                                             </div>
-                                        }
 
-                                        <InputFile
-                                            files={this.state.thumbnails}
-                                            setFiles={this.setThumbnailImg}
-                                            header="Thumbnails"
-                                            title="+ Drag and drop thumbnail images here, or click to select images"
-                                        />
-
-                                        {this.state.previewThumbnailImg &&
-                                            <div>
-                                                <p>Click the 'trash' icon to remove the images that currently have</p>
-                                                <DisplayThumbImg
-                                                    files={this.state.previewThumbnailImg}
-                                                    handleClickRemoveThumbnailImg={this.handleClickRemoveThumbnailImg}
-                                                />
-                                            </div>
-                                        }
-
-                                        <div className="col-lg-12 col-md-12 text-center">
-                                            {this.state.notification.type === 'error' && <Alert listMessages={this.state.notification.messages} alertType='error' />}
-                                            {this.state.notification.type === 'success' && <Alert listMessages={this.state.notification.messages} alertType='success' />}
+                                            {this.state.isEditing
+                                                ?
+                                                <div className="col-lg-12 col-md-12 text-center">
+                                                    <p>Updating...   <i className="fas fa-spinner fa-spin"></i></p>
+                                                </div>
+                                                :
+                                                <div className="col-lg-12 col-md-12 text-center">
+                                                    <button type="button" className="site-btn" onClick={this.onClickButton}>Submit</button>
+                                                </div>
+                                            }
                                         </div>
-
-                                        {this.state.isEditing
-                                            ?
-                                            <div className="col-lg-12 col-md-12 text-center">
-                                                <p>Updating...   <i className="fas fa-spinner fa-spin"></i></p>
-                                            </div>
-                                            :
-                                            <div className="col-lg-12 col-md-12 text-center">
-                                                <button type="button" className="site-btn" onClick={this.onClickButton}>Submit</button>
-                                            </div>
-                                        }
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
     }
 }
 

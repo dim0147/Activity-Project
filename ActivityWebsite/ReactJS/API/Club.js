@@ -13,3 +13,17 @@ export const getClubDetail = (id) => {
             })
     });
 }
+
+export const getClubOwner = (id) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`/api/club/${id}/owner`)
+            .then(response => {
+                if (!response.data || !response.data.club)
+                    return reject(null);
+                resolve(response.data.club);
+            })
+            .catch(error => {
+                reject(error);
+            })
+    });
+}

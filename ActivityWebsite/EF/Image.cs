@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ActivityWebsite.Models;
 using static ActivityWebsite.CustomHelper.Helper;
 
 namespace ActivityWebsite.EF
@@ -52,5 +53,41 @@ namespace ActivityWebsite.EF
             }
         }
 
+        public static bool ImgIsIncludeClub(int clubId, ICollection<int> listImgId)
+        {
+            using (var db = new DbModel())
+            {
+                var totalImgs = db.Images
+                            .Where(i => listImgId.Contains(i.Id))
+                            .Where(i => i.ClubId == clubId)
+                            .Count();
+                return totalImgs == listImgId.Count();
+            }
+        }
+
+        public static List<Image> GetClubThumbnail (int clubId)
+        {
+            using(var db = new DbModel())
+            {
+                return db.Images.Where(i => i.ClubId == clubId).ToList();
+            }
+        }
+
+        public static void DeleteImgs(ICollection<int> listImgId)
+        {
+            using(var db = new DbModel())
+            {
+                db.Images.RemoveRange(db.Images.Where(i => listImgId.Contains(i.Id)));
+                db.SaveChanges();
+            }
+        }
+    
+        public static List<Image> GetImgs(ICollection<int> listImgId)
+        {
+            using (var db = new DbModel())
+            {
+                return db.Images.Where(i => listImgId.Contains(i.Id)).ToList();
+            }
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import sanitizeHtml from 'sanitize-html';
 
 const DescriptionArea = ({ value, setValue }) => {
 
@@ -10,7 +9,7 @@ const DescriptionArea = ({ value, setValue }) => {
             <label className="label-for">Description:</label>
             <CKEditor
                 editor={ClassicEditor}
-                data={value ? sanitizeHtml(value) : "<h2><strong>This is our club&nbsp;</strong></h2><p>&nbsp;</p>"}
+                data={value ? value : "<h2><strong>This is our club&nbsp;</strong></h2><p>&nbsp;</p>"}
                 config={{
                     ckfinder: {
                         uploadUrl: '/api/Image?typeUpload=description'

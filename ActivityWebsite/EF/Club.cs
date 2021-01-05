@@ -11,6 +11,16 @@ namespace ActivityWebsite.EF
 {
     public class ClubHandle
     {
+
+        public static bool isClubOwner(int clubId, string userId)
+        {
+            using (var db = new DbModel())
+            {
+                Club club = GetFullClubById(clubId);
+                return club.Owner == userId;
+            }
+        }
+
         public static object GetClubById(int id)
         {
 
@@ -58,6 +68,23 @@ namespace ActivityWebsite.EF
                              })
                              .FirstOrDefault();
                 return club;
+            }
+        }
+    
+        public static Club GetFullClubById(int id)
+        {
+            using(var db = new DbModel())
+            {
+                return db.Clubs.Where(c => c.Id == id).FirstOrDefault();
+            }
+        }
+
+        public static void DeleteClubCategories(int clubId)
+        {
+            using (var db = new DbModel())
+            {
+                db.ClubCategories.RemoveRange(db.ClubCategories.Where(cc => cc.ClubId == clubId));
+                db.SaveChanges();
             }
         }
     }
