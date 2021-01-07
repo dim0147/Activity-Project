@@ -3,7 +3,7 @@
 module.exports = {
     mode: 'development',
     entry: {
-        EditForm: "./ReactJS/Club/EditForm.js"
+        Detail: "./ReactJS/Club/Detail.js"
     },
     output: {
         path: path.resolve(__dirname, "../dist"),

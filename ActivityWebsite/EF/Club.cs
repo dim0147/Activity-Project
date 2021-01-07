@@ -50,6 +50,7 @@ namespace ActivityWebsite.EF
                                      ClubCategories = c.ClubCategories.Select(CC => new { 
                                             Id = CC.Category.Id,
                                             Name = CC.Category.name,
+                                            Description = CC.Category.description,
                                             image = ConfigurationApp.URL_DIR_CATEGORY_IMAGE + "/" + CC.Category.image
                                      }),
                                      Thumbnails = c.Images.Select( img => new { 

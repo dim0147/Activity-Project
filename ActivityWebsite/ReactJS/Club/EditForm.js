@@ -64,7 +64,7 @@ class FormCreate extends Component {
         // Get Club by Id
         const club = await getClubOwner(this.state.clubId)
             .catch(err => {
-                if (err.response && err.response.data && err.response.data.error === true) 
+                if (err.response && err.response.data && err.response.data.error === true)
                     this.setState({ errorLoadingClub: err.response.data.errors });
                 else
                     this.setState({ errorLoadingClub: ['Unexpected error from server!'] });
@@ -257,7 +257,7 @@ class FormCreate extends Component {
         if (!this.state.doneLoadingClub) {
             if (this.state.errorLoadingClub)
                 return (
-                    <Alert listMessages={this.state.errorLoadingClub} alertType='error' />   
+                    <Alert listMessages={this.state.errorLoadingClub} alertType='error' />
                 )
             else
                 return (
@@ -266,7 +266,7 @@ class FormCreate extends Component {
         }
         else
             return (
-                <div className="leave-comment spad">
+                <div className="leave-comment spad">            
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12">
@@ -274,7 +274,6 @@ class FormCreate extends Component {
                                     <h2>Edit "{this.state.originalName}" Club</h2>
                                     <form onSubmit={this.onSubmitForm}>
                                         <div className="row">
-
 
                                             <InputCol12
                                                 title='Name'

@@ -2,7 +2,7 @@
 import GoogleMapReact from 'google-map-react';
 import GoogleMapSearchBox from '../Components/GoogleMapSearchBox';
 
-const GoogleMap = ({ address, setAddress }) => {
+const GoogleMap = ({ address, setAddress, noSearchBar }) => {
     const [apiReady, setApiReady] = useState(false);
     const [googlemaps, setGooglemaps] = useState(null);
     const [map, setMap] = useState(null);
@@ -98,7 +98,7 @@ const GoogleMap = ({ address, setAddress }) => {
     return (
         <div className="col-lg-12 col-md-12">
             <label className="label-for">Address:</label>
-            {apiReady && <GoogleMapSearchBox onPlacesChanged={onPlacesChanged} googlemaps={googlemaps} placeholder="Enter your address here" />}
+            {apiReady && !noSearchBar && <GoogleMapSearchBox onPlacesChanged={onPlacesChanged} googlemaps={googlemaps} placeholder="Enter your address here" />}
             <div style={{ height: '50vh', width: '100%' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: 'AIzaSyDzFLST4xAWh60rNDeZQoOi2WRNWJak7rA', region: 'SG', libraries: 'places' }}

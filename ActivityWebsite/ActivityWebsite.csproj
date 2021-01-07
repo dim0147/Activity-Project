@@ -275,6 +275,11 @@
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\css\Shared\ckeditor.css" />
+    <Content Include="ReactJS\Club\DetailAbout.js" />
+    <Content Include="ReactJS\Club\DetailAddress.js" />
+    <Content Include="ReactJS\Club\DetailCategory.js" />
+    <Content Include="ReactJS\Club\DetailThumbnail.js" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -435,8 +440,12 @@
     <Content Include="Plugins\jQuery\js\jquery.validate.unobtrusive.min.js" />
     <Content Include="ReactJS\API\Category.js" />
     <Content Include="ReactJS\API\Club.js" />
+    <Content Include="ReactJS\Club\Detail.js" />
+    <Content Include="ReactJS\Club\DetailDescription.js" />
+    <Content Include="ReactJS\Club\DetailPost.js" />
     <Content Include="ReactJS\Club\EditForm.js" />
     <Content Include="ReactJS\Club\FormCreate.js" />
+    <Content Include="ReactJS\Components\CategoryCard.js" />
     <Content Include="ReactJS\Components\DescriptionArea.js" />
     <Content Include="ReactJS\Components\Alert.js" />
     <Content Include="ReactJS\Components\DisplayThumbImg.js" />
@@ -449,6 +458,7 @@
     <Content Include="Scripts\User\Account\Login.js" />
     <Content Include="Scripts\User\Manage\ConfirmEmail.js" />
     <Content Include="Scripts\User\Shared\main.js" />
+    <None Include="Views\Club\Detail.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

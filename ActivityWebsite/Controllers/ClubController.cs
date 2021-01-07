@@ -316,5 +316,10 @@ namespace ActivityWebsite.Controllers
             });
         }
 
+        public ActionResult Detail(int id)
+        {
+            ViewBag.CLubId = id;
+            return View();
+        }
     }
 }

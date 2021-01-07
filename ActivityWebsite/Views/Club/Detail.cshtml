@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Club Detail";
+    ViewBag.BCHeader = "Club Detail";
+    ViewBag.BCAction = "";
+    ViewBag.BCController = "";
+    ViewBag.BCActionText = "";
+}
+
+@section css {
+    <link rel="stylesheet" href="~/Content/css/Shared/ckeditor.css" />  
+}
+
+@Html.Partial("_Breadcrumb")
+
+@Html.AntiForgeryToken()
+
+@Html.Hidden("__ClubId", (int)ViewBag.ClubId)
+
+<div id="root">
+
+</div>
+
+
+@section Scripts{
+    <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
+    @Scripts.Render("~/dist/Detail.js")
+}
