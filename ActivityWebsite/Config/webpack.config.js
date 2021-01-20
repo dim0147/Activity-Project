@@ -3,10 +3,17 @@
 module.exports = {
     mode: 'development',
     entry: {
-        Detail: "./ReactJS/Club/Detail.js"
+    /* Club */
+        //Edit: "./ReactJS/Club/Edit.js",
+        //Create: "./ReactJS/Club/Create.js",
+        //Detail: "./ReactJS/Club/Detail.js"
+
+    /* Post */
+        Create: "./ReactJS/Post/Create.js",
     },
     output: {
-        path: path.resolve(__dirname, "../dist"),
+        //path: path.resolve(__dirname, "../dist/Club"),
+        path: path.resolve(__dirname, "../dist/Post"),
         filename: "[name].js"
     },
     resolve: {

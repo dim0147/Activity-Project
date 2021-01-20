@@ -31,6 +31,7 @@
     <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
     <NavigationProperty Name="Clubs" Relationship="ActivityModel.FK_Clubs_Users" FromRole="AspNetUser" ToRole="Club" />
+    <NavigationProperty Name="Posts" Relationship="ActivityModel.FK_Posts_Users" FromRole="AspNetUser" ToRole="Post" />
   </EntityType>
   <Association Name="AspNetUserRoles">
     <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
@@ -63,6 +64,20 @@
       <End Role="Category" EntitySet="Categories" />
       <End Role="ClubCategory" EntitySet="ClubCategories" />
     </AssociationSet>
+    <EntitySet Name="Posts" EntityType="ActivityModel.Post" />
+    <EntitySet Name="PostTags" EntityType="ActivityModel.PostTag" />
+    <AssociationSet Name="FK_Posts_Users" Association="ActivityModel.FK_Posts_Users">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Post" EntitySet="Posts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Posts_Clubs" Association="ActivityModel.FK_Posts_Clubs">
+      <End Role="Club" EntitySet="Clubs" />
+      <End Role="Post" EntitySet="Posts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostTags_Post" Association="ActivityModel.FK_PostTags_Post">
+      <End Role="Post" EntitySet="Posts" />
+      <End Role="PostTag" EntitySet="PostTags" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Club">
     <Key>
@@ -84,6 +99,7 @@
     <NavigationProperty Name="AspNetUser" Relationship="ActivityModel.FK_Clubs_Users" FromRole="Club" ToRole="AspNetUser" />
     <NavigationProperty Name="ClubCategories" Relationship="ActivityModel.FK_ClubCategories_Clubs" FromRole="Club" ToRole="ClubCategory" />
     <Property Name="HeaderImg" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Posts" Relationship="ActivityModel.FK_Posts_Clubs" FromRole="Club" ToRole="Post" />
   </EntityType>
   <EntityType Name="Image">
     <Key>
@@ -165,6 +181,69 @@
       </Principal>
       <Dependent Role="ClubCategory">
         <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClubId" Type="Int32" Nullable="false" />
+    <Property Name="Owner" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="AspNetUser" Relationship="ActivityModel.FK_Posts_Users" FromRole="Post" ToRole="AspNetUser" />
+    <NavigationProperty Name="Club" Relationship="ActivityModel.FK_Posts_Clubs" FromRole="Post" ToRole="Club" />
+    <NavigationProperty Name="PostTags" Relationship="ActivityModel.FK_PostTags_Post" FromRole="Post" ToRole="PostTag" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Slug" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="HeaderImg" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="PostTag">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PostId" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Post" Relationship="ActivityModel.FK_PostTags_Post" FromRole="PostTag" ToRole="Post" />
+  </EntityType>
+  <Association Name="FK_Posts_Users">
+    <End Type="ActivityModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="ActivityModel.Post" Role="Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="Owner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Posts_Clubs">
+    <End Type="ActivityModel.Club" Role="Club" Multiplicity="1" />
+    <End Type="ActivityModel.Post" Role="Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Club">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="ClubId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostTags_Post">
+    <End Type="ActivityModel.Post" Role="Post" Multiplicity="1" />
+    <End Type="ActivityModel.PostTag" Role="PostTag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PostTag">
+        <PropertyRef Name="PostId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

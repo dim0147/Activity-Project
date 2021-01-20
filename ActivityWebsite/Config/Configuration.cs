@@ -15,5 +15,8 @@ namespace ActivityWebsite.Config
 
         public const string VIRTUAL_DIR_CATEGORY_IMAGE = "~/Content/Media/Images/Category";
         public const string URL_DIR_CATEGORY_IMAGE = "/Content/Media/Images/Category";
+
+        public const string VIRTUAL_DIR_POST_IMAGE = "~/Content/Media/Images/Post";
+        public const string URL_DIR_POST_IMAGE = "/Content/Media/Images/Post";
     }
 }

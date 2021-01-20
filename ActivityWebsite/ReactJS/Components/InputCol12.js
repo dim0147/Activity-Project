@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, { memo } from 'react';
 
 const InputCol12 = ({ title, value, setValue, placeholder, type = "text" }) => {
     return (
@@ -7,5 +7,7 @@ const InputCol12 = ({ title, value, setValue, placeholder, type = "text" }) => {
             <input type={type} placeholder={placeholder} onChange={setValue} value={value} />
         </div>
     )
-}
-export default InputCol12
+};
+
+export default memo(InputCol12)
+

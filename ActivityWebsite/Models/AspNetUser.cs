@@ -19,6 +19,7 @@ namespace ActivityWebsite.Models
         {
             this.AspNetRoles = new HashSet<AspNetRole>();
             this.Clubs = new HashSet<Club>();
+            this.Posts = new HashSet<Post>();
         }
     
         public string Id { get; set; }
@@ -43,5 +44,7 @@ namespace ActivityWebsite.Models
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Club> Clubs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

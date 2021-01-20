@@ -11,7 +11,7 @@ import InputFile from '../Components/InputFile';
 import Alert from '../Components/Alert';
 
 
-class FormCreate extends Component {
+class App extends Component {
 
     constructor(props) {
         super(props);
@@ -260,4 +260,4 @@ class FormCreate extends Component {
     }
 }
 
-ReactDOM.render(<FormCreate />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));

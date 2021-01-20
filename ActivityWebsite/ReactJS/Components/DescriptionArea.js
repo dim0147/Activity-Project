@@ -2,6 +2,8 @@
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
+import '../ckEditorExclude.css';
+
 const DescriptionArea = ({ value, setValue }) => {
 
     return (
@@ -9,7 +11,7 @@ const DescriptionArea = ({ value, setValue }) => {
             <label className="label-for">Description:</label>
             <CKEditor
                 editor={ClassicEditor}
-                data={value ? value : "<h2><strong>This is our club&nbsp;</strong></h2><p>&nbsp;</p>"}
+                data={value}
                 config={{
                     ckfinder: {
                         uploadUrl: '/api/Image?typeUpload=description'

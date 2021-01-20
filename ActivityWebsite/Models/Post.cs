@@ -12,36 +12,27 @@ namespace ActivityWebsite.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Club
+    public partial class Post
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Club()
+        public Post()
         {
-            this.Images = new HashSet<Image>();
-            this.ClubCategories = new HashSet<ClubCategory>();
-            this.Posts = new HashSet<Post>();
+            this.PostTags = new HashSet<PostTag>();
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public double Lat { get; set; }
-        public double Lng { get; set; }
-        public string Description { get; set; }
-        public string OperationHours { get; set; }
-        public string Slug { get; set; }
-        public System.DateTime EstablishedAt { get; set; }
+        public int ClubId { get; set; }
+        public string Owner { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }
-        public string Owner { get; set; }
+        public string Title { get; set; }
+        public string Text { get; set; }
+        public string Slug { get; set; }
         public string HeaderImg { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Image> Images { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Club Club { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClubCategory> ClubCategories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<PostTag> PostTags { get; set; }
     }
 }

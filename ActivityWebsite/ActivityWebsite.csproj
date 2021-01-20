@@ -207,6 +207,7 @@
     <Compile Include="Areas\Admin\Models\CategoryViewModel.cs" />
     <Compile Include="Authenticate\AuthorizeRoute.cs" />
     <Compile Include="Config\Configuration.cs" />
+    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="CustomHelper\CustomValidation.cs" />
     <Compile Include="Config\FormDataBinding.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="EF\Category.cs" />
     <Compile Include="EF\Club.cs" />
     <Compile Include="EF\Image.cs" />
+    <Compile Include="EF\Post.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -274,8 +276,16 @@
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Post.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PostTag.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\css\Shared\ckeditor.css" />
+    <Content Include="ReactJS\ckEditorExclude.css" />
     <Content Include="ReactJS\Club\DetailAbout.js" />
     <Content Include="ReactJS\Club\DetailAddress.js" />
     <Content Include="ReactJS\Club\DetailCategory.js" />
@@ -443,8 +453,8 @@
     <Content Include="ReactJS\Club\Detail.js" />
     <Content Include="ReactJS\Club\DetailDescription.js" />
     <Content Include="ReactJS\Club\DetailPost.js" />
-    <Content Include="ReactJS\Club\EditForm.js" />
-    <Content Include="ReactJS\Club\FormCreate.js" />
+    <Content Include="ReactJS\Club\Edit.js" />
+    <Content Include="ReactJS\Club\Create.js" />
     <Content Include="ReactJS\Components\CategoryCard.js" />
     <Content Include="ReactJS\Components\DescriptionArea.js" />
     <Content Include="ReactJS\Components\Alert.js" />
@@ -455,6 +465,8 @@
     <Content Include="ReactJS\Components\ListCategory.js" />
     <Content Include="ReactJS\Components\GoogleMap.js" />
     <Content Include="ReactJS\Components\GoogleMapSearchBox.js" />
+    <Content Include="ReactJS\Post\Create.js" />
+    <Content Include="ReactJS\Post\TagsEdit.js" />
     <Content Include="Scripts\User\Account\Login.js" />
     <Content Include="Scripts\User\Manage\ConfirmEmail.js" />
     <Content Include="Scripts\User\Shared\main.js" />
@@ -496,12 +508,14 @@
     <Content Include="Views\Manage\EditPersonalInformation.cshtml" />
     <Content Include="Views\Club\Create.cshtml" />
     <Content Include="Views\Club\Edit.cshtml" />
+    <Content Include="Views\Post\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Content\Media\Images\Club\" />
     <Folder Include="Content\Media\Images\Description\" />
+    <Folder Include="Content\Media\Images\Post\" />
     <Folder Include="dist\" />
   </ItemGroup>
   <ItemGroup>
