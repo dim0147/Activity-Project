@@ -195,6 +195,7 @@
     <Compile Include="Api\CategoryController.cs" />
     <Compile Include="Api\ClubController.cs" />
     <Compile Include="Api\ImageController.cs" />
+    <Compile Include="Api\PostController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\css\Shared\ckeditor.css" />
+    <Content Include="ReactJS\API\Post.js" />
     <Content Include="ReactJS\ckEditorExclude.css" />
     <Content Include="ReactJS\Club\DetailAbout.js" />
     <Content Include="ReactJS\Club\DetailAddress.js" />
@@ -466,6 +468,7 @@
     <Content Include="ReactJS\Components\GoogleMap.js" />
     <Content Include="ReactJS\Components\GoogleMapSearchBox.js" />
     <Content Include="ReactJS\Post\Create.js" />
+    <Content Include="ReactJS\Post\Edit.js" />
     <Content Include="ReactJS\Post\TagsEdit.js" />
     <Content Include="Scripts\User\Account\Login.js" />
     <Content Include="Scripts\User\Manage\ConfirmEmail.js" />
@@ -509,6 +512,7 @@
     <Content Include="Views\Club\Create.cshtml" />
     <Content Include="Views\Club\Edit.cshtml" />
     <Content Include="Views\Post\Create.cshtml" />
+    <Content Include="Views\Post\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

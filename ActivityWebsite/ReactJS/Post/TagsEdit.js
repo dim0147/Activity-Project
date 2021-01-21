@@ -3,10 +3,7 @@
 const TagsEdit = ({ handleTag, tags }) => {
     const tagName = useRef();
 
-   
-
     const addNewTag = () => {
-        console.log(`Add new tag ${tagName.current.value}`);
         if (tagName.current.value == '') return;
         const newTag = {
             name: tagName.current.value,

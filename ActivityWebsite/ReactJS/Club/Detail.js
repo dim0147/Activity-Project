@@ -40,7 +40,6 @@ class App extends Component {
             this.setState({ status: 'error' })
             return false;
         });
-        console.log(club);
         if (club) {
             this.setState({
                 clubId: club.Id,
@@ -56,6 +55,7 @@ class App extends Component {
                     lat: club.Lat,
                     lng: club.Lng
                 },
+                clubPosts: club.Posts,
 
                 status: 'success'
             });
@@ -87,17 +87,18 @@ class App extends Component {
                         description={this.state.clubDescription}
                     />
 
-                    <DetailPost />
+                    <DetailPost
+                        posts={this.state.clubPosts}
+                    />
 
                     <DetailThumbnail
                         thumbnails={this.state.clubThumbnail}
                     />
 
-                    {/* Team Section Begin */}
+                    
                     <DetailAddress
                         address={this.state.clubAddress}
                     />
-                    {/* Team Section End */}
                 </>
             )
         }

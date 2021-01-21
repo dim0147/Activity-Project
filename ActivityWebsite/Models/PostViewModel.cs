@@ -23,4 +23,20 @@ namespace ActivityWebsite.Models
         [Required]
         public HttpPostedFileBase headerImg { get; set; }
     }
+
+    public class EditPostModel
+    {
+        [Required]
+        [StringLength(100, MinimumLength = 5)]
+        public string title { get; set; }
+
+        [Required]
+        public string text { get; set; }
+
+        [Required]
+        [CheckList(MinLength = 1, ErrorMessage = "Tags must have at least 1")]
+        public IEnumerable<string> tags { get; set; }
+
+        public HttpPostedFileBase headerImg { get; set; }
+    }
 }

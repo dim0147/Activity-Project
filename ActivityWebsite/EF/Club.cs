@@ -62,6 +62,7 @@ namespace ActivityWebsite.EF
                                          Title = p.Title,
                                          Text = p.Text,
                                          HeaderImg = ConfigurationApp.URL_DIR_POST_IMAGE + "/" + p.HeaderImg,
+                                         CreatedAt = p.CreatedAt,
                                          Tags = p.PostTags.Select(postTag => new
                                          {
                                              Id = postTag.Id,
@@ -77,7 +78,7 @@ namespace ActivityWebsite.EF
                                              AuthenticateType = p.AspNetUser.authenticateType,
                                              status = p.AspNetUser.status,
                                          }
-                                     }).Take(3),
+                                     }).Take(10),
                                      Thumbnails = c.Images.Select(img => new
                                      {
                                          Id = img.Id,

@@ -6,7 +6,7 @@ const DetailAddress = ({ address }) => {
     const setAddress = (address) => { };
 
     return (
-        <section className="instructor spad">
+        <section className="instructor spad m-5">
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12">

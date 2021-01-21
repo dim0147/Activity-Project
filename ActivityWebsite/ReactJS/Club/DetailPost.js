@@ -1,6 +1,7 @@
 ﻿import React from 'react';
+import moment from 'moment';
 
-const DetailPost = () => {
+const DetailPost = ({ posts }) => {
     return (
         <section className="upcoming-classes spad">
             <div className="container">
@@ -12,19 +13,25 @@ const DetailPost = () => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-lg-4 col-md-6 col-sm-6">
-                        <div className="classes__item">
-                            <div className="classes__item__pic set-bg" style={{ backgroundImage: 'url("/Content/Media/Images/templates/classes/classes-1.jpg")' }} data-setbg="/Content/Media/Images/templates/classes/classes-1.jpg">
-                                <span>20 Jun 2019</span>
+
+                    {posts.map(post => {
+                        return (<div className="col-lg-4 col-md-6 col-sm-6" key={post.Id}>
+                            <div className="classes__item">
+                                <div className="classes__item__pic set-bg" style={{ backgroundImage: `url("${post.HeaderImg}")` }} data-setbg={post.HeaderImg}>
+                                    <span>{moment(post.CreatedAt).format("MMM DD, YYYY")}</span>
+                                </div>
+                                <div className="classes__item__text">
+                                    <p>{post.Tags.map(tag => tag.Name).join(',')}</p>
+                                    <h4><a href={`/post/detail/${post.Id}`}>{post.Title}</a></h4>
+                                    <h6>Author: <span> {post.Owner.Name}</span></h6>
+                                    <a href={`/post/detail/${post.Id}`} className="class-btn">Read More</a>
+                                </div>
                             </div>
-                            <div className="classes__item__text">
-                                <p>14 Days | Start on 10th Every Month</p>
-                                <h4><a href="#">100 Hour Yoga Course Rishikesh</a></h4>
-                                <h6>Jordan Lawson <span>- Yoga Teacher</span></h6>
-                                <a href="#" className="class-btn">JOIN NOW</a>
-                            </div>
-                        </div>
-                    </div>
+                        </div>)
+                    })}
+                 
+
+
                 </div>
             </div>
         </section>

@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Edit Post";
+    ViewBag.BCHeader = "Edit Post";
+    ViewBag.BCAction = "";
+    ViewBag.BCController = "";
+    ViewBag.BCActionText = "";
+}
+
+@Html.Partial("_Breadcrumb")
+
+@Html.AntiForgeryToken()
+
+@Html.Hidden("__PostId", (int)ViewBag.PostId)
+
+<div id="root">
+
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/dist/Post/Edit.js")
+}

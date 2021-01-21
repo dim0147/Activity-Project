@@ -67,6 +67,7 @@ class App extends Component {
     }
 
     onClickButton = () => {
+        this.setState({ isCreating: true });
         const formData = new FormData();
 
         formData.append('title', this.state.title);
@@ -134,8 +135,6 @@ class App extends Component {
     }
 
     render() {
-        console.log("tags main");
-        console.log(this.state.tags);
 
         return (
             <div className="leave-comment spad">

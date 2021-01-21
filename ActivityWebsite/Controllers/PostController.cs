@@ -15,11 +15,6 @@ namespace ActivityWebsite.Controllers
 {
     public class PostController : Controller
     {
-        // GET: Post
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         [Authorize]
         [VerifyUser]
@@ -70,7 +65,7 @@ namespace ActivityWebsite.Controllers
 
                         // Save header image
                         string headerImgName = EF.ImageHandle.SaveImg(model.headerImg, ConfigurationApp.VIRTUAL_DIR_POST_IMAGE);
-                        if(headerImgName == null)
+                        if (headerImgName == null)
                         {
                             return Helper.ResponseHandle(HttpStatusCode.InternalServerError, new
                             {
@@ -94,27 +89,145 @@ namespace ActivityWebsite.Controllers
                         db.SaveChanges();
 
                         // Create Post Tag
-                        IList<PostTag> postTags = new List<PostTag>();
-                        foreach(string tag in model.tags)
+                        if (!EF.PostHandle.AddPostTagsToPost(newPost.Id, model.tags, db))
                         {
-                            postTags.Add(new PostTag
+                            return Helper.ResponseHandle(HttpStatusCode.InternalServerError, new
                             {
-                                PostId = newPost.Id,
-                                name = tag
+                                error = true,
+                                errors = new string[] { $"Can't create post tag, try later!" }
                             });
                         }
-                        db.PostTags.AddRange(postTags);
-                        db.SaveChanges();
 
                         transaction.Commit();
-                        return Helper.ResponseHandle(HttpStatusCode.Created, new 
-                        { 
+                        return Helper.ResponseHandle(HttpStatusCode.Created, new
+                        {
                             success = true,
                             messages = new string[] { $"Create new post success!" }
                         });
                     }
                 }
-                catch(Exception err)
+                catch (Exception err)
+                {
+                    return Helper.ResponseHandle(HttpStatusCode.Forbidden, new
+                    {
+                        error = true,
+                        errors = new string[] { err.Message }
+                    });
+                }
+            }
+        }
+
+        [Route("post/edit/{postId}")]
+        [Authorize]
+        [VerifyUser]
+        public ActionResult Edit(int postId)
+        {
+            ViewBag.PostId = postId;
+            return View();
+        }
+
+        [HttpPost]
+        [Route("post/edit/{postId}")]
+        [Authorize]
+        [VerifyUser]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Edit(int postId, EditPostModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Helper.AddModelError(ModelState);
+            }
+
+            using (var db = new DbModel())
+            {
+                try
+                {
+                    using (var transaction = db.Database.BeginTransaction())
+                    {
+
+                        // Get Post
+                        var post = EF.PostHandle.GetFullPostById(postId);
+                        if (post == null)
+                            return Helper.ResponseHandle(HttpStatusCode.NotFound, new
+                            {
+                                error = true,
+                                errors = new string[] { "Post not found" }
+                            });
+
+                        // Check is club owner or not
+                        if (!EF.ClubHandle.isClubOwner(post.ClubId, User.Identity.GetUserId()))
+                        {
+                            return Helper.ResponseHandle(HttpStatusCode.Forbidden, new
+                            {
+                                error = true,
+                                errors = new string[] { "You don't have permission to edit post for this club!" }
+                            });
+                        }
+
+
+                        // Edit post
+                        post.Title = model.title;
+                        post.Text = model.text;
+
+                        // Header image handle
+                        string oldHeaderImg = null;
+                        if (model.headerImg != null)
+                        {
+                            // Save header image
+                            string headerImgName = EF.ImageHandle.SaveImg(model.headerImg, ConfigurationApp.VIRTUAL_DIR_POST_IMAGE);
+                            if (headerImgName == null)
+                            {
+                                return Helper.ResponseHandle(HttpStatusCode.InternalServerError, new
+                                {
+                                    error = true,
+                                    errors = new string[] { $"Can't save image, try later!" }
+                                });
+                            }
+                            // Delete old header image
+                            oldHeaderImg = post.HeaderImg;
+                            post.HeaderImg = headerImgName;
+                        }
+                        db.Entry(post).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        // Remove all tag
+                        if (!EF.PostHandle.RemoveAllPostTags(post.Id, db))
+                        {
+                            return Helper.ResponseHandle(HttpStatusCode.InternalServerError, new
+                            {
+                                error = true,
+                                errors = new string[] { $"Can't delete post tag, try later!" }
+                            });
+                        }
+
+                        // Create Post Tag
+                        if (!EF.PostHandle.AddPostTagsToPost(post.Id, model.tags, db))
+                        {
+                            return Helper.ResponseHandle(HttpStatusCode.InternalServerError, new
+                            {
+                                error = true,
+                                errors = new string[] { $"Can't create post tag, try later!" }
+                            });
+                        }
+
+                        transaction.Commit();
+
+                        // Delete old header image if have
+                        if (oldHeaderImg != null)
+                        {
+                            EF.ImageHandle.DelImg(oldHeaderImg, ConfigurationApp.VIRTUAL_DIR_POST_IMAGE);
+                        }
+
+                        return Helper.ResponseHandle(HttpStatusCode.OK, new
+                        {
+                            success = true,
+                            messages = new string[] { $"Edit post success!" }
+                        });
+                    }
+                }
+                catch (Exception err)
                 {
                     return Helper.ResponseHandle(HttpStatusCode.Forbidden, new
                     {
