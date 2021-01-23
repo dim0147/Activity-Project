@@ -11,6 +11,7 @@ module.exports = {
     /* Post */
         Create: "./ReactJS/Post/Create.js",
         Edit: "./ReactJS/Post/Edit.js",
+        Detail: "./ReactJS/Post/Detail.js",
     },
     output: {
         //path: path.resolve(__dirname, "../dist/Club"),

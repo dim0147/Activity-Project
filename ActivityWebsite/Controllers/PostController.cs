@@ -238,5 +238,12 @@ namespace ActivityWebsite.Controllers
             }
         }
 
+
+        [Route("post/detail/{postId}")]
+        public ActionResult Detail(int postId)
+        {
+            ViewBag.PostId = postId;
+            return View();
+        }
     }
 }

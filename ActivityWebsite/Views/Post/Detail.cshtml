@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Post Detail";
+    ViewBag.BCHeader = "Post Detail";
+    ViewBag.BCAction = "";
+    ViewBag.BCController = "";
+    ViewBag.BCActionText = "";
+}
+
+@Html.Partial("_Breadcrumb")
+
+@Html.AntiForgeryToken()
+
+@Html.Hidden("__PostId", (int)ViewBag.PostId)
+
+<div id="root">
+
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/dist/Post/Detail.js")
+}

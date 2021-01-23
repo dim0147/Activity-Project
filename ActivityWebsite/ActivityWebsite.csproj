@@ -464,11 +464,25 @@
     <Content Include="ReactJS\Components\InputFile.css" />
     <Content Include="ReactJS\Components\InputFile.js" />
     <Content Include="ReactJS\Components\InputCol12.js" />
+    <Content Include="ReactJS\Components\LeftPanel.js" />
+    <Content Include="ReactJS\Components\LeftPanelTags.js" />
+    <Content Include="ReactJS\Components\LeftPanelRecentPosts.js" />
+    <Content Include="ReactJS\Components\LeftPanelCategories.js" />
     <Content Include="ReactJS\Components\ListCategory.js" />
     <Content Include="ReactJS\Components\GoogleMap.js" />
     <Content Include="ReactJS\Components\GoogleMapSearchBox.js" />
+    <Content Include="ReactJS\Components\SearchBar.js" />
+    <Content Include="ReactJS\Post\DetailCommentInput.js" />
+    <Content Include="ReactJS\Post\DetailReplyComment.js" />
+    <Content Include="ReactJS\Post\DetailComment.js" />
+    <Content Include="ReactJS\Post\DetailCommentList.js" />
     <Content Include="ReactJS\Post\Create.js" />
+    <Content Include="ReactJS\Post\Detail.js" />
+    <Content Include="ReactJS\Post\DetailCommentBox.js" />
+    <Content Include="ReactJS\Post\DetailTextAuthor.js" />
+    <Content Include="ReactJS\Post\DetailTextTags.js" />
     <Content Include="ReactJS\Post\Edit.js" />
+    <Content Include="ReactJS\Post\DetailText.js" />
     <Content Include="ReactJS\Post\TagsEdit.js" />
     <Content Include="Scripts\User\Account\Login.js" />
     <Content Include="Scripts\User\Manage\ConfirmEmail.js" />
@@ -513,6 +527,7 @@
     <Content Include="Views\Club\Edit.cshtml" />
     <Content Include="Views\Post\Create.cshtml" />
     <Content Include="Views\Post\Edit.cshtml" />
+    <Content Include="Views\Post\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
