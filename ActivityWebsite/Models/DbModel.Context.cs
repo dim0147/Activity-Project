@@ -34,5 +34,7 @@ namespace ActivityWebsite.Models
         public virtual DbSet<ClubCategory> ClubCategories { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<PostTag> PostTags { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<UserLike> UserLikes { get; set; }
     }
 }

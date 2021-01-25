@@ -32,6 +32,8 @@
     <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
     <NavigationProperty Name="Clubs" Relationship="ActivityModel.FK_Clubs_Users" FromRole="AspNetUser" ToRole="Club" />
     <NavigationProperty Name="Posts" Relationship="ActivityModel.FK_Posts_Users" FromRole="AspNetUser" ToRole="Post" />
+    <NavigationProperty Name="Comments" Relationship="ActivityModel.FK_Comments_Owner" FromRole="AspNetUser" ToRole="Comment" />
+    <NavigationProperty Name="UserLikes" Relationship="ActivityModel.FK_UserLikes_User" FromRole="AspNetUser" ToRole="UserLike" />
   </EntityType>
   <Association Name="AspNetUserRoles">
     <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
@@ -78,6 +80,32 @@
       <End Role="Post" EntitySet="Posts" />
       <End Role="PostTag" EntitySet="PostTags" />
     </AssociationSet>
+    <EntitySet Name="Comments" EntityType="ActivityModel.Comment" />
+    <EntitySet Name="UserLikes" EntityType="ActivityModel.UserLike" />
+    <AssociationSet Name="FK_Comments_Owner" Association="ActivityModel.FK_Comments_Owner">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLikes_User" Association="ActivityModel.FK_UserLikes_User">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="UserLike" EntitySet="UserLikes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLikes_Comment" Association="ActivityModel.FK_UserLikes_Comment">
+      <End Role="Comment" EntitySet="Comments" />
+      <End Role="UserLike" EntitySet="UserLikes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_Club" Association="ActivityModel.FK_Comments_Club">
+      <End Role="Club" EntitySet="Clubs" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_Post" Association="ActivityModel.FK_Comments_Post">
+      <End Role="Post" EntitySet="Posts" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_ParentComments" Association="ActivityModel.FK_Comments_ParentComments">
+      <End Role="Comment" EntitySet="Comments" />
+      <End Role="Comment1" EntitySet="Comments" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Club">
     <Key>
@@ -100,6 +128,7 @@
     <NavigationProperty Name="ClubCategories" Relationship="ActivityModel.FK_ClubCategories_Clubs" FromRole="Club" ToRole="ClubCategory" />
     <Property Name="HeaderImg" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Posts" Relationship="ActivityModel.FK_Posts_Clubs" FromRole="Club" ToRole="Post" />
+    <NavigationProperty Name="Comments" Relationship="ActivityModel.FK_Comments_Club" FromRole="Club" ToRole="Comment" />
   </EntityType>
   <EntityType Name="Image">
     <Key>
@@ -200,6 +229,7 @@
     <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Slug" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="HeaderImg" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Comments" Relationship="ActivityModel.FK_Comments_Post" FromRole="Post" ToRole="Comment" />
   </EntityType>
   <EntityType Name="PostTag">
     <Key>
@@ -244,6 +274,109 @@
       </Principal>
       <Dependent Role="PostTag">
         <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Rate" Type="Int32" />
+    <Property Name="Owner" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="AspNetUser" Relationship="ActivityModel.FK_Comments_Owner" FromRole="Comment" ToRole="AspNetUser" />
+    <NavigationProperty Name="UserLikes" Relationship="ActivityModel.FK_UserLikes_Comment" FromRole="Comment" ToRole="UserLike" />
+    <Property Name="ClubId" Type="Int32" />
+    <Property Name="PostId" Type="Int32" />
+    <NavigationProperty Name="Club" Relationship="ActivityModel.FK_Comments_Club" FromRole="Comment" ToRole="Club" />
+    <NavigationProperty Name="Post" Relationship="ActivityModel.FK_Comments_Post" FromRole="Comment" ToRole="Post" />
+    <Property Name="ParentComment" Type="Int32" />
+    <NavigationProperty Name="Comments1" Relationship="ActivityModel.FK_Comments_ParentComments" FromRole="Comment" ToRole="Comment1" />
+    <NavigationProperty Name="Comment1" Relationship="ActivityModel.FK_Comments_ParentComments" FromRole="Comment1" ToRole="Comment" />
+  </EntityType>
+  <EntityType Name="UserLike">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CommentId" Type="Int32" Nullable="false" />
+    <Property Name="Owner" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="AspNetUser" Relationship="ActivityModel.FK_UserLikes_User" FromRole="UserLike" ToRole="AspNetUser" />
+    <NavigationProperty Name="Comment" Relationship="ActivityModel.FK_UserLikes_Comment" FromRole="UserLike" ToRole="Comment" />
+  </EntityType>
+  <Association Name="FK_Comments_Owner">
+    <End Type="ActivityModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="ActivityModel.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="Owner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserLikes_User">
+    <End Type="ActivityModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="ActivityModel.UserLike" Role="UserLike" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserLike">
+        <PropertyRef Name="Owner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserLikes_Comment">
+    <End Type="ActivityModel.Comment" Role="Comment" Multiplicity="1" />
+    <End Type="ActivityModel.UserLike" Role="UserLike" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserLike">
+        <PropertyRef Name="CommentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_Club">
+    <End Type="ActivityModel.Club" Role="Club" Multiplicity="0..1" />
+    <End Type="ActivityModel.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Club">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="ClubId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_Post">
+    <End Type="ActivityModel.Post" Role="Post" Multiplicity="0..1" />
+    <End Type="ActivityModel.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_ParentComments">
+    <End Type="ActivityModel.Comment" Role="Comment" Multiplicity="0..1" />
+    <End Type="ActivityModel.Comment" Role="Comment1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment1">
+        <PropertyRef Name="ParentComment" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

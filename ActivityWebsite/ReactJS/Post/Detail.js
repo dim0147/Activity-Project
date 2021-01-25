@@ -7,6 +7,8 @@ import CommentBox from './DetailCommentBox';
 
 import { getPostDetail } from '../API/Post';
 
+import { PostDetailContext } from './Context';
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -51,29 +53,31 @@ class App extends Component {
                 )
         } else {
             return (
-                <div>
-                    <section className="blog-details spad">
-                        <div className="container">
-                            <div className="row">
-                                <LeftPanel />
+                <PostDetailContext.Provider value={this.state.post.Id}>
+                    <div>
+                        <section className="blog-details spad">
+                            <div className="container">
+                                <div className="row">
+                                    <LeftPanel />
 
-                                <DetailText
-                                    title={this.state.post.Title}
-                                    headerImg={this.state.post.HeaderImg}
-                                    text={this.state.post.Text}
-                                    tags={this.state.post.Tags}
-                                    owner={this.state.post.Owner}
-                                />
+                                    <DetailText
+                                        title={this.state.post.Title}
+                                        headerImg={this.state.post.HeaderImg}
+                                        text={this.state.post.Text}
+                                        tags={this.state.post.Tags}
+                                        owner={this.state.post.Owner}
+                                    />
 
+                                </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
 
 
-                    <CommentBox
+                        <CommentBox
 
-                    />
-                </div>
+                        />
+                    </div>
+                </PostDetailContext.Provider>
             );
         }
     }

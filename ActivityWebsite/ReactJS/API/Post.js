@@ -10,3 +10,15 @@ export const getPostDetail = (postId) => {
             .catch(err => reject(err))
     })
 }
+
+export const getCommentPostDetail = (postId, continueTime, callback) => {
+    axios({
+        method: 'GET',
+        url: `/api/post/${postId}/comments`,
+        params: {
+            continueTime
+        }
+    })
+        .then(res => callback(null, res))
+        .catch(err => callback(err))
+}

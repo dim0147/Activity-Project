@@ -20,6 +20,8 @@ namespace ActivityWebsite.Models
             this.AspNetRoles = new HashSet<AspNetRole>();
             this.Clubs = new HashSet<Club>();
             this.Posts = new HashSet<Post>();
+            this.Comments = new HashSet<Comment>();
+            this.UserLikes = new HashSet<UserLike>();
         }
     
         public string Id { get; set; }
@@ -46,5 +48,9 @@ namespace ActivityWebsite.Models
         public virtual ICollection<Club> Clubs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Post> Posts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comment> Comments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLike> UserLikes { get; set; }
     }
 }

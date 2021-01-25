@@ -126,7 +126,7 @@ namespace ActivityWebsite.Controllers
                 return View(model);
             }
 
-            // Signout current cookie
+            // Sign out current cookie
             HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
             // Login user

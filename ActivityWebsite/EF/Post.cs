@@ -108,5 +108,52 @@ namespace ActivityWebsite.EF
                 return false;
             }
         }
+
+        public static object GetPostComments(int postId, string userId, DateTime? continueTime)
+        {
+            using (var db = new DbModel())
+            {
+                var query = db.Comments
+                    .Include("AspNetUser")
+                    .Include("UserLikes")
+                    .Include("Comments1.AspNetUser")
+                    .Include("Comments1.UserLikes")
+                    .Where(c => c.PostId == postId && c.ParentComment == null);
+
+                if (continueTime != null)
+                {
+                    query = query.Where(c => DateTime.Compare(c.CreatedAt, (DateTime)continueTime) < 0);
+                }
+                var comment = query.Select(c => new
+                {
+                    Id = c.Id,
+                    Text = c.Text,
+                    Rate = c.Rate,
+                    CreatedAt = c.CreatedAt,
+                    Owner = new
+                    {
+                        Id = c.AspNetUser.Id,
+                        UserName = c.AspNetUser.UserName,
+                        Name = c.AspNetUser.DisplayName,
+                        CreatedAt = c.AspNetUser.CreatedAt,
+                        AuthenticateType = c.AspNetUser.authenticateType,
+                        status = c.AspNetUser.status,
+                    },
+                    likes = c.UserLikes.Count(),
+                    replies = c.Comments1.Count(),
+                    isLiked = (userId != null && c.UserLikes.Any(l => l.Owner == userId)) ? true : false
+                })
+                    .Where(c => c.Owner.status == "normal").OrderByDescending(c => c.CreatedAt).Take(5);
+                var listReplies = comment.ToList();
+                var lastCreatedTime = listReplies.LastOrDefault()?.CreatedAt;
+                int totalLeft = lastCreatedTime != null ? db.Comments.Where(c => c.PostId == postId && c.ParentComment == null && DateTime.Compare(c.CreatedAt, (DateTime)lastCreatedTime) < 0).Count() : 0;
+                return new
+                {
+                    comments = listReplies,
+                    totalLeft = totalLeft,
+                    continueTime = totalLeft > 0 ? lastCreatedTime : null
+                };
+            }
+        }
     }
 }

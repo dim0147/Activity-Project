@@ -12,30 +12,32 @@ namespace ActivityWebsite.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Post
+    public partial class Comment
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Post()
+        public Comment()
         {
-            this.PostTags = new HashSet<PostTag>();
-            this.Comments = new HashSet<Comment>();
+            this.UserLikes = new HashSet<UserLike>();
+            this.Comments1 = new HashSet<Comment>();
         }
     
         public int Id { get; set; }
-        public int ClubId { get; set; }
-        public string Owner { get; set; }
-        public System.DateTime CreatedAt { get; set; }
-        public System.DateTime UpdatedAt { get; set; }
-        public string Title { get; set; }
         public string Text { get; set; }
-        public string Slug { get; set; }
-        public string HeaderImg { get; set; }
+        public Nullable<int> Rate { get; set; }
+        public string Owner { get; set; }
+        public string Type { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public Nullable<int> ClubId { get; set; }
+        public Nullable<int> PostId { get; set; }
+        public Nullable<int> ParentComment { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLike> UserLikes { get; set; }
         public virtual Club Club { get; set; }
+        public virtual Post Post { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PostTag> PostTags { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments1 { get; set; }
+        public virtual Comment Comment1 { get; set; }
     }
 }

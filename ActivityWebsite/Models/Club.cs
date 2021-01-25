@@ -20,6 +20,7 @@ namespace ActivityWebsite.Models
             this.Images = new HashSet<Image>();
             this.ClubCategories = new HashSet<ClubCategory>();
             this.Posts = new HashSet<Post>();
+            this.Comments = new HashSet<Comment>();
         }
     
         public int Id { get; set; }
@@ -43,5 +44,7 @@ namespace ActivityWebsite.Models
         public virtual ICollection<ClubCategory> ClubCategories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Post> Posts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

@@ -194,6 +194,7 @@
   <ItemGroup>
     <Compile Include="Api\CategoryController.cs" />
     <Compile Include="Api\ClubController.cs" />
+    <Compile Include="Api\CommentController.cs" />
     <Compile Include="Api\ImageController.cs" />
     <Compile Include="Api\PostController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="CustomHelper\CustomHelper.cs" />
     <Compile Include="EF\Category.cs" />
     <Compile Include="EF\Club.cs" />
+    <Compile Include="EF\Comment.cs" />
     <Compile Include="EF\Image.cs" />
     <Compile Include="EF\Post.cs" />
     <Compile Include="Global.asax.cs">
@@ -257,6 +259,9 @@
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ClubViewModels.cs" />
+    <Compile Include="Models\Comment.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DbModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -283,9 +288,14 @@
     <Compile Include="Models\PostTag.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PostViewAPIModel.cs" />
     <Compile Include="Models\PostViewModel.cs" />
+    <Compile Include="Models\UserLike.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\css\Shared\ckeditor.css" />
+    <Content Include="ReactJS\API\Comment.js" />
     <Content Include="ReactJS\API\Post.js" />
     <Content Include="ReactJS\ckEditorExclude.css" />
     <Content Include="ReactJS\Club\DetailAbout.js" />
@@ -472,6 +482,7 @@
     <Content Include="ReactJS\Components\GoogleMap.js" />
     <Content Include="ReactJS\Components\GoogleMapSearchBox.js" />
     <Content Include="ReactJS\Components\SearchBar.js" />
+    <Content Include="ReactJS\Post\Context.js" />
     <Content Include="ReactJS\Post\DetailCommentInput.js" />
     <Content Include="ReactJS\Post\DetailReplyComment.js" />
     <Content Include="ReactJS\Post\DetailComment.js" />

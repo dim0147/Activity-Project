@@ -21,6 +21,14 @@
         <AssociationConnector Association="ActivityModel.FK_Posts_Users" />
         <AssociationConnector Association="ActivityModel.FK_Posts_Clubs" />
         <AssociationConnector Association="ActivityModel.FK_PostTags_Post" />
+        <EntityTypeShape EntityType="ActivityModel.Comment" Width="1.5" PointX="5.25" PointY="4.5" />
+        <EntityTypeShape EntityType="ActivityModel.UserLike" Width="1.5" PointX="5.375" PointY="0.625" />
+        <AssociationConnector Association="ActivityModel.FK_Comments_Owner" />
+        <AssociationConnector Association="ActivityModel.FK_UserLikes_User" />
+        <AssociationConnector Association="ActivityModel.FK_UserLikes_Comment" />
+        <AssociationConnector Association="ActivityModel.FK_Comments_Club" />
+        <AssociationConnector Association="ActivityModel.FK_Comments_Post" />
+        <AssociationConnector Association="ActivityModel.FK_Comments_ParentComments" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
