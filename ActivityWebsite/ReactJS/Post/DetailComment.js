@@ -32,7 +32,7 @@ const CommentParent = ({ comment, parentCommentLike, setParentCommentReplies, su
 
     const replyCommentHandle = (e) => {
         loadReplyComment(comment.Id, comment.continueTime, (err, res) => {
-            if (err) console.log(err);
+            if (err) return;
             if (!res.data.success) return;
             const { data, continueTime, totalLeft } = res.data.replies;
             setParentCommentReplies(comment.Id, data, totalLeft, continueTime);

@@ -4,10 +4,11 @@ import ReactDOM from 'react-dom';
 import LeftPanel from '../Components/LeftPanel';
 import DetailText from './DetailText';
 import CommentBox from './DetailCommentBox';
+import Alert from '../Components/Alert';
 
 import { getPostDetail } from '../API/Post';
 
-import { PostDetailContext } from './Context';
+import { PostDetailContext, PostContext } from './Context';
 
 class App extends Component {
     constructor(props) {
@@ -54,29 +55,31 @@ class App extends Component {
         } else {
             return (
                 <PostDetailContext.Provider value={this.state.post.Id}>
-                    <div>
-                        <section className="blog-details spad">
-                            <div className="container">
-                                <div className="row">
-                                    <LeftPanel />
+                    <PostContext.Provider value={this.state.post}>
+                        <div>
+                            <section className="blog-details spad">
+                                <div className="container">
+                                    <div className="row">
+                                        <LeftPanel />
 
-                                    <DetailText
-                                        title={this.state.post.Title}
-                                        headerImg={this.state.post.HeaderImg}
-                                        text={this.state.post.Text}
-                                        tags={this.state.post.Tags}
-                                        owner={this.state.post.Owner}
-                                    />
+                                        <DetailText
+                                            title={this.state.post.Title}
+                                            headerImg={this.state.post.HeaderImg}
+                                            text={this.state.post.Text}
+                                            tags={this.state.post.Tags}
+                                            owner={this.state.post.Owner}
+                                        />
 
+                                    </div>
                                 </div>
-                            </div>
-                        </section>
+                            </section>
 
 
-                        <CommentBox
+                            <CommentBox
 
-                        />
-                    </div>
+                            />
+                        </div>
+                    </PostContext.Provider>
                 </PostDetailContext.Provider>
             );
         }

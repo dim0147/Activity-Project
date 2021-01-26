@@ -1,26 +1,25 @@
-﻿import React, { useEffect, useState, useContext } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import Rating from 'react-rating-stars-component';
 
-import { PostContext } from '../Post/Context';
+import { getTopPost } from '../API/Post';
 
-import { searchPost } from '../API/Post';
-const LeftPanelRecentPosts = () => {
+const LeftPanelCategories = () => {
 
-    const { Tags } = useContext(PostContext);
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        searchPost(null, Tags.map(tag => tag.Name), 4, (err, res) => {
+        getTopPost((err, res) => {
             if (err) return console.log(err);
             if (!res.data.success) return;
             setPosts(res.data.posts);
+
         })
     }, [])
 
     return (
         <div className="blog__sidebar__recent">
-            <h4>Relevant Posts</h4>
+            <h4>Top Posts</h4>
             {posts.map(post =>
                 <div className="blog__recent__item" key={post.Id}>
                     <div className="blog__recent__item__pic">
@@ -44,8 +43,9 @@ const LeftPanelRecentPosts = () => {
                     </div>
                 </div>
             )}
+
         </div>
     );
 }
 
-export default LeftPanelRecentPosts;
+export default LeftPanelCategories;

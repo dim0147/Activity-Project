@@ -5,6 +5,7 @@ using System.Web;
 using ActivityWebsite.Models;
 using ActivityWebsite.CustomHelper;
 using ActivityWebsite.Config;
+using System.Data.Entity;
 
 namespace ActivityWebsite.EF
 {
@@ -153,6 +154,104 @@ namespace ActivityWebsite.EF
                     totalLeft = totalLeft,
                     continueTime = totalLeft > 0 ? lastCreatedTime : null
                 };
+            }
+        }
+
+        public static object GetTopPost()
+        {
+            using (var db = new DbModel())
+            {
+                return db.Posts
+                    .Include("PostTags")
+                    .Include("AspNetUser")
+                    .Include("Club")
+                    .Include("Club.AspNetUser")
+                    .Include("Comments")
+                    .Where(p => p.Club.AspNetUser.status == "normal" && p.AspNetUser.status == "normal")
+                    .Select(p => new
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Text = p.Text,
+                        Slug = p.Slug,
+                        HeaderImg = ConfigurationApp.URL_DIR_POST_IMAGE + "/" + p.HeaderImg,
+                        TotalRate = p.Comments.Where(c => c.Rate > 0).Count(),
+                        AverageRate = (int?)p.Comments.Where(c => c.Rate > 0).Average(c => c.Rate),
+                        Tags = p.PostTags.Select(tag => new
+                        {
+                            Id = tag.Id,
+                            Name = tag.name
+                        }),
+                        Club = new
+                        {
+                            Id = p.Club.Id,
+                            Name = p.Club.Name
+                        },
+                        Owner = new
+                        {
+                            Id = p.AspNetUser.Id,
+                            UserName = p.AspNetUser.UserName,
+                            Name = p.AspNetUser.DisplayName,
+                            CreatedAt = p.AspNetUser.CreatedAt,
+                            AuthenticateType = p.AspNetUser.authenticateType,
+                            status = p.AspNetUser.status,
+                        }
+                    })
+                    .Where(p => p.TotalRate > 0)
+                    .OrderByDescending(p => new { p.TotalRate, p.AverageRate })
+                    .Take(4)
+                    .ToList();
+            }
+        }
+
+        public static object PostSearch(string title, string[] tags, int size)
+        {
+            using (var db = new DbModel())
+            {
+                var query = db.Posts
+                        .Include("PostTags")
+                        .Include("AspNetUser")
+                        .Include("Club")
+                        .Include("Club.AspNetUser")
+                        .Include("Comments")
+                        .Where(p => p.Club.AspNetUser.status == "normal" && p.AspNetUser.status == "normal");
+
+                if (title != null)
+                    query = query.Where(p => p.Title.ToLower().Contains(title.ToLower()));
+                if (tags != null && tags.Length > 0)
+                    query = query.Where(p => p.PostTags.Any(pt => tags.Contains(pt.name)));
+
+                return query.Select(p => new
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Text = p.Text,
+                    Slug = p.Slug,
+                    HeaderImg = ConfigurationApp.URL_DIR_POST_IMAGE + "/" + p.HeaderImg,
+                    TotalRate = p.Comments.Where(c => c.Rate > 0).Count(),
+                    AverageRate = (int?)p.Comments.Where(c => c.Rate > 0).Average(c => c.Rate),
+                    Tags = p.PostTags.Select(tag => new
+                    {
+                        Id = tag.Id,
+                        Name = tag.name
+                    }),
+                    Club = new
+                    {
+                        Id = p.Club.Id,
+                        Name = p.Club.Name
+                    },
+                    Owner = new
+                    {
+                        Id = p.AspNetUser.Id,
+                        UserName = p.AspNetUser.UserName,
+                        Name = p.AspNetUser.DisplayName,
+                        CreatedAt = p.AspNetUser.CreatedAt,
+                        AuthenticateType = p.AspNetUser.authenticateType,
+                        status = p.AspNetUser.status,
+                    }
+                })
+                .Take(size)
+                .ToList();
             }
         }
     }

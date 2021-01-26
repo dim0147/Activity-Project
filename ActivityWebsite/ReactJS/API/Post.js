@@ -1,4 +1,5 @@
 ﻿import axios from 'axios';
+import qs from 'qs';
 
 export const getPostDetail = (postId) => {
     return new Promise((resolve, reject) => {
@@ -21,4 +22,30 @@ export const getCommentPostDetail = (postId, continueTime, callback) => {
     })
         .then(res => callback(null, res))
         .catch(err => callback(err))
+}
+
+export const getTopPost = (cb) => {
+    axios({
+        method: 'GET',
+        url: `/api/post/top-post`
+    })
+        .then(res => cb(null, res))
+        .catch(err => cb(err))
+}
+
+export const searchPost = (title, tags, size, cb) => {
+    axios({
+        url: "/api/post/search",
+        method: 'GET',
+        params: {
+            title,
+            tags,
+            size
+        },
+        paramsSerializer: params => {
+            return qs.stringify(params)
+        }
+    })
+        .then(res => cb(null, res))
+        .catch(err => cb(err))
 }

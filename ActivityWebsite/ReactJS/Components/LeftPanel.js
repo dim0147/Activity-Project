@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 
 import SearchBar from '../Components/SearchBar';
-import LeftPanelCategories from '../Components/LeftPanelCategories';
+import LeftPanelTopPosts from '../Components/LeftPanelTopPosts';
 import LeftPanelRecentPosts from '../Components/LeftPanelRecentPosts';
 import LeftPanelTags from '../Components/LeftPanelTags';
 
@@ -18,7 +18,7 @@ class LeftPanel extends Component {
 
                     />
                     <div className="blog__sidebar">
-                        <LeftPanelCategories
+                        <LeftPanelTopPosts
 
                         />
 

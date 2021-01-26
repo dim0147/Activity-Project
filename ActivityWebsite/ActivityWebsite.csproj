@@ -477,7 +477,7 @@
     <Content Include="ReactJS\Components\LeftPanel.js" />
     <Content Include="ReactJS\Components\LeftPanelTags.js" />
     <Content Include="ReactJS\Components\LeftPanelRecentPosts.js" />
-    <Content Include="ReactJS\Components\LeftPanelCategories.js" />
+    <Content Include="ReactJS\Components\LeftPanelTopPosts.js" />
     <Content Include="ReactJS\Components\ListCategory.js" />
     <Content Include="ReactJS\Components\GoogleMap.js" />
     <Content Include="ReactJS\Components\GoogleMapSearchBox.js" />

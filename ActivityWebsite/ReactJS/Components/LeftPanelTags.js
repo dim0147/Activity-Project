@@ -1,15 +1,15 @@
-﻿import React from 'react';
+﻿import React, {useContext} from 'react';
+
+import { PostContext } from '../Post/Context';
 
 const LeftPanelTags = () => {
+
+    const post = useContext(PostContext);
+
     return (
         <div className="blog__sidebar__tags">
             <h4>Search By Tags</h4>
-            <a href="#">Weight</a>
-            <a href="#">Beauty</a>
-            <a href="#">Yoga Ball</a>
-            <a href="#">Fruit</a>
-            <a href="#">Healthy Food</a>
-            <a href="#">Lifestyle</a>
+            {post.Tags.map((tag,i) => <a key={i} href={`/search/post?tags=${tag.Name}`}>{tag.Name}</a>)}
         </div>
     );
 }

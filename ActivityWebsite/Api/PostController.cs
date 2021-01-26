@@ -12,6 +12,29 @@ namespace ActivityWebsite.Api
 {
     public class PostController : ApiController
     {
+
+        [HttpGet]
+        [Route("api/post/top-post")]
+        public IHttpActionResult GetTopPost()
+        {
+            return Json(new
+            {
+                success = true,
+                posts = EF.PostHandle.GetTopPost()
+            });
+        }
+
+        [HttpGet]
+        [Route("api/post/search")]
+        public IHttpActionResult SearchPost([FromUri] string title = null, [FromUri] string[] tags = null, [FromUri] int size = 6)
+        {
+            return Json(new
+            {
+                success = true,
+                posts = EF.PostHandle.PostSearch(title, tags, size)
+            });
+        }
+
         [HttpGet]
         [Route("api/post/{postId}")]
         public IHttpActionResult Get(int postId)
@@ -57,5 +80,6 @@ namespace ActivityWebsite.Api
                     }
                 });
         }
+    
     }
 }

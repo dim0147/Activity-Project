@@ -77,8 +77,6 @@ class CommentBox extends Component {
                 parentComment: parentCommentId
             }
         }).then(res => {
-            console.log(res.data);
-            console.log(owner);
             if (!res.data.success) return;
             const { comment } = res.data;
             const newComment = {
@@ -129,7 +127,7 @@ class CommentBox extends Component {
                 isLike: !isLiked
             }
         })
-            .then(res => console.log(res))
+            //.then(res => console.log(res))
             .catch(err => console.log(err));
     }
 
@@ -137,7 +135,6 @@ class CommentBox extends Component {
         this.setState({
             comments: this.state.comments.map(comment => {
                 if (comment.Id != commentId) return comment;
-                console.log("Hello run");
                 comment.repliesComment = [...comment.repliesComment, ...replies];
                 comment.replies = totalLeft;
                 comment.continueTime = continueTime;
@@ -170,7 +167,7 @@ class CommentBox extends Component {
                 isLike: !isLiked
             }
         })
-            .then(res => console.log(res))
+            //.then(res => console.log(res))
             .catch(err => console.log(err));
     }
 
