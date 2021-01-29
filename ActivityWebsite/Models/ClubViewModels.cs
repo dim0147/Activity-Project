@@ -79,4 +79,20 @@ namespace ActivityWebsite.Models
         [CheckList(MinLength = 1, MaxLength = 30, ErrorMessage = "Category must at least 1 and can't more then 30")]
         public IEnumerable<int> categories { get; set; }
     }
+    public class FollowClubAPIModel
+    {
+
+        [Required]
+        public bool isFollow { get; set; }
+    }
+
+    public class CreateCommentRateAPIModel
+    {
+        [Required]
+        [Range(0, 5)]
+        public int rate { get; set; }
+
+        [Required]
+        public string text { get; set; }
+    }
 }

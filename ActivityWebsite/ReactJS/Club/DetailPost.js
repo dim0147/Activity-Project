@@ -21,7 +21,7 @@ const DetailPost = ({ posts }) => {
                                     <span>{moment(post.CreatedAt).format("MMM DD, YYYY")}</span>
                                 </div>
                                 <div className="classes__item__text">
-                                    <p>{post.Tags.map(tag => tag.Name).join(',')}</p>
+                                    <p>{post.Tags.map(tag => tag.Name).join(', ')}</p>
                                     <h4><a href={`/post/detail/${post.Id}`}>{post.Title}</a></h4>
                                     <h6>Author: <span> {post.Owner.Name}</span></h6>
                                     <a href={`/post/detail/${post.Id}`} className="class-btn">Read More</a>

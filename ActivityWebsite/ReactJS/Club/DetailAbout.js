@@ -1,7 +1,78 @@
-﻿import React from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import moment from 'moment';
+import Rating from 'react-rating-stars-component';
 
-const DetailAbout = ({ clubHeaderImg, clubName, clubOperationHours, clubEstablishAt }) => {
+import { getDefaultUser } from '../API/User';
+import { getUserFollowingClub, HandleUserFollowClub } from '../API/Club';
+
+const DetailAbout = ({ clubId, clubRate, clubOwner, clubHeaderImg, clubName, clubOperationHours, clubEstablishAt }) => {
+
+    const [user, setUser] = useState(null);
+    const [isFollow, setFollow] = useState(false);
+
+    useEffect(() => {
+
+        getDefaultUser((err, res) => {
+            if (err) return console.log(err);
+            if (!res.data.success) return;
+            setUser(res.data.user);
+        })
+
+    }, [])
+
+    useEffect(() => {
+        if (!user || !user.Id) return;
+
+        getUserFollowingClub(user.Id, clubId, (err, res) => {
+            if (err) return console.log(err);
+            if (!res.data.success) return;
+            console.log(res.data);
+            if (res.data.follow)
+                setFollow(true);
+            else
+                setFollow(false);
+        })
+
+    }, [user])
+
+    const clubFollowHandle = (e) => {
+        e.preventDefault();
+
+        HandleUserFollowClub(user.Id, clubId, !isFollow, (err, res) => {
+            if (err) return console.log(err);
+            if (res.data.success) setFollow(!isFollow);
+        });
+    }
+
+    const Edit = () => {
+        return (
+            <>
+                <a href={`/club/edit/${clubId}`} className="primary-btn mr-3">Edit Club</a>
+                <a href="#" className="primary-btn">Go to chat box</a>
+            </>
+        )
+    }
+
+    const User = () => {
+        return (
+            <>
+                {/* Not club owner but login*/}
+                <a href="#" className="primary-btn mr-3" onClick={clubFollowHandle}>{isFollow ? "Unfollow" : "Follow"}</a>
+                <a href="#" className="primary-btn">Join our chat box</a>
+            </>
+        )
+    }
+
+    const loginSection = () => {
+        let buttonSection;
+
+        if (user.Id === clubOwner.Id || user.Role == 'Admin')
+            buttonSection = <Edit />
+        else if (user.Id !== clubOwner.Id)
+            buttonSection = <User />
+        return buttonSection;
+    }
+
     return (
         <section className="home-about spad">
             <div className="container">
@@ -14,10 +85,23 @@ const DetailAbout = ({ clubHeaderImg, clubName, clubOperationHours, clubEstablis
                             <div className="section-title">
                                 <h2>Welcome to {clubName}</h2>
                             </div>
+                            <Rating
+                                value={clubRate}
+                                edit={false}
+                                size={20}
+                            />
                             <p>Operation hours: {clubOperationHours}</p>
                             <p className="para-2">Establish at: {moment(clubEstablishAt).format('LL')}.</p>
-                            <a href="#" className="primary-btn mr-3">Follow</a>
-                            <a href="#" className="primary-btn">Join our chat box</a>
+                            {user ?
+                                loginSection()
+                                :
+                                (
+                                    <>
+                                        {/* Not Login */}
+                                        <a href="/Account/Login" className="primary-btn mr-3">Login to follow</a>
+                                    </>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

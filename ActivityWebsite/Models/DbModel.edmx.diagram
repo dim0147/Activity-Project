@@ -29,6 +29,9 @@
         <AssociationConnector Association="ActivityModel.FK_Comments_Club" />
         <AssociationConnector Association="ActivityModel.FK_Comments_Post" />
         <AssociationConnector Association="ActivityModel.FK_Comments_ParentComments" />
+        <EntityTypeShape EntityType="ActivityModel.UserFollow" Width="1.5" PointX="13.75" PointY="2.125" />
+        <AssociationConnector Association="ActivityModel.FK_UserFollows_User" />
+        <AssociationConnector Association="ActivityModel.FK_UserFollows_Club" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

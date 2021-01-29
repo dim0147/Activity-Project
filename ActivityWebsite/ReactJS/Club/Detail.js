@@ -9,6 +9,7 @@ import DetailDescription from './DetailDescription';
 import DetailPost from './DetailPost';
 import DetailThumbnail from './DetailThumbnail';
 import DetailAddress from './DetailAddress';
+import CommentBox from './CommentBox';
 
 class App extends Component {
 
@@ -26,6 +27,7 @@ class App extends Component {
             clubPosts: [],
             clubThumbnail: [],
             clubAddress: '',
+            clubOwner: null,
 
             status: 'loading'
         }
@@ -43,6 +45,7 @@ class App extends Component {
         if (club) {
             this.setState({
                 clubId: club.Id,
+                clubRate: club.Rate ? club.Rate : 0,
                 clubHeaderImg: club.HeaderImg,
                 clubName: club.Name,
                 clubOperationHours: club.OperationHours,
@@ -55,11 +58,14 @@ class App extends Component {
                     lat: club.Lat,
                     lng: club.Lng
                 },
+                clubOwner: club.owner,
                 clubPosts: club.Posts,
 
                 status: 'success'
             });
         }
+        else
+            this.setState({ status: 'error' })
 
 
     }
@@ -69,14 +75,24 @@ class App extends Component {
             return (
                 <div className="text-center"><i className="fas fa-spinner fa-spin"></i>   Loading Club Detail...</div>
             )
-        } else if (this.state.status === 'success') {
+        }
+        else if (this.state.status === 'error')
+        {
+            return (
+                <div className="text-center alert alert-danger">Unexpected error from server</div>
+            )
+        }
+        else if (this.state.status === 'success') {
             return (
                 <>
                     <DetailAbout
+                        clubId={this.state.clubId}
+                        clubRate={this.state.clubRate}
                         clubName={this.state.clubName}
                         clubEstablishAt={this.state.clubEstablishAt}
                         clubOperationHours={this.state.clubOperationHours}
                         clubHeaderImg={this.state.clubHeaderImg}
+                        clubOwner={this.state.clubOwner}
                     />
 
                     <DetailCategory
@@ -95,10 +111,14 @@ class App extends Component {
                         thumbnails={this.state.clubThumbnail}
                     />
 
+                    <CommentBox
+                        clubId={this.state.clubId}
+                    />
                     
                     <DetailAddress
                         address={this.state.clubAddress}
                     />
+                    
                 </>
             )
         }

@@ -40,7 +40,7 @@ const LeftPanelRecentPosts = () => {
                         <h6>By <a href={`/club/detail/${post.Club.Id}`}>{post.Club.Name}</a></h6>
                         <em>Tags: {post.Tags.map(tag => tag.Name).join(', ')}</em>
                         <br />
-                        <span>{moment(post.CreatedAt).format("ddd MMMM, YYYY")}</span>
+                        <span>{moment(post.CreatedAt).format("ll")}</span>
                     </div>
                 </div>
             )}

@@ -34,6 +34,7 @@
     <NavigationProperty Name="Posts" Relationship="ActivityModel.FK_Posts_Users" FromRole="AspNetUser" ToRole="Post" />
     <NavigationProperty Name="Comments" Relationship="ActivityModel.FK_Comments_Owner" FromRole="AspNetUser" ToRole="Comment" />
     <NavigationProperty Name="UserLikes" Relationship="ActivityModel.FK_UserLikes_User" FromRole="AspNetUser" ToRole="UserLike" />
+    <NavigationProperty Name="UserFollows" Relationship="ActivityModel.FK_UserFollows_User" FromRole="AspNetUser" ToRole="UserFollow" />
   </EntityType>
   <Association Name="AspNetUserRoles">
     <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
@@ -106,6 +107,15 @@
       <End Role="Comment" EntitySet="Comments" />
       <End Role="Comment1" EntitySet="Comments" />
     </AssociationSet>
+    <EntitySet Name="UserFollows" EntityType="ActivityModel.UserFollow" />
+    <AssociationSet Name="FK_UserFollows_User" Association="ActivityModel.FK_UserFollows_User">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="UserFollow" EntitySet="UserFollows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserFollows_Club" Association="ActivityModel.FK_UserFollows_Club">
+      <End Role="Club" EntitySet="Clubs" />
+      <End Role="UserFollow" EntitySet="UserFollows" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Club">
     <Key>
@@ -129,6 +139,7 @@
     <Property Name="HeaderImg" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Posts" Relationship="ActivityModel.FK_Posts_Clubs" FromRole="Club" ToRole="Post" />
     <NavigationProperty Name="Comments" Relationship="ActivityModel.FK_Comments_Club" FromRole="Club" ToRole="Comment" />
+    <NavigationProperty Name="UserFollows" Relationship="ActivityModel.FK_UserFollows_Club" FromRole="Club" ToRole="UserFollow" />
   </EntityType>
   <EntityType Name="Image">
     <Key>
@@ -377,6 +388,41 @@
       </Principal>
       <Dependent Role="Comment1">
         <PropertyRef Name="ParentComment" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="UserFollow">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ClubId" Type="Int32" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="AspNetUser" Relationship="ActivityModel.FK_UserFollows_User" FromRole="UserFollow" ToRole="AspNetUser" />
+    <NavigationProperty Name="Club" Relationship="ActivityModel.FK_UserFollows_Club" FromRole="UserFollow" ToRole="Club" />
+  </EntityType>
+  <Association Name="FK_UserFollows_User">
+    <End Type="ActivityModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="ActivityModel.UserFollow" Role="UserFollow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserFollow">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserFollows_Club">
+    <End Type="ActivityModel.Club" Role="Club" Multiplicity="0..1" />
+    <End Type="ActivityModel.UserFollow" Role="UserFollow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Club">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserFollow">
+        <PropertyRef Name="ClubId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -128,6 +128,15 @@
           <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
+        <EntityType Name="UserFollows">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClubId" Type="int" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
         <EntityType Name="UserLikes">
           <Key>
             <PropertyRef Name="Id" />
@@ -297,6 +306,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserFollows_Club">
+          <End Role="Clubs" Type="Self.Clubs" Multiplicity="0..1" />
+          <End Role="UserFollows" Type="Self.UserFollows" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFollows">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFollows_User">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserFollows" Type="Self.UserFollows" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFollows">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserLikes_Comment">
           <End Role="Comments" Type="Self.Comments" Multiplicity="1" />
           <End Role="UserLikes" Type="Self.UserLikes" Multiplicity="*" />
@@ -332,6 +365,7 @@
           <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Posts" EntityType="Self.Posts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PostTags" EntityType="Self.PostTags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserFollows" EntityType="Self.UserFollows" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLikes" EntityType="Self.UserLikes" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ClubCategories_Categories" Association="Self.FK_ClubCategories_Categories">
             <End Role="Categories" EntitySet="Categories" />
@@ -385,6 +419,14 @@
             <End Role="Posts" EntitySet="Posts" />
             <End Role="PostTags" EntitySet="PostTags" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserFollows_Club" Association="Self.FK_UserFollows_Club">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="UserFollows" EntitySet="UserFollows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFollows_User" Association="Self.FK_UserFollows_User">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserFollows" EntitySet="UserFollows" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserLikes_Comment" Association="Self.FK_UserLikes_Comment">
             <End Role="Comments" EntitySet="Comments" />
             <End Role="UserLikes" EntitySet="UserLikes" />
@@ -432,6 +474,7 @@
           <NavigationProperty Name="Posts" Relationship="ActivityModel.FK_Posts_Users" FromRole="AspNetUser" ToRole="Post" />
           <NavigationProperty Name="Comments" Relationship="ActivityModel.FK_Comments_Owner" FromRole="AspNetUser" ToRole="Comment" />
           <NavigationProperty Name="UserLikes" Relationship="ActivityModel.FK_UserLikes_User" FromRole="AspNetUser" ToRole="UserLike" />
+          <NavigationProperty Name="UserFollows" Relationship="ActivityModel.FK_UserFollows_User" FromRole="AspNetUser" ToRole="UserFollow" />
         </EntityType>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
@@ -504,6 +547,15 @@
             <End Role="Comment" EntitySet="Comments" />
             <End Role="Comment1" EntitySet="Comments" />
           </AssociationSet>
+          <EntitySet Name="UserFollows" EntityType="ActivityModel.UserFollow" />
+          <AssociationSet Name="FK_UserFollows_User" Association="ActivityModel.FK_UserFollows_User">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="UserFollow" EntitySet="UserFollows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFollows_Club" Association="ActivityModel.FK_UserFollows_Club">
+            <End Role="Club" EntitySet="Clubs" />
+            <End Role="UserFollow" EntitySet="UserFollows" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Club">
           <Key>
@@ -527,6 +579,7 @@
           <Property Name="HeaderImg" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Posts" Relationship="ActivityModel.FK_Posts_Clubs" FromRole="Club" ToRole="Post" />
           <NavigationProperty Name="Comments" Relationship="ActivityModel.FK_Comments_Club" FromRole="Club" ToRole="Comment" />
+          <NavigationProperty Name="UserFollows" Relationship="ActivityModel.FK_UserFollows_Club" FromRole="Club" ToRole="UserFollow" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -778,6 +831,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserFollow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClubId" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="AspNetUser" Relationship="ActivityModel.FK_UserFollows_User" FromRole="UserFollow" ToRole="AspNetUser" />
+          <NavigationProperty Name="Club" Relationship="ActivityModel.FK_UserFollows_Club" FromRole="UserFollow" ToRole="Club" />
+        </EntityType>
+        <Association Name="FK_UserFollows_User">
+          <End Type="ActivityModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="ActivityModel.UserFollow" Role="UserFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFollow">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFollows_Club">
+          <End Type="ActivityModel.Club" Role="Club" Multiplicity="0..1" />
+          <End Type="ActivityModel.UserFollow" Role="UserFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFollow">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -922,6 +1010,16 @@
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="Owner" ColumnName="Owner" />
                 <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserFollows">
+            <EntityTypeMapping TypeName="ActivityModel.UserFollow">
+              <MappingFragment StoreEntitySet="UserFollows">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="ClubId" ColumnName="ClubId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -27,3 +27,36 @@ export const getClubOwner = (id) => {
             })
     });
 }
+
+export const getUserFollowingClub = (userId, clubId, cb) => {
+    axios({
+        method: 'GET',
+        url: `/api/club/${clubId}/following`
+    })
+        .then(res => cb(null, res))
+        .catch(err => cb(err))
+}
+
+export const HandleUserFollowClub = (userId, clubId, isFollow, cb) => {
+    axios({
+        method: 'POST',
+        url: `/api/club/${clubId}/following`,
+        data: {
+            isFollow
+        }
+    })
+        .then(res => cb(null, res))
+        .catch(err => cb(err))
+}
+
+export const getCommentClubDetail = (clubId, continueTime, callback) => {
+    axios({
+        method: 'GET',
+        url: `/api/club/${clubId}/comments`,
+        params: {
+            continueTime
+        }
+    })
+        .then(res => callback(null, res))
+        .catch(err => callback(err))
+}

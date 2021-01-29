@@ -36,5 +36,6 @@ namespace ActivityWebsite.Models
         public virtual DbSet<PostTag> PostTags { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<UserLike> UserLikes { get; set; }
+        public virtual DbSet<UserFollow> UserFollows { get; set; }
     }
 }
