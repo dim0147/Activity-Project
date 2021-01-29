@@ -26,7 +26,6 @@ const DetailAbout = ({ clubId, clubRate, clubOwner, clubHeaderImg, clubName, clu
         getUserFollowingClub(user.Id, clubId, (err, res) => {
             if (err) return console.log(err);
             if (!res.data.success) return;
-            console.log(res.data);
             if (res.data.follow)
                 setFollow(true);
             else

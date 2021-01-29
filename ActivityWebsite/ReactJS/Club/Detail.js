@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { hubConnection } from 'signalr-no-jquery';
 
 import { getClubDetail } from '../API/Club';
 
@@ -36,6 +37,23 @@ class App extends Component {
     }
 
     async componentDidMount() {
+
+        const signalrConnection = hubConnection("/signalr");
+        const hub = signalrConnection.createHubProxy("ChatHub");
+        hub.on('ReceiveMessage', data => {
+            console.log("Data come");
+            console.log(data);
+        });
+
+        signalrConnection.start().done(() => {
+            console.log("connect ok");
+            // do some initialization once you know the connection has been started
+            // For instance, call a method on the server
+            hub.invoke('SendMess', {User: 'Duc', Message: 'Noob'});
+        });
+
+
+
         const clubId = document.getElementsByName('__ClubId')[0].value;
         this.setState({ status: 'loading' })
         const club = await getClubDetail(clubId).catch(err => {

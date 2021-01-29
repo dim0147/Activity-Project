@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Mvc = System.Web.Mvc;
 using ActivityWebsite.Models;
 using Newtonsoft.Json;
 using ActivityWebsite.CustomHelper;
@@ -10,6 +11,8 @@ using ActivityWebsite.Config;
 using static ActivityWebsite.Authenticate.AuthorizeRoute;
 using System.Net;
 using Microsoft.AspNet.Identity;
+using ActivityWebsite.Hubs;
+using Microsoft.AspNet.SignalR;
 
 namespace ActivityWebsite.Controllers
 {
@@ -17,7 +20,14 @@ namespace ActivityWebsite.Controllers
     public class ClubController : Controller
     {
 
-        [Authorize]
+        private IHubContext<IChatClient> _chatHub { get; set; }
+
+        public ClubController()
+        {
+            _chatHub = GlobalHost.ConnectionManager.GetHubContext<ChatHub, IChatClient>();
+        }
+
+        [Mvc.Authorize]
         [VerifyUser]
         public ActionResult Create()
         {
@@ -27,7 +37,7 @@ namespace ActivityWebsite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        [Authorize]
+        [Mvc.Authorize]
         [VerifyUser]
         public ActionResult Create(CreateClubModel model)
         {
@@ -149,7 +159,7 @@ namespace ActivityWebsite.Controllers
             }
         }
 
-        [Authorize]
+        [Mvc.Authorize]
         [VerifyUser]
         public ActionResult Edit(int id)
         {
@@ -160,7 +170,7 @@ namespace ActivityWebsite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        [Authorize]
+        [Mvc.Authorize]
         [VerifyUser]
         public ActionResult Edit(int id, EditClubModel model)
         {
@@ -318,6 +328,7 @@ namespace ActivityWebsite.Controllers
 
         public ActionResult Detail(int id)
         {
+            //_chatHub.Clients.All.ReceiveMessage(new ChatMessage { User = "Noob", Message = "Run from controller" });
             ViewBag.CLubId = id;
             return View();
         }
