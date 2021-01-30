@@ -6,18 +6,28 @@ using System.Net.Http;
 using System.Web.Http;
 using ActivityWebsite.CustomHelper;
 using ActivityWebsite.EF;
+using ActivityWebsite.Hubs;
 using ActivityWebsite.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 using static ActivityWebsite.Authenticate.AuthorizeRoute;
 
 namespace ActivityWebsite.Api
 {
     public class ClubController : ApiController
     {
+        private IHubContext<IChatClient> _chatHub { get; set; }
+
+        public ClubController()
+        {
+            _chatHub = GlobalHost.ConnectionManager.GetHubContext<ChatHub, IChatClient>();
+        }
+
         [HttpGet]
         [Route("api/club/{ClubId}")]
         public IHttpActionResult Get(int ClubId)
         {
+            //_chatHub.Clients.All.ReceiveMessage(new ChatMessage { User = "Noob", Message = "Run from controller" });
             var club = EF.ClubHandle.GetClubById(ClubId);
             return Json(club);
         }
@@ -51,7 +61,7 @@ namespace ActivityWebsite.Api
         }
 
         [HttpGet]
-        [Authorize]
+        [System.Web.Http.Authorize]
         [VerifyUser]
         [Route("api/club/{ClubId}/following")]
         public IHttpActionResult GetDefaultUserFollowing(int ClubId)
@@ -64,12 +74,12 @@ namespace ActivityWebsite.Api
         }
 
         [HttpPost]
-        [Authorize]
+        [System.Web.Http.Authorize]
         [VerifyUser]
         [Route("api/club/{ClubId}/following")]
         public IHttpActionResult CreateDefaultUserFollowing(int ClubId, FollowClubAPIModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Content(HttpStatusCode.BadRequest, new
                 {
@@ -78,7 +88,7 @@ namespace ActivityWebsite.Api
                 });
             }
 
-            if(model.isFollow)
+            if (model.isFollow)
             {
                 var result = EF.ClubHandle.CreateUserFollowClub(User.Identity.GetUserId(), ClubId);
                 if (result == null)
@@ -114,14 +124,14 @@ namespace ActivityWebsite.Api
                     return Json(new
                     {
                         success = true,
-                        messages = new string[] {"Unfollow success"}
+                        messages = new string[] { "Unfollow success" }
                     });
                 }
             }
         }
 
         [HttpGet]
-        [Authorize]
+        [System.Web.Http.Authorize]
         [VerifyUser]
         [Route("api/club/{ClubId}/comments")]
         public IHttpActionResult GetClubComments(int ClubId, DateTime? continueTime = null)
@@ -130,22 +140,22 @@ namespace ActivityWebsite.Api
         }
 
         [HttpPost]
-        [Authorize]
+        [System.Web.Http.Authorize]
         [VerifyUser]
         [Route("api/club/{ClubId}/comment")]
         public IHttpActionResult CreateCommentRate(int ClubId, CreateCommentRateAPIModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Content(HttpStatusCode.BadRequest, new
                 {
                     error = true,
-                    errors = new string[] {"Request is invalid!"}
+                    errors = new string[] { "Request is invalid!" }
                 });
             }
 
             var rate = EF.ClubHandle.GetUserRateClub(User.Identity.GetUserId(), ClubId);
-            if(rate != null)
+            if (rate != null)
             {
                 return Content(HttpStatusCode.BadRequest, new
                 {
@@ -155,7 +165,7 @@ namespace ActivityWebsite.Api
             }
 
             var newComment = EF.ClubHandle.CreateUserRateClub(User.Identity.GetUserId(), ClubId, model.text, model.rate);
-            if(newComment == null)
+            if (newComment == null)
             {
                 return Content(HttpStatusCode.InternalServerError, new
                 {
@@ -164,10 +174,105 @@ namespace ActivityWebsite.Api
                 });
             }
 
-            return Json(new { 
+            return Json(new
+            {
                 success = true,
-                messages = new string[] {"Create comment success!"}
+                messages = new string[] { "Create comment success!" }
             });
         }
+
+        [HttpGet]
+        [System.Web.Http.Authorize]
+        [VerifyUser]
+        [Route("api/club/{ClubId}/user")]
+        public IHttpActionResult GetUserRoleInClub(int ClubId)
+        {
+            var isOwner = EF.ClubHandle.isClubOwner(ClubId, User.Identity.GetUserId());
+            if (isOwner)
+            {
+                return Json(new
+                {
+                    success = true,
+                    role = "Owner"
+                });
+            }
+            var isMember = EF.ClubHandle.UserIsFollowClub(ClubId, User.Identity.GetUserId());
+            if (isMember)
+            {
+                return Json(new
+                {
+                    success = true,
+                    role = "Member"
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    success = true,
+                    role = (string)null
+                });
+            }
+
+        }
+        
+        [HttpGet]
+        [System.Web.Http.Authorize]
+        [VerifyUser]
+        [Route("api/club/{ClubId}/members")]
+        public IHttpActionResult GetClubMembers(int ClubId)
+        {
+            return Json(new
+            {
+                success = true,
+                members = EF.ClubHandle.GetClubMember(ClubId)
+            });
+        }
+
+        [HttpGet]
+        [System.Web.Http.Authorize]
+        [VerifyUser]
+        [Route("api/club/{ClubId}/chatbox/message")]
+        public IHttpActionResult GetClubMessages(int ClubId, [FromUri]DateTime? continueTime = null)
+        {
+            var rs = EF.ClubHandle.GetClubMessages(ClubId, continueTime);
+            return Json(new
+            {
+                success = true,
+                data = rs
+            });
+        }
+
+        [HttpPost]
+        [System.Web.Http.Authorize]
+        [VerifyUser]
+        [Route("api/club/{ClubId}/chatbox/message")]
+        public IHttpActionResult CreateMessageInChatbox(int ClubId, CreateMessageClubAPIModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                Content(HttpStatusCode.BadRequest, new { 
+                    error = true,
+                    errors = new string[] {"Request invalid!"}
+                });
+            }
+            if (!EF.ClubHandle.UserCanSendMessage(ClubId, User.Identity.GetUserId()))
+            {
+                return Content(HttpStatusCode.NotAcceptable, new
+                {
+                    error = true,
+                    errors = new string[] { "You don't have permission to send message to this group!" }
+                });
+            }
+
+            var newMessage = EF.ClubHandle.CreateClubMessage(ClubId, User.Identity.GetUserId(), model.message);
+            return Json(new
+            {
+                success = true,
+                message = newMessage
+            });
+        }
+    
+    
     }
 }

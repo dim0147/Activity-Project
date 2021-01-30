@@ -6,6 +6,7 @@ using System.Web;
 using ActivityWebsite.Models;
 using System.Configuration;
 using ActivityWebsite.Config;
+using Microsoft.AspNet.Identity;
 
 namespace ActivityWebsite.EF
 {
@@ -38,7 +39,7 @@ namespace ActivityWebsite.EF
                              .Select(c => new
                              {
                                  club = new
-                                 {                                    
+                                 {
                                      Id = c.Id,
                                      Name = c.Name,
                                      Address = c.Address,
@@ -244,6 +245,112 @@ namespace ActivityWebsite.EF
                 return new
                 {
                     comments = listReplies,
+                    totalLeft = totalLeft,
+                    continueTime = totalLeft > 0 ? lastCreatedTime : null
+                };
+            }
+        }
+
+        public static bool UserIsFollowClub(int clubId, string userId)
+        {
+            using (var db = new DbModel())
+            {
+                var result = db.UserFollows.Where(f => f.ClubId == clubId && f.UserId == userId).FirstOrDefault();
+                return result != null;
+            }
+        }
+
+        public static bool UserCanSendMessage(int clubId, string userId)
+        {
+            var isOwner = isClubOwner(clubId, userId);
+            if (isOwner) return true;
+
+            var isMember = UserIsFollowClub(clubId, userId);
+            if (isMember) return true;
+            else return false;
+        }
+
+        public static object CreateClubMessage(int clubId, string userId, string message)
+        {
+            using (var db = new DbModel())
+            {
+                var newMessage = new ClubMessage
+                {
+                    ClubId = clubId,
+                    Owner = userId,
+                    Text = message
+                };
+                db.ClubMessages.Add(newMessage);
+                db.SaveChanges();
+                var Owner = UserHandle.GetUserDetail(userId).Result;
+                if (Owner == null)
+                {
+                    return null;
+                }
+
+
+                return new
+                {
+                    Id = newMessage.Id,
+                    Text = newMessage.Text,
+                    Owner = Owner,
+                    CreatedAt = newMessage.CreatedAt
+                };
+            }
+        }
+
+        public static object GetClubMember(int clubId)
+        {
+            using (var db = new DbModel())
+            {
+                return db.UserFollows
+                    .Include(f => f.AspNetUser.AspNetRoles)
+                    .Where(f => f.ClubId == clubId)
+                    .Select(f => new
+                    {
+                        Id = f.AspNetUser.Id,
+                        UserName = f.AspNetUser.UserName,
+                        Name = f.AspNetUser.DisplayName,
+                        Role = f.AspNetUser.AspNetRoles.FirstOrDefault() != null ? f.AspNetUser.AspNetRoles.FirstOrDefault().Name : null,
+                        CreatedAt = f.AspNetUser.CreatedAt,
+                        JoinedAt = f.CreatedAt,
+                        AuthenticateType = f.AspNetUser.authenticateType
+                    })
+                    .ToList();
+            }
+        }
+
+        public static object GetClubMessages(int clubId, DateTime? continueTime)
+        {
+            string currentUserId = HttpContext.Current.User.Identity.GetUserId();
+            using (var db = new DbModel())
+            {
+                var query = db.ClubMessages
+                                .Include(m => m.AspNetUser.AspNetRoles)
+                                .Where(m => m.ClubId == clubId && m.AspNetUser.status == "normal");
+                if (continueTime != null)
+                    query = query.Where(m => m.CreatedAt < continueTime);
+                var result = query.Select(m => new
+                {
+                    Id = m.Id,
+                    Text = m.Text,
+                    Owner = new
+                    {
+                        Id = m.AspNetUser.Id,
+                        UserName = m.AspNetUser.UserName,
+                        Name = m.AspNetUser.DisplayName,
+                        Role = m.AspNetUser.AspNetRoles.FirstOrDefault() != null ? m.AspNetUser.AspNetRoles.FirstOrDefault().Name : null,
+                        CreatedAt = m.AspNetUser.CreatedAt,
+                        AuthenticateType = m.AspNetUser.authenticateType
+                    },
+                    CreatedAt = m.CreatedAt
+                }).OrderByDescending(m => m.CreatedAt).Take(5);
+                var listMessages = result.ToList();
+                var lastCreatedTime = listMessages.LastOrDefault()?.CreatedAt;
+                int totalLeft = lastCreatedTime != null ?
+                    db.ClubMessages.Where(m => m.ClubId == clubId && m.AspNetUser.status == "normal" && m.CreatedAt < lastCreatedTime).Count() : 0;
+                return new { 
+                    messages = listMessages,
                     totalLeft = totalLeft,
                     continueTime = totalLeft > 0 ? lastCreatedTime : null
                 };

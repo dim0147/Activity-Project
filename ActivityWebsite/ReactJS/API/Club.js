@@ -60,3 +60,45 @@ export const getCommentClubDetail = (clubId, continueTime, callback) => {
         .then(res => callback(null, res))
         .catch(err => callback(err))
 }
+
+export const getUserRoleClub = (clubId, callback) => {
+    axios({
+        method: 'GET',
+        url: `/api/club/${clubId}/user`
+    })
+        .then(res => callback(null, res))
+        .catch(err => callback(err))
+}
+
+export const createMessageChatbox = (clubId, message, callback) => {
+    axios({
+        method: 'POST',
+        url: `/api/club/${clubId}/chatbox/message`,
+        data: {
+            message
+        }
+    })
+    .then(res => callback(null, res))
+    .catch(err => callback(err))
+}
+
+export const getClubMember = (clubId, callback) => {
+    axios({
+        method: 'GET',
+        url: `/api/club/${clubId}/members`
+    })
+        .then(res => callback(null, res))
+        .catch(err => callback(err))
+}
+
+export const getClubMessages = (clubId, continueTime, callback) => {
+    axios({
+        method: 'GET',
+        url: `/api/club/${clubId}/chatbox/message`,
+        params: {
+            continueTime
+        }
+    })
+        .then(res => callback(null, res))
+        .catch(err => callback(err))
+}

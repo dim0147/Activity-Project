@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Chat Box";
+    ViewBag.BCHeader = "Chat Box";
+    ViewBag.BCAction = "";
+    ViewBag.BCController = "";
+    ViewBag.BCActionText = "";
+}
+
+@Html.Partial("_Breadcrumb")
+
+@Html.AntiForgeryToken()
+
+
+@Html.Hidden("__ClubId", (int)ViewBag.ClubId)
+
+<div id="root">
+
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/dist/Club/Chatbox.js")
+}

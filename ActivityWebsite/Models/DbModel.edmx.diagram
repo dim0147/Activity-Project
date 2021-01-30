@@ -32,6 +32,9 @@
         <EntityTypeShape EntityType="ActivityModel.UserFollow" Width="1.5" PointX="13.75" PointY="2.125" />
         <AssociationConnector Association="ActivityModel.FK_UserFollows_User" />
         <AssociationConnector Association="ActivityModel.FK_UserFollows_Club" />
+        <EntityTypeShape EntityType="ActivityModel.ClubMessage" Width="1.5" PointX="1" PointY="5.875" />
+        <AssociationConnector Association="ActivityModel.FK_ClubMessages_Users" />
+        <AssociationConnector Association="ActivityModel.FK_ClubMessages_Club" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

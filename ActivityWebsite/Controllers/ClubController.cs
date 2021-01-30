@@ -19,14 +19,6 @@ namespace ActivityWebsite.Controllers
 
     public class ClubController : Controller
     {
-
-        private IHubContext<IChatClient> _chatHub { get; set; }
-
-        public ClubController()
-        {
-            _chatHub = GlobalHost.ConnectionManager.GetHubContext<ChatHub, IChatClient>();
-        }
-
         [Mvc.Authorize]
         [VerifyUser]
         public ActionResult Create()
@@ -328,8 +320,17 @@ namespace ActivityWebsite.Controllers
 
         public ActionResult Detail(int id)
         {
-            //_chatHub.Clients.All.ReceiveMessage(new ChatMessage { User = "Noob", Message = "Run from controller" });
-            ViewBag.CLubId = id;
+            ViewBag.ClubId = id;
+            return View();
+        }
+
+        [HttpGet]
+        [Mvc.Authorize]
+        [VerifyUser]
+        [Route("club/{clubId}/chatbox")]
+        public ActionResult Chat(int clubId)
+        {
+            ViewBag.ClubId = clubId;
             return View();
         }
     }

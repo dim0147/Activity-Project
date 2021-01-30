@@ -6,7 +6,8 @@ module.exports = {
     /* Club */
         Edit: "./ReactJS/Club/Edit.js",
         Create: "./ReactJS/Club/Create.js",
-        Detail: "./ReactJS/Club/Detail.js"
+        Detail: "./ReactJS/Club/Detail.js",
+        Chatbox: "./ReactJS/Club/Chatbox.js"
 
     /* Post */
         //Create: "./ReactJS/Post/Create.js",

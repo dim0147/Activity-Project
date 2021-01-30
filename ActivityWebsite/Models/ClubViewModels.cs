@@ -95,4 +95,10 @@ namespace ActivityWebsite.Models
         [Required]
         public string text { get; set; }
     }
+
+    public class CreateMessageClubAPIModel
+    {
+        [Required]
+        public string message { get; set; }
+    }
 }

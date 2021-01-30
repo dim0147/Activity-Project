@@ -311,6 +311,9 @@
     <Compile Include="Models\ClubCategory.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClubMessage.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ClubViewModels.cs" />
     <Compile Include="Models\Comment.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
@@ -355,6 +358,14 @@
     <Content Include="ReactJS\API\Post.js" />
     <Content Include="ReactJS\API\User.js" />
     <Content Include="ReactJS\ckEditorExclude.css" />
+    <Content Include="ReactJS\Club\Chatbox.css" />
+    <Content Include="ReactJS\Club\Chatbox.js" />
+    <Content Include="ReactJS\Club\ChatboxHeader.js" />
+    <Content Include="ReactJS\Club\ChatboxInput.js" />
+    <Content Include="ReactJS\Club\ChatboxLeftPanel.js" />
+    <Content Include="ReactJS\Club\ChatboxMemberCard.js" />
+    <Content Include="ReactJS\Club\ChatboxMessage.js" />
+    <Content Include="ReactJS\Club\ChatboxRightPanel.js" />
     <Content Include="ReactJS\Club\Comment.js" />
     <Content Include="ReactJS\Club\CommentBox.js" />
     <Content Include="ReactJS\Club\CommentInput.js" />
@@ -561,6 +572,7 @@
     <Content Include="Scripts\User\Account\Login.js" />
     <Content Include="Scripts\User\Manage\ConfirmEmail.js" />
     <Content Include="Scripts\User\Shared\main.js" />
+    <Content Include="Views\Club\Chat.cshtml" />
     <None Include="Views\Club\Detail.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
