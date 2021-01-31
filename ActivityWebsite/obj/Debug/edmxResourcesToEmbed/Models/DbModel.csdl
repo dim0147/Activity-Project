@@ -36,6 +36,7 @@
     <NavigationProperty Name="UserLikes" Relationship="ActivityModel.FK_UserLikes_User" FromRole="AspNetUser" ToRole="UserLike" />
     <NavigationProperty Name="UserFollows" Relationship="ActivityModel.FK_UserFollows_User" FromRole="AspNetUser" ToRole="UserFollow" />
     <NavigationProperty Name="ClubMessages" Relationship="ActivityModel.FK_ClubMessages_Users" FromRole="AspNetUser" ToRole="ClubMessage" />
+    <NavigationProperty Name="UserConnections" Relationship="ActivityModel.FK_UserConnections_AspNetUsers" FromRole="AspNetUser" ToRole="UserConnection" />
   </EntityType>
   <Association Name="AspNetUserRoles">
     <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
@@ -125,6 +126,11 @@
     <AssociationSet Name="FK_ClubMessages_Club" Association="ActivityModel.FK_ClubMessages_Club">
       <End Role="Club" EntitySet="Clubs" />
       <End Role="ClubMessage" EntitySet="ClubMessages" />
+    </AssociationSet>
+    <EntitySet Name="UserConnections" EntityType="ActivityModel.UserConnection" />
+    <AssociationSet Name="FK_UserConnections_AspNetUsers" Association="ActivityModel.FK_UserConnections_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="UserConnection" EntitySet="UserConnections" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Club">
@@ -470,6 +476,27 @@
       </Principal>
       <Dependent Role="ClubMessage">
         <PropertyRef Name="ClubId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="UserConnection">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="AspNetUser" Relationship="ActivityModel.FK_UserConnections_AspNetUsers" FromRole="UserConnection" ToRole="AspNetUser" />
+  </EntityType>
+  <Association Name="FK_UserConnections_AspNetUsers">
+    <End Type="ActivityModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="ActivityModel.UserConnection" Role="UserConnection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserConnection">
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

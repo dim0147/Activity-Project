@@ -133,6 +133,14 @@
     <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="CreatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
   </EntityType>
+  <EntityType Name="UserConnections">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" StoreGeneratedPattern="Identity" />
+  </EntityType>
   <EntityType Name="UserFollows">
     <Key>
       <PropertyRef Name="Id" />
@@ -335,6 +343,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_UserConnections_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="UserConnections" Type="Self.UserConnections" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserConnections">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_UserFollows_Club">
     <End Role="Clubs" Type="Self.Clubs" Multiplicity="0..1" />
     <End Role="UserFollows" Type="Self.UserFollows" Multiplicity="*" />
@@ -395,6 +415,7 @@
     <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Posts" EntityType="Self.Posts" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PostTags" EntityType="Self.PostTags" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserConnections" EntityType="Self.UserConnections" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserFollows" EntityType="Self.UserFollows" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserLikes" EntityType="Self.UserLikes" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_ClubCategories_Categories" Association="Self.FK_ClubCategories_Categories">
@@ -456,6 +477,10 @@
     <AssociationSet Name="FK_PostTags_Post" Association="Self.FK_PostTags_Post">
       <End Role="Posts" EntitySet="Posts" />
       <End Role="PostTags" EntitySet="PostTags" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserConnections_AspNetUsers" Association="Self.FK_UserConnections_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="UserConnections" EntitySet="UserConnections" />
     </AssociationSet>
     <AssociationSet Name="FK_UserFollows_Club" Association="Self.FK_UserFollows_Club">
       <End Role="Clubs" EntitySet="Clubs" />

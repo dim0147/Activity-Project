@@ -5,22 +5,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using ActivityWebsite.EF;
 
 namespace ActivityWebsite.Hubs
 {
     public class ChatHub : Hub<IChatClient>
     {
 
-        public void SendMess(ChatMessage message)
+        public bool JoinGroupChat(int clubId)
         {
-            Clients.All.ReceiveMessage(message);
+            string userId = Context.User?.Identity.GetUserId();
+            string connectionId = Context.ConnectionId;
+            bool isValidToJoin = EF.ClubHandle.UserCanSendMessage(clubId, userId);
+            if (!isValidToJoin) return false;
+            Groups.Add(connectionId, clubId.ToString());
+            return true;
         }
 
         public override Task OnConnected()
         {
-            var id = Context.User?.Identity.GetUserId();
-            var name = Context.User?.Identity.Name;
-            string idC = Context.ConnectionId;
+            string userId = Context.User?.Identity.GetUserId();
+            string connectionId = Context.ConnectionId;
+            if(userId != null)
+                EF.UserConnectionHandle.AddUserConnection(userId, connectionId);
+
             return base.OnConnected();
         }
 
@@ -30,9 +38,9 @@ namespace ActivityWebsite.Hubs
         */
         public override Task OnDisconnected(bool stopCalled)
         {
-            var id = Context.User?.Identity.GetUserId();
-            var name = Context.User?.Identity.Name;
-            string idC = Context.ConnectionId;
+            string connectionId = Context.ConnectionId;
+            EF.UserConnectionHandle.RemoveConnection(connectionId);
+
             return base.OnDisconnected(stopCalled);
         }
 

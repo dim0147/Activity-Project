@@ -38,5 +38,6 @@ namespace ActivityWebsite.Models
         public virtual DbSet<UserLike> UserLikes { get; set; }
         public virtual DbSet<UserFollow> UserFollows { get; set; }
         public virtual DbSet<ClubMessage> ClubMessages { get; set; }
+        public virtual DbSet<UserConnection> UserConnections { get; set; }
     }
 }

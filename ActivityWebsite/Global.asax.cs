@@ -21,6 +21,8 @@ namespace ActivityWebsite
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ModelBinders.Binders.DefaultBinder = new FormDataBinding();
+
+            StartupSetup.Start();
         }
     }
 }

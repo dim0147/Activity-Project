@@ -20,32 +20,42 @@ namespace ActivityWebsite
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            var fromAddress = new MailAddress("tuyetnhi0365@gmail.com", "Bot");
-            var toAddress = new MailAddress(message.Destination, "User");
-            string subject = message.Subject;
-            string body = message.Body;
+            try
+            {
 
-            var smtp = new SmtpClient
+                // Plug in your email service here to send an email.
+                var fromAddress = new MailAddress("tuyetnhi0365@gmail.com", "Bot");
+                var toAddress = new MailAddress(message.Destination, "User");
+                string subject = message.Subject;
+                string body = message.Body;
+
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, "5371165okA")
+                };
+                using (var messageSend = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(messageSend);
+                }
+
+
+                return Task.FromResult(0);
+            }
+            catch (Exception E)
             {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, "5371165okA")
-            };
-            using (var messageSend = new MailMessage(fromAddress, toAddress)
-                                            {
-                                                Subject = subject,
-                                                Body = body
-                                            })
-            {
-                smtp.Send(messageSend);
+                return null;
             }
 
 
-            return Task.FromResult(0);
         }
     }
 

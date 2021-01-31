@@ -177,8 +177,9 @@ namespace ActivityWebsite.Controllers
                     ViewBag.confirmEmail = "We have sent you email link to confirm your account, please login to email and confirm your account";
                     return View(model);
                 }
-                catch (Exception)
+                catch (Exception err)
                 {
+                    ModelState.AddModelError("","Email confirm may not been sent, please try again later");
                     // Something failed, redisplay form
                     return View(model);
                 }

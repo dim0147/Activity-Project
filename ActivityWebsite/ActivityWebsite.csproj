@@ -272,6 +272,7 @@
     <Compile Include="EF\Image.cs" />
     <Compile Include="EF\Post.cs" />
     <Compile Include="EF\User.cs" />
+    <Compile Include="EF\UserConnection.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -346,6 +347,9 @@
     </Compile>
     <Compile Include="Models\PostViewAPIModel.cs" />
     <Compile Include="Models\PostViewModel.cs" />
+    <Compile Include="Models\UserConnection.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserFollow.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
@@ -353,6 +357,7 @@
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StartupSetup.cs" />
     <Content Include="Content\css\Shared\ckeditor.css" />
     <Content Include="ReactJS\API\Comment.js" />
     <Content Include="ReactJS\API\Post.js" />

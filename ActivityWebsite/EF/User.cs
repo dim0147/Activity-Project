@@ -23,7 +23,7 @@ namespace ActivityWebsite.EF
                 Id = user.Id,
                 Email = user.Email,
                 Username = user.UserName,
-                DisplayNamme = user.DisplayName,
+                DisplayName = user.DisplayName,
                 Role = userRole,
                 Status = user.status,
                 AuthenticateType = user.authenticateType,

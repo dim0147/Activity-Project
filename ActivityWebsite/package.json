@@ -9,10 +9,13 @@
     "@ckeditor/ckeditor5-upload": "^24.0.0",
     "axios": "^0.21.1",
     "emoji-picker-react": "^3.4.2",
+    "global": "^4.4.0",
     "google-map-react": "^2.1.9",
+    "iisexpress-proxy": "^1.5.3",
     "prop-types": "^15.7.2",
     "qs": "^6.9.6",
     "react-rating-stars-component": "^2.2.0",
+    "react-toastify": "^7.0.2",
     "react-tooltip": "^4.2.11",
     "signalr-no-jquery": "^0.2.0"
   },
@@ -34,7 +37,8 @@
     "webpack-cli": "^4.2.0"
   },
   "scripts": {
-    "build": "webpack --config=Config/webpack.config.js"
+    "build": "webpack --config=Config/webpack.config.js",
+    "proxy": "iisexpress-proxy 44377 to 81"
   },
   "keywords": [],
   "author": "",

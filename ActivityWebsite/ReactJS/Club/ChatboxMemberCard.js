@@ -13,7 +13,7 @@ const ChatboxMemberCard = ({ member }) => {
                     </div>
                     <p className="font-italic mb-0 text-small">
                         {member.AuthenticateType === "Google" && <i style={{ color: 'red' }} title="Authenticate with Google" className="fab fa-google"></i>}
-                        {member.AuthenticateType === "Facebook" && <i style={{ color: 'blue' }} title="Authenticate with Google" className="fab fa-facebook-f"></i>}
+                        {member.AuthenticateType === "Facebook" && <i style={{ color: 'blue' }} title="Authenticate with Facebook" className="fab fa-facebook-f"></i>}
 
                     </p>
                 </div>

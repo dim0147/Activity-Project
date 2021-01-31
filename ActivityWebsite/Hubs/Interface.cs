@@ -8,6 +8,6 @@ namespace ActivityWebsite.Hubs
 {
     public interface IChatClient
     {
-        Task ReceiveMessage(ChatMessage message);
+        Task ReceiveMessage(object message);
     }
 }

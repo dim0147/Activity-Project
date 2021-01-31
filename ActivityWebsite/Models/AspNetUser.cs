@@ -24,6 +24,7 @@ namespace ActivityWebsite.Models
             this.UserLikes = new HashSet<UserLike>();
             this.UserFollows = new HashSet<UserFollow>();
             this.ClubMessages = new HashSet<ClubMessage>();
+            this.UserConnections = new HashSet<UserConnection>();
         }
     
         public string Id { get; set; }
@@ -58,5 +59,7 @@ namespace ActivityWebsite.Models
         public virtual ICollection<UserFollow> UserFollows { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClubMessage> ClubMessages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserConnection> UserConnections { get; set; }
     }
 }

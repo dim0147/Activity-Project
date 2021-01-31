@@ -11,18 +11,15 @@ const DetailAbout = ({ clubId, clubRate, clubOwner, clubHeaderImg, clubName, clu
     const [isFollow, setFollow] = useState(false);
 
     useEffect(() => {
-
         getDefaultUser((err, res) => {
             if (err) return console.log(err);
             if (!res.data.success) return;
             setUser(res.data.user);
         })
-
     }, [])
 
     useEffect(() => {
         if (!user || !user.Id) return;
-
         getUserFollowingClub(user.Id, clubId, (err, res) => {
             if (err) return console.log(err);
             if (!res.data.success) return;
@@ -47,7 +44,7 @@ const DetailAbout = ({ clubId, clubRate, clubOwner, clubHeaderImg, clubName, clu
         return (
             <>
                 <a href={`/club/edit/${clubId}`} className="primary-btn mr-3">Edit Club</a>
-                <a href="#" className="primary-btn">Go to chat box</a>
+                <a href={`/club/${clubId}/chatbox`} className="primary-btn">Go to chat box</a>
             </>
         )
     }
@@ -57,7 +54,8 @@ const DetailAbout = ({ clubId, clubRate, clubOwner, clubHeaderImg, clubName, clu
             <>
                 {/* Not club owner but login*/}
                 <a href="#" className="primary-btn mr-3" onClick={clubFollowHandle}>{isFollow ? "Unfollow" : "Follow"}</a>
-                <a href="#" className="primary-btn">Join our chat box</a>
+                {isFollow && <a href={`/club/${clubId}/chatbox`} className="primary-btn">Join our chat box</a>}
+                
             </>
         )
     }

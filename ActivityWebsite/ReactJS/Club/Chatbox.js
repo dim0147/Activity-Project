@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { hubConnection } from 'signalr-no-jquery';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Header from './ChatboxHeader';
 import LeftPanel from './ChatboxLeftPanel';
@@ -33,7 +34,6 @@ class App extends Component {
             getUserRoleClub(clubId, (err, res) => {
                 if (err) {
                     this.setState({ status: 'error' });
-                    console.log(err);
                     return resolve();
                 }
                 if (!res.data.success) {
@@ -59,6 +59,7 @@ class App extends Component {
         }
     }
 
+
     render() {
         if (this.state.status === 'loading') {
             return (
@@ -73,6 +74,7 @@ class App extends Component {
         else if (this.state.status === 'success') {
             return (
                 <div className="container py-5 px-4">
+
                     <Header
                         club={this.state.club}
                     />
@@ -86,6 +88,7 @@ class App extends Component {
                             club={this.state.club}
                         />
                     </div>
+                    <ToastContainer />
                 </div>
 
             )

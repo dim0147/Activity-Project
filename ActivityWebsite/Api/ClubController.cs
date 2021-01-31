@@ -266,6 +266,8 @@ namespace ActivityWebsite.Api
             }
 
             var newMessage = EF.ClubHandle.CreateClubMessage(ClubId, User.Identity.GetUserId(), model.message);
+
+            _chatHub.Clients.Group(ClubId.ToString()).ReceiveMessage(newMessage);
             return Json(new
             {
                 success = true,

@@ -11,6 +11,7 @@ namespace ActivityWebsite
         {
             ConfigureAuth(app);
             app.MapSignalR("/signalr", new HubConfiguration());
+            
         }
     }
 }

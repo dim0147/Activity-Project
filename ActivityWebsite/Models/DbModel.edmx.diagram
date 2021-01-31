@@ -35,6 +35,8 @@
         <EntityTypeShape EntityType="ActivityModel.ClubMessage" Width="1.5" PointX="1" PointY="5.875" />
         <AssociationConnector Association="ActivityModel.FK_ClubMessages_Users" />
         <AssociationConnector Association="ActivityModel.FK_ClubMessages_Club" />
+        <EntityTypeShape EntityType="ActivityModel.UserConnection" Width="1.5" PointX="5.25" PointY="10" />
+        <AssociationConnector Association="ActivityModel.FK_UserConnections_AspNetUsers" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
