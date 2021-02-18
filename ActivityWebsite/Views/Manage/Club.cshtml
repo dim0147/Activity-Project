@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Manage";
+    ViewBag.BCHeader = "Manage Club";
+    ViewBag.BCAction = "Index";
+    ViewBag.BCController = "Home";
+    ViewBag.BCActionText = "Home";
+
+    ViewBag.ClubLinkClass = "active-link";
+}
+
+
+
+@Html.Partial("_Breadcrumb")
+
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row">
+            @Html.Partial("_LeftPanel")
+            <div class="col-lg-8 order-lg-2 order-1">
+                <div id="root"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    @Scripts.Render("~/dist/Manage/Club.js")
+}
+
