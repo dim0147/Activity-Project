@@ -1,4 +1,4 @@
-﻿import React, { forwardRef } from 'react';
+﻿import React, { forwardRef, useState, useEffect } from 'react';
 import MaterialTable from "material-table";
 
 import Tooltip from '@material-ui/core/Tooltip';
@@ -23,7 +23,7 @@ import RoomIcon from '@material-ui/icons/Room';
 import RssFeedIcon from '@material-ui/icons/RssFeed';
 
 
-export default function Table() {
+export default function Table({ clubs }) {
     const tableIcons = {
         Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
         Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -44,6 +44,36 @@ export default function Table() {
         ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
     };
 
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        const shapeData = clubs.map(c => {
+            return {
+                id: c.Id,
+                headerImg: c.Image,
+                name: c.Name,
+                address: {
+                    name: c.Address,
+                    lat: c.Lat,
+                    lng: c.Lng
+                },
+                operationHours: c.OperationHours,
+                categories: c.Category.map(cate => cate.Name),
+                follow: c.UserFollows,
+                posts: c.Posts,
+                rate: {
+                    average: c.Rate.Average ?? 0,
+                    total: c.Rate.Total
+                },
+                establishedAt: c.EstablishAt,
+                createdAt: c.CreatedAt
+            }
+        });
+
+        setData(shapeData);
+    }, [clubs])
+
+
     return (
         <MaterialTable
             icons={tableIcons}
@@ -52,61 +82,49 @@ export default function Table() {
                     title: "Id", field: "id", type: 'numeric', hidden: true
                 },
                 {
-                    title: "Image", sorting: false, field: "headerImg", render: row => <img src={row.headerImg} style={{ width: 40, borderRadius: '50%' }} />
+                    title: "Image", sorting: false, grouping: false, field: "headerImg", render: row => <img src={row.headerImg} style={{ width: 40, borderRadius: '50%' }} />
                 },
                 {
                     title: 'Name', field: 'name'
                 },
                 {
-                    title: 'Address', field: 'address', sorting: false, render: row => <a style={{ color: 'green' }} target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${row.address.lat},${row.address.lng}`}><RoomIcon />{row.address.name}</a>
+                    title: 'Address', field: 'address', grouping: false, sorting: false, render: row => (
+                        <div style={{ minWidth: "250px", paddingLeft: "10px" }}>
+                            <a style={{ color: 'green' }} target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${row.address.lat},${row.address.lng}`}><RoomIcon />{row.address.name}</a>
+                        </div>
+                    ) 
                 },
                 {
                     title: 'Operation Hours', field: 'operationHours'
                 },
                 {
-                    title: 'Categories', field: 'categories', render: row => row.categories.join(', ')
+                    title: 'Categories', field: 'categories', cellStyle: { width: '30%' }, grouping: false, sorting: false, render: row => (<div style={{ minWidth: "250px", paddingLeft: "10px" }}>  {row.categories.join(', ')}  </div>)
                 },
                 {
-                    title: 'User Follows', field: 'follow', type: 'numeric', render: row => <span>{row.follow}<RssFeedIcon color="action" /></span>
+                    title: 'User Follows', field: 'follow', type: 'numeric', grouping: false, render: row => <span>{row.follow}<RssFeedIcon color="action" /></span>
                 },
                 {
-                    title: 'Posts', field: 'posts', type: 'numeric', render: row => (<><span>{row.posts}</span> <a href="#"><Tooltip title="See all posts"><CallMissedOutgoingIcon color="primary" /></Tooltip></a></>)
+                    title: 'Posts', field: 'posts', type: 'numeric', grouping: false, render: row => (<><span>{row.posts}</span> <a href="#"><Tooltip title="See all posts"><CallMissedOutgoingIcon color="primary" /></Tooltip></a></>)
                 },
                 {
-                    title: 'Rate', field: 'rate', type: 'numeric', render: row => (
-                        <ReactStars
-                            value={row.rate}
-                            size={20}
-                            edit={false}
-                        />
-                    )
+                    title: 'Rate', field: 'rate', grouping: false, customSort: (a, b) => Number(a.rate.average) - Number(b.rate.average), render: row => (
+                        <>
+                            <ReactStars
+                                value={row.rate.average}
+                                size={20}
+                                edit={false}
+                            /> (Total {row.rate.total} rating)
+                        </>
+                    ),                 
                 },
                 {
                     title: 'Established at', field: 'establishedAt', type: "date"
-                },
+                },  
                 {
                     title: 'Created At', field: 'createdAt', type: "datetime"
                 },
             ]}
-            data={[
-                {
-                    id: 1,
-                    headerImg: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png',
-                    name: "Mehmet",
-                    address: {
-                        name: "50 Kallang Rd, Singapore 208699",
-                        lat: 1.3073208,
-                        lng: 103.8631228
-                    },
-                    operationHours: "Mon - Fri",
-                    categories: ['Fighting', 'Yudo'],
-                    follow: 139,
-                    posts: 12,
-                    rate: 3.2,
-                    establishedAt: "2020-01-31",
-                    createdAt: "2020-12-31 09:58:37.117"
-                },
-            ]}
+            data={data}
 
             editable={{
 
@@ -121,7 +139,7 @@ export default function Table() {
 
             actions={[
                 {
-                    icon: () => <Edit color='action'/>,
+                    icon: () => <Edit color='action' />,
                     tooltip: 'Edit club',
                     onClick: (event) => alert("You want to edit club")
                 },
@@ -139,6 +157,10 @@ export default function Table() {
                         deleteText: 'Are you sure want to delete this club?'
                     }
                 }
+            }}
+            options={{
+                grouping: true,
+                searchText: "Sport Club"
             }}
             title="Manage Clubs"
         />

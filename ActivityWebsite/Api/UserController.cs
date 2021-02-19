@@ -28,5 +28,19 @@ namespace ActivityWebsite.Api
                 user = EF.UserHandle.GetUserDetail(User.Identity.GetUserId()).Result
             });
         }
+    
+        [HttpGet]
+        [Authorize]
+        [VerifyUser]
+        [Route("api/user/clubs")]
+        public async Task<IHttpActionResult> GetUserClubs()
+        {
+            var result = await EF.UserHandle.GetUserClubs(User.Identity.GetUserId());
+            return Json(new
+            {
+                success = true,
+                data = result
+            });
+        }
     }
 }
