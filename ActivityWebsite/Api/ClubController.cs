@@ -27,7 +27,6 @@ namespace ActivityWebsite.Api
         [Route("api/club/{ClubId}")]
         public IHttpActionResult Get(int ClubId)
         {
-            //_chatHub.Clients.All.ReceiveMessage(new ChatMessage { User = "Noob", Message = "Run from controller" });
             var club = EF.ClubHandle.GetClubById(ClubId);
             return Json(club);
         }

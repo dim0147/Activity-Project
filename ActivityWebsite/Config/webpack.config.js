@@ -10,7 +10,8 @@ module.exports = {
         //Chatbox: "./ReactJS/Club/Chatbox.js"
 
     /* Manage */
-        Club: './ReactJS/Manage/Club.js'
+        Club: './ReactJS/Manage/Club.js',
+        Post: './ReactJS/Manage/Post.js'
 
     /* Post */
         //Create: "./ReactJS/Post/Create.js",

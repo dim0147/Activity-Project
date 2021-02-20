@@ -13,6 +13,7 @@ using System.Net;
 using Microsoft.AspNet.Identity;
 using ActivityWebsite.Hubs;
 using Microsoft.AspNet.SignalR;
+using System.Threading.Tasks;
 
 namespace ActivityWebsite.Controllers
 {
@@ -324,6 +325,56 @@ namespace ActivityWebsite.Controllers
             return View();
         }
 
+
+
+        [HttpDelete]
+        [Mvc.Authorize]
+        [VerifyUser]
+        public async Task<ActionResult> Delete(int id, DeleteClubModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Helper.AddModelError(ModelState);
+            }
+
+            // Check club is exist
+            if (EF.ClubHandle.GetFullClubById(id) == null)
+            {
+                return Helper.ResponseHandle(HttpStatusCode.BadRequest, new
+                {
+                    error = true,
+                    errors = new string[] { $"Club not found!" }
+                });
+            }
+
+            // Check if owner
+            if (!EF.ClubHandle.isClubOwner(id, User.Identity.GetUserId()))
+            {
+                return Helper.ResponseHandle(HttpStatusCode.BadRequest, new
+                {
+                    error = true,
+                    errors = new string[] { $"You don't have permission to edit this club!" }
+                });
+            }
+
+            bool isSuccess = await EF.ClubHandle.DeleteClub(id);
+            if (isSuccess)
+            {
+                return Helper.ResponseHandle(HttpStatusCode.OK, new
+                {
+                    success = true
+                });
+            } 
+            else
+            {
+                return Helper.ResponseHandle(HttpStatusCode.InternalServerError, new
+                {
+                    error = true
+                });
+            }
+
+        }
+
         [HttpGet]
         [Mvc.Authorize]
         [VerifyUser]
@@ -333,5 +384,6 @@ namespace ActivityWebsite.Controllers
             ViewBag.ClubId = clubId;
             return View();
         }
+    
     }
 }

@@ -7,6 +7,8 @@ using ActivityWebsite.Models;
 using System.Configuration;
 using ActivityWebsite.Config;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace ActivityWebsite.EF
 {
@@ -349,11 +351,49 @@ namespace ActivityWebsite.EF
                 var lastCreatedTime = listMessages.LastOrDefault()?.CreatedAt;
                 int totalLeft = lastCreatedTime != null ?
                     db.ClubMessages.Where(m => m.ClubId == clubId && m.AspNetUser.status == "normal" && m.CreatedAt < lastCreatedTime).Count() : 0;
-                return new { 
+                return new
+                {
                     messages = listMessages,
                     totalLeft = totalLeft,
                     continueTime = totalLeft > 0 ? lastCreatedTime : null
                 };
+            }
+        }
+
+        public static async Task<bool> DeleteClub(int clubId)
+        {
+            using (var context = new DbModel())
+            {
+                try
+                {
+                    var listThumbnail = await context.Images.Where(i => i.ClubId == clubId).ToListAsync();
+                    var listPosts = await context.Posts.Where(p => p.ClubId == clubId).Select(p => p.HeaderImg).ToListAsync();
+
+                    var club = await context.Clubs.Where(c => c.Id == clubId).SingleOrDefaultAsync();
+                    if (club == null) return false;
+
+                    string headerImgName = club.HeaderImg;
+
+                    context.Clubs.Remove(club);
+                    context.SaveChanges();
+
+                    foreach (var image in listThumbnail)
+                    {
+                        EF.ImageHandle.DelImg(image.Name, ConfigurationApp.VIRTUAL_DIR_CLUB_IMAGE);
+                    }
+                    EF.ImageHandle.DelImg(headerImgName, ConfigurationApp.VIRTUAL_DIR_CLUB_IMAGE);
+
+                    foreach (var imageName in listPosts)
+                    {
+                        EF.ImageHandle.DelImg(imageName, ConfigurationApp.VIRTUAL_DIR_POST_IMAGE);
+                    }
+
+                    return true;
+                }
+                catch (Exception excp)
+                {
+                    return false;
+                }
             }
         }
 

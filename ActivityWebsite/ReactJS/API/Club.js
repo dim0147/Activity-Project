@@ -102,3 +102,12 @@ export const getClubMessages = (clubId, continueTime, callback) => {
         .then(res => callback(null, res))
         .catch(err => callback(err))
 }
+
+export const deleteClub = (clubId, callback) => {
+    axios({
+        method: 'DELETE',
+        url: `/club/delete/${clubId}`
+    })
+        .then(res => callback(null, res))
+        .catch(err => callback(err))
+}

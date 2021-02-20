@@ -8,6 +8,7 @@
     "@ckeditor/ckeditor5-react": "^3.0.0",
     "@ckeditor/ckeditor5-upload": "^24.0.0",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "axios": "^0.21.1",
     "emoji-picker-react": "^3.4.2",
     "global": "^4.4.0",
