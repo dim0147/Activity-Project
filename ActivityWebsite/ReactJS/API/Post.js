@@ -49,3 +49,12 @@ export const searchPost = (title, tags, size, cb) => {
         .then(res => cb(null, res))
         .catch(err => cb(err))
 }
+
+export const deletePost = (id, cb) => {
+    axios({
+        url: `/post/delete/${id}`,
+        method: 'DELETE'
+    })
+        .then(res => cb(null, res))
+        .catch(err => cb(err))
+}

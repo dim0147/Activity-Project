@@ -26,6 +26,7 @@ import RssFeedIcon from '@material-ui/icons/RssFeed';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ForumIcon from '@material-ui/icons/Forum';
 import SnackBars from '../Components/SnackBars';
+import FeaturedPlayListIcon from '@material-ui/icons/FeaturedPlayList';
 
 
 
@@ -105,7 +106,7 @@ export default function Table({ clubs }) {
                         title: "Image", sorting: false, grouping: false, field: "headerImg", render: row => <img src={row.headerImg} style={{ width: 40, borderRadius: '50%' }} />
                     },
                     {
-                        title: 'Name', field: 'name', render: row => <a href={`/club/${row.slug}`}>{row.name}</a>
+                        title: 'Name', field: 'name', render: row => <div style={{ minWidth: "150px" }}><a href={`/club/${row.slug}`}>{row.name}</a></div>
                     },
                     {
                         title: 'Address', field: 'address', grouping: false, sorting: false, render: row => (
@@ -124,7 +125,7 @@ export default function Table({ clubs }) {
                         title: 'User Follows', field: 'follow', type: 'numeric', grouping: false, render: row => <span>{row.follow}<RssFeedIcon color="action" /></span>
                     },
                     {
-                        title: 'Posts', field: 'posts', type: 'numeric', grouping: false, render: row => (<><span>{row.posts}</span> <a href="#"><Tooltip title="See all posts"><CallMissedOutgoingIcon color="primary" /></Tooltip></a></>)
+                        title: 'Posts', field: 'posts', type: 'numeric', grouping: false, render: row => (<><span>{row.posts}</span> <a href={`/manage/post?search=${row.slug}`}><Tooltip title="See all posts"><CallMissedOutgoingIcon color="primary" /></Tooltip></a></>)
                     },
                     {
                         title: 'Rate', field: 'rate', grouping: false, customSort: (a, b) => Number(a.rate.average) - Number(b.rate.average), render: row => (
@@ -154,7 +155,6 @@ export default function Table({ clubs }) {
                             deleteClub(oldData.id, (err, response) => {
                                
                                 if (err) {
-                                    console.log(err);
                                     setSnackBar({
                                         open: true,
                                         key: snackBar.key + 1,
@@ -184,8 +184,13 @@ export default function Table({ clubs }) {
                 actions={[
                     {
                         icon: () => <VisibilityIcon color='action' />,
-                        tooltip: 'See club',
+                        tooltip: 'See this club',
                         onClick: (event, row) => window.open(`/club/${row.slug}`)
+                    },
+                    {
+                        icon: () => <AddBox color='action' />,
+                        tooltip: 'Add new post',
+                        onClick: (event, row) => window.open(`/post/create?id=${row.id}`)
                     },
                     {
                         icon: () => <ForumIcon color='action' />,
@@ -213,8 +218,7 @@ export default function Table({ clubs }) {
                     }
                 }}
                 options={{
-                    grouping: true,
-                    searchText: "Sport Club"
+                    grouping: true
                 }}
                 title="Manage Clubs"
             />

@@ -18,3 +18,21 @@ export const getCurrentUserClubs = (callback) => {
         .then(res => callback(null, res))
         .catch(err => callback(err))
 }
+
+export const getCurrentUserPosts = (callback) => {
+    axios({
+        method: 'GET',
+        url: `/api/user/posts`
+    })
+        .then(res => callback(null, res))
+        .catch(err => callback(err))
+}
+
+export const getCurrentUserFollowing = (callback) => {
+    axios({
+        method: 'GET',
+        url: `/api/user/following`
+    })
+        .then(res => callback(null, res))
+        .catch(err => callback(err))
+}

@@ -562,7 +562,10 @@
     <Content Include="ReactJS\Components\SnackBars.js" />
     <Content Include="ReactJS\Manage\Club.js" />
     <Content Include="ReactJS\Manage\ClubTable.js" />
+    <Content Include="ReactJS\Manage\Following.js" />
+    <Content Include="ReactJS\Manage\FollowingCard.js" />
     <Content Include="ReactJS\Manage\Post.js" />
+    <Content Include="ReactJS\Manage\PostTable.js" />
     <Content Include="ReactJS\Post\Context.js" />
     <Content Include="ReactJS\Post\DetailCommentInput.js" />
     <Content Include="ReactJS\Post\DetailReplyComment.js" />
@@ -625,6 +628,7 @@
     <Content Include="Views\Post\Detail.cshtml" />
     <Content Include="Views\Manage\Club.cshtml" />
     <Content Include="Views\Manage\Post.cshtml" />
+    <Content Include="Views\Manage\Following.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

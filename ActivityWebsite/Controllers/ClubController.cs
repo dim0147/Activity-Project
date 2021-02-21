@@ -20,6 +20,7 @@ namespace ActivityWebsite.Controllers
 
     public class ClubController : Controller
     {
+        [Route("club/create")]
         [Mvc.Authorize]
         [VerifyUser]
         public ActionResult Create()
@@ -28,6 +29,7 @@ namespace ActivityWebsite.Controllers
         }
 
         [HttpPost]
+        [Route("club/create")]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         [Mvc.Authorize]
@@ -341,6 +343,7 @@ namespace ActivityWebsite.Controllers
 
 
         [HttpDelete]
+        [Route("club/delete/{id}")]
         [Mvc.Authorize]
         [VerifyUser]
         public async Task<ActionResult> Delete(int id, DeleteClubModel model)

@@ -303,6 +303,12 @@ namespace ActivityWebsite.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Following()
+        {
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

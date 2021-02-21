@@ -1,10 +1,10 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import { getCurrentUserClubs } from '../API/User'
+import { getCurrentUserPosts } from '../API/User'
 
 import { ConfirmProvider } from 'material-ui-confirm';
-import Table from './ClubTable';
+import Table from './PostTable';
 
 class App extends Component {
 
@@ -20,7 +20,29 @@ class App extends Component {
     }
 
     componentDidMount() {
-       
+        getCurrentUserPosts((err, result) => {
+            this.setState({
+                isLoading: false
+            });
+
+            if (err) {
+                this.setState({
+                    errors: 'Error while getting data!'
+                });
+                return;
+            }
+
+            if (!result.data || !result.data.success || !result.data.data) {
+                this.setState({
+                    errors: 'Invalid response data!'
+                });
+                return;
+            }
+
+            this.setState({
+                posts: result.data.data
+            });
+        })
     }
 
     render() {
@@ -46,7 +68,7 @@ class App extends Component {
                 <ConfirmProvider>
                     <div style={{ maxWidth: "100%" }}>
                         <Table
-                            clubs={posts}
+                            posts={posts}
                         />
                     </div>
                 </ConfirmProvider>

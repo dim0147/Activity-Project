@@ -33,10 +33,10 @@ namespace ActivityWebsite.EF
             } : null;
 
         }
-    
+
         public static async Task<object> GetUserClubs(string userId)
         {
-            using(var db = new DbModel())
+            using (var db = new DbModel())
             {
                 return await db.Clubs
                     .Include("ClubCategories")
@@ -62,7 +62,8 @@ namespace ActivityWebsite.EF
                         }),
                         UserFollows = c.UserFollows.Count(),
                         Posts = c.Posts.Count(),
-                        Rate = new { 
+                        Rate = new
+                        {
                             Average = c.Comments.Where(cmt => cmt.Rate != null).Average(cmt => cmt.Rate),
                             Total = c.Comments.Where(cmt => cmt.Rate != null).Count()
                         },
@@ -70,6 +71,75 @@ namespace ActivityWebsite.EF
                         CreatedAt = c.CreatedAt
                     })
                     .ToListAsync();
+            }
+        }
+
+        public static async Task<object> GetUserPosts(string userId)
+        {
+            using (var context = new DbModel())
+            {
+                return await context.Posts
+                                .Include(p => p.Club)
+                                .Include(p => p.AspNetUser)
+                                .Include(p => p.Comments)
+                                .Include(p => p.PostTags)
+                                .Where(p => p.Owner == userId || p.Club.Owner == userId)
+                                .Select(p => new
+                                {
+                                    Id = p.Id,
+                                    Slug = p.Slug,
+                                    Image = ConfigurationApp.URL_DIR_POST_IMAGE + "/" + p.HeaderImg,
+                                    Title = p.Title,
+                                    Club = new
+                                    {
+                                        Id = p.Club.Id,
+                                        Slug = p.Club.Slug,
+                                        Name = p.Club.Name
+                                    },
+                                    Tags = p.PostTags,
+                                    Comments = p.Comments.Count(),
+                                    Rate = new
+                                    {
+                                        Avegare = p.Comments.Where(c => c.Rate != 0).Average(c => c.Rate),
+                                        Total = p.Comments.Where(c => c.Rate != 0).Count()
+                                    },
+                                    Author = new
+                                    {
+                                        Id = p.AspNetUser.Id,
+                                        Username = p.AspNetUser.UserName,
+                                        Name = p.AspNetUser.DisplayName,
+                                    },
+                                    CreatedAt = p.CreatedAt,
+                                    UpdatedAt = p.UpdatedAt
+                                })
+                                .ToListAsync();
+            }
+        }
+    
+        public static async Task<object> GetUserFollowing(string userId)
+        {
+            using (var context = new DbModel())
+            {
+                return await context.UserFollows
+                                .Include(f => f.Club)
+                                .Where(f => f.UserId == userId)
+                                .Select(f => new
+                                {
+                                    Id = f.Id,
+                                    Club = new
+                                    {
+                                        Id = f.Club.Id,
+                                        Name = f.Club.Name,
+                                        Slug = f.Club.Slug,
+                                        Image = ConfigurationApp.URL_DIR_CLUB_IMAGE + "/" + f.Club.HeaderImg,
+                                        Description = f.Club.Description,
+                                        EstablishAt = f.Club.EstablishedAt,
+                                        CreatedAt = f.Club.CreatedAt
+                                    },
+                                    Owner = f.UserId,
+                                    CreatedAt = f.CreatedAt
+                                })
+                                .ToListAsync();
             }
         }
     }

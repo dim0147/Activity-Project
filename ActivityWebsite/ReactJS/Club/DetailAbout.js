@@ -54,7 +54,7 @@ const DetailAbout = ({ clubId, clubSlug, clubRate, clubOwner, clubHeaderImg, clu
             <>
                 {/* Not club owner but login*/}
                 <a href="#" className="primary-btn mr-3" onClick={clubFollowHandle}>{isFollow ? "Unfollow" : "Follow"}</a>
-                {isFollow && <a href={`/club/${clubId}/chatbox`} className="primary-btn">Join our chat box</a>}
+                {isFollow && <a href={`/club/${clubSlug}/chatbox`} className="primary-btn">Join our chat box</a>}
                 
             </>
         )

@@ -66,7 +66,6 @@ namespace ActivityWebsite.EF
             }
         }
 
-
         public static Post GetFullPostById(int postId)
         {
             using (var db = new DbModel())
@@ -263,6 +262,26 @@ namespace ActivityWebsite.EF
                 })
                 .Take(size)
                 .ToList();
+            }
+        }
+    
+        public static bool DeletePost(int postId)
+        {
+            using (var context = new DbModel())
+            {
+                try
+                {
+                    var post = new Post { Id = postId };
+                    context.Posts.Attach(post);
+                    context.Posts.Remove(post);
+                    context.SaveChanges();
+                    return true;
+                }
+                catch(Exception err)
+                {
+                    return false;
+                }
+
             }
         }
     }

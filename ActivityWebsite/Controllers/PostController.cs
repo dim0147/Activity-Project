@@ -10,20 +10,23 @@ using ActivityWebsite.Models;
 using ActivityWebsite.EF;
 using Microsoft.AspNet.Identity;
 using ActivityWebsite.Config;
+using System.Threading.Tasks;
 
 namespace ActivityWebsite.Controllers
 {
     public class PostController : Controller
     {
-
+        [HttpGet]
         [Authorize]
         [VerifyUser]
+        [Route("post/create")]
         public ActionResult Create(int id)
         {
             return View();
         }
 
         [HttpPost]
+        [Route("post/create")]
         [Authorize]
         [VerifyUser]
         [ValidateAntiForgeryToken]
@@ -115,6 +118,30 @@ namespace ActivityWebsite.Controllers
                     });
                 }
             }
+        }
+
+        [HttpDelete]
+        [Route("post/delete/{id}")]
+        [Authorize]
+        [VerifyUser]
+        public ActionResult Delete(int id)
+        {
+            bool isSuccess = EF.PostHandle.DeletePost(id);
+            if (isSuccess)
+            {
+                return Helper.ResponseHandle(HttpStatusCode.OK, new
+                {
+                    success = true
+                });
+            }
+            else
+            {
+                return Helper.ResponseHandle(HttpStatusCode.InternalServerError, new
+                {
+                    error = true
+                });
+            }
+
         }
 
         [Route("post/{slug}")]

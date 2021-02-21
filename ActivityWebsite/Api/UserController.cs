@@ -42,5 +42,34 @@ namespace ActivityWebsite.Api
                 data = result
             });
         }
+
+        [HttpGet]
+        [Authorize]
+        [VerifyUser]
+        [Route("api/user/posts")]
+        public async Task<IHttpActionResult> GetUserPosts()
+        {
+            var result = await EF.UserHandle.GetUserPosts(User.Identity.GetUserId());
+            return Json(new
+            {
+                success = true,
+                data = result
+            });
+        }
+
+        [HttpGet]
+        [Authorize]
+        [VerifyUser]
+        [Route("api/user/following")]
+        public async Task<IHttpActionResult> GetUserFollowing()
+        {
+            var result = await EF.UserHandle.GetUserFollowing(User.Identity.GetUserId());
+            return Json(new
+            {
+                success = true,
+                data = result
+            });
+        }
+
     }
 }
