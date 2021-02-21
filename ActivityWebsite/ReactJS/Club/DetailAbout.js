@@ -5,7 +5,7 @@ import Rating from 'react-rating-stars-component';
 import { getDefaultUser } from '../API/User';
 import { getUserFollowingClub, HandleUserFollowClub } from '../API/Club';
 
-const DetailAbout = ({ clubId, clubRate, clubOwner, clubHeaderImg, clubName, clubOperationHours, clubEstablishAt }) => {
+const DetailAbout = ({ clubId, clubSlug, clubRate, clubOwner, clubHeaderImg, clubName, clubOperationHours, clubEstablishAt }) => {
 
     const [user, setUser] = useState(null);
     const [isFollow, setFollow] = useState(false);
@@ -43,8 +43,8 @@ const DetailAbout = ({ clubId, clubRate, clubOwner, clubHeaderImg, clubName, clu
     const Edit = () => {
         return (
             <>
-                <a href={`/club/edit/${clubId}`} className="primary-btn mr-3">Edit Club</a>
-                <a href={`/club/${clubId}/chatbox`} className="primary-btn">Go to chat box</a>
+                <a href={`/club/${clubSlug}/edit`} className="primary-btn mr-3">Edit Club</a>
+                <a href={`/club/${clubSlug}/chatbox`} className="primary-btn">Go to chat box</a>
             </>
         )
     }

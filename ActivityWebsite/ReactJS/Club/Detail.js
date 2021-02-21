@@ -18,6 +18,7 @@ class App extends Component {
 
         this.state = {
             clubId: '',
+            clubSlug: '',
             clubHeaderImg: '',
             clubName: '',
             clubOperationHours: '',
@@ -46,6 +47,7 @@ class App extends Component {
         if (club) {
             this.setState({
                 clubId: club.Id,
+                clubSlug: club.Slug,
                 clubRate: club.Rate ? club.Rate : 0,
                 clubHeaderImg: club.HeaderImg,
                 clubName: club.Name,
@@ -88,6 +90,7 @@ class App extends Component {
                 <>
                     <DetailAbout
                         clubId={this.state.clubId}
+                        clubSlug={this.state.clubSlug}
                         clubRate={this.state.clubRate}
                         clubName={this.state.clubName}
                         clubEstablishAt={this.state.clubEstablishAt}

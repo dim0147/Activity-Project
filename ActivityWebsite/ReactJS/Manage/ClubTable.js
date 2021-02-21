@@ -23,6 +23,8 @@ import ReactStars from "react-rating-stars-component";
 import CallMissedOutgoingIcon from '@material-ui/icons/CallMissedOutgoing';
 import RoomIcon from '@material-ui/icons/Room';
 import RssFeedIcon from '@material-ui/icons/RssFeed';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import ForumIcon from '@material-ui/icons/Forum';
 import SnackBars from '../Components/SnackBars';
 
 
@@ -62,6 +64,7 @@ export default function Table({ clubs }) {
         const shapeData = clubs.map(c => {
             return {
                 id: c.Id,
+                slug: c.Slug,
                 headerImg: c.Image,
                 name: c.Name,
                 address: {
@@ -96,10 +99,13 @@ export default function Table({ clubs }) {
                         title: "Id", field: "id", type: 'numeric', hidden: true
                     },
                     {
+                        title: "Slug", field: "slug", hidden: true
+                    },
+                    {
                         title: "Image", sorting: false, grouping: false, field: "headerImg", render: row => <img src={row.headerImg} style={{ width: 40, borderRadius: '50%' }} />
                     },
                     {
-                        title: 'Name', field: 'name'
+                        title: 'Name', field: 'name', render: row => <a href={`/club/${row.slug}`}>{row.name}</a>
                     },
                     {
                         title: 'Address', field: 'address', grouping: false, sorting: false, render: row => (
@@ -177,9 +183,19 @@ export default function Table({ clubs }) {
 
                 actions={[
                     {
+                        icon: () => <VisibilityIcon color='action' />,
+                        tooltip: 'See club',
+                        onClick: (event, row) => window.open(`/club/${row.slug}`)
+                    },
+                    {
+                        icon: () => <ForumIcon color='action' />,
+                        tooltip: 'Go to chatbox',
+                        onClick: (event, row) => window.open(`/club/${row.slug}/chatbox`)
+                    },
+                    {
                         icon: () => <Edit color='action' />,
                         tooltip: 'Edit club',
-                        onClick: (event, row) => window.open(`/club/edit/${row.id}`)
+                        onClick: (event, row) => window.open(`/club/${row.slug}/edit`)
                     },
                     {
                         icon: () => <AddBox />,

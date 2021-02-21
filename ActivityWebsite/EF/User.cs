@@ -48,6 +48,7 @@ namespace ActivityWebsite.EF
                     .Select(c => new
                     {
                         Id = c.Id,
+                        Slug = c.Slug,
                         Image = ConfigurationApp.URL_DIR_CLUB_IMAGE + "/" + c.HeaderImg,
                         Name = c.Name,
                         Address = c.Address,

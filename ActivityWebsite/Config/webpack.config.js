@@ -9,19 +9,19 @@ module.exports = {
         //Detail: "./ReactJS/Club/Detail.js",
         //Chatbox: "./ReactJS/Club/Chatbox.js"
 
-    /* Manage */
-        Club: './ReactJS/Manage/Club.js',
-        Post: './ReactJS/Manage/Post.js'
-
     /* Post */
-        //Create: "./ReactJS/Post/Create.js",
-        //Edit: "./ReactJS/Post/Edit.js",
-        //Detail: "./ReactJS/Post/Detail.js",
+        Create: "./ReactJS/Post/Create.js",
+        Edit: "./ReactJS/Post/Edit.js",
+        Detail: "./ReactJS/Post/Detail.js",
+
+    /* Manage */
+        //Club: './ReactJS/Manage/Club.js',
+        //Post: './ReactJS/Manage/Post.js'
     },
     output: {
         //path: path.resolve(__dirname, "../dist/Club"),
-        //path: path.resolve(__dirname, "../dist/Post"),
-         path: path.resolve(__dirname, "../dist/Manage"),
+        path: path.resolve(__dirname, "../dist/Post"),
+         //path: path.resolve(__dirname, "../dist/Manage"),
         filename: "[name].js"
     },
     resolve: {

@@ -24,12 +24,12 @@ const LeftPanelRecentPosts = () => {
             {posts.map(post =>
                 <div className="blog__recent__item" key={post.Id}>
                     <div className="blog__recent__item__pic">
-                        <a href={`/post/detail/${post.Id}`}>
+                        <a href={`/post/${post.Slug}`}>
                             <img src={post.HeaderImg} width="100px" height="100px" alt="Post Header Image" />
                         </a>
                     </div>
                     <div className="blog__recent__item__text">
-                        <a href={`/post/detail/${post.Id}`}><h6>{post.Title}</h6></a>
+                        <a href={`/post/${post.Slug}`}><h6>{post.Title}</h6></a>
                         <Rating
                             value={post.AverageRate ? post.AverageRate : 0}
                             edit={false}
@@ -37,7 +37,7 @@ const LeftPanelRecentPosts = () => {
                         />
                         <span>({post.TotalRate} Rating)</span>
                         <br />
-                        <h6>By <a href={`/club/detail/${post.Club.Id}`}>{post.Club.Name}</a></h6>
+                        <h6>By <a href={`/club/${post.Club.Slug}`}>{post.Club.Name}</a></h6>
                         <em>Tags: {post.Tags.map(tag => tag.Name).join(', ')}</em>
                         <br />
                         <span>{moment(post.CreatedAt).format("ll")}</span>

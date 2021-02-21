@@ -58,6 +58,15 @@ namespace ActivityWebsite.EF
             }
         }
 
+        public static Post GetFullPostBySlug(string slug)
+        {
+            using (var db = new DbModel())
+            {
+                return db.Posts.Where(p => p.Slug == slug).FirstOrDefault();
+            }
+        }
+
+
         public static Post GetFullPostById(int postId)
         {
             using (var db = new DbModel())
@@ -185,6 +194,7 @@ namespace ActivityWebsite.EF
                         Club = new
                         {
                             Id = p.Club.Id,
+                            Slug = p.Club.Slug,
                             Name = p.Club.Name
                         },
                         Owner = new
@@ -238,6 +248,7 @@ namespace ActivityWebsite.EF
                     Club = new
                     {
                         Id = p.Club.Id,
+                        Slug = p.Club.Slug,
                         Name = p.Club.Name
                     },
                     Owner = new

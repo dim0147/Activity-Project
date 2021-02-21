@@ -152,10 +152,30 @@ namespace ActivityWebsite.Controllers
             }
         }
 
+        [Route("club/{slug}")]
+        public ActionResult Detail(string slug)
+        {
+            var club = EF.ClubHandle.GetFullClubBySlug(slug);
+            int id = 0;
+            if (club != null)
+            {
+                id = club.Id;
+            }
+            ViewBag.ClubId = id;
+            return View();
+        }
+
         [Mvc.Authorize]
         [VerifyUser]
-        public ActionResult Edit(int id)
+        [Route("club/{slug}/edit")]
+        public ActionResult Edit(string slug)
         {
+            var club = EF.ClubHandle.GetFullClubBySlug(slug);
+            int id = 0;
+            if (club != null)
+            {
+                id = club.Id;
+            }
             ViewBag.ClubId = id;
             return View();
         }
@@ -319,13 +339,6 @@ namespace ActivityWebsite.Controllers
             });
         }
 
-        public ActionResult Detail(int id)
-        {
-            ViewBag.ClubId = id;
-            return View();
-        }
-
-
 
         [HttpDelete]
         [Mvc.Authorize]
@@ -378,12 +391,18 @@ namespace ActivityWebsite.Controllers
         [HttpGet]
         [Mvc.Authorize]
         [VerifyUser]
-        [Route("club/{clubId}/chatbox")]
-        public ActionResult Chat(int clubId)
+        [Route("club/{slug}/chatbox")]
+        public ActionResult Chat(string slug)
         {
-            ViewBag.ClubId = clubId;
+            var club = EF.ClubHandle.GetFullClubBySlug(slug);
+            int id = 0;
+            if (club != null)
+            {
+                id = club.Id;
+            }
+            ViewBag.ClubId = id;
             return View();
         }
-    
+
     }
 }

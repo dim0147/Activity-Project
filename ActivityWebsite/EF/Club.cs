@@ -105,6 +105,13 @@ namespace ActivityWebsite.EF
             }
         }
 
+        public static Club GetFullClubBySlug(string slug)
+        {
+            using (var db = new DbModel())
+            {
+                return db.Clubs.Where(c => c.Slug== slug).FirstOrDefault();
+            }
+        }
         public static Club GetFullClubById(int id)
         {
             using (var db = new DbModel())

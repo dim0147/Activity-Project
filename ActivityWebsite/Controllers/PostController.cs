@@ -117,12 +117,21 @@ namespace ActivityWebsite.Controllers
             }
         }
 
-        [Route("post/edit/{postId}")]
+        [Route("post/{slug}")]
+        public ActionResult Detail(string slug)
+        {
+            int id = EF.PostHandle.GetFullPostBySlug(slug)?.Id ?? -1;
+            ViewBag.PostId = id;
+            return View();
+        }
+
+        [Route("post/{slug}/edit")]
         [Authorize]
         [VerifyUser]
-        public ActionResult Edit(int postId)
+        public ActionResult Edit(string slug)
         {
-            ViewBag.PostId = postId;
+            int id = EF.PostHandle.GetFullPostBySlug(slug)?.Id ?? -1;
+            ViewBag.PostId = id;
             return View();
         }
 
@@ -238,12 +247,5 @@ namespace ActivityWebsite.Controllers
             }
         }
 
-
-        [Route("post/detail/{postId}")]
-        public ActionResult Detail(int postId)
-        {
-            ViewBag.PostId = postId;
-            return View();
-        }
     }
 }
