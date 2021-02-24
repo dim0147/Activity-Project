@@ -347,6 +347,9 @@
     </Compile>
     <Compile Include="Models\PostViewAPIModel.cs" />
     <Compile Include="Models\PostViewModel.cs" />
+    <Compile Include="Models\Report.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserConnection.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
@@ -558,6 +561,7 @@
     <Content Include="ReactJS\Components\ListCategory.js" />
     <Content Include="ReactJS\Components\GoogleMap.js" />
     <Content Include="ReactJS\Components\GoogleMapSearchBox.js" />
+    <Content Include="ReactJS\Components\ReportClubDialog.js" />
     <Content Include="ReactJS\Components\SearchBar.js" />
     <Content Include="ReactJS\Components\SnackBars.js" />
     <Content Include="ReactJS\Manage\Club.js" />
@@ -566,6 +570,8 @@
     <Content Include="ReactJS\Manage\FollowingCard.js" />
     <Content Include="ReactJS\Manage\Post.js" />
     <Content Include="ReactJS\Manage\PostTable.js" />
+    <Content Include="ReactJS\Manage\Report.js" />
+    <Content Include="ReactJS\Manage\ReportCard.js" />
     <Content Include="ReactJS\Post\Context.js" />
     <Content Include="ReactJS\Post\DetailCommentInput.js" />
     <Content Include="ReactJS\Post\DetailReplyComment.js" />
@@ -629,6 +635,7 @@
     <Content Include="Views\Manage\Club.cshtml" />
     <Content Include="Views\Manage\Post.cshtml" />
     <Content Include="Views\Manage\Following.cshtml" />
+    <Content Include="Views\Manage\Report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

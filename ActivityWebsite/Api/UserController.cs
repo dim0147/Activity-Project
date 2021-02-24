@@ -71,5 +71,18 @@ namespace ActivityWebsite.Api
             });
         }
 
+        [HttpGet]
+        [Authorize]
+        [VerifyUser]
+        [Route("api/user/reports")]
+        public async Task<IHttpActionResult> GetUserReports()
+        {
+            var result = await EF.UserHandle.GetUserReport(User.Identity.GetUserId());
+            return Json(new
+            {
+                success = true,
+                data = result
+            });
+        }
     }
 }

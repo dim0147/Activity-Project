@@ -404,5 +404,37 @@ namespace ActivityWebsite.EF
             }
         }
 
+        public static bool ReportExist(int clubId, string userId)
+        {
+            using (var context = new DbModel())
+            {
+                int total = context.Reports.Where(r => r.ClubId == clubId && r.Owner == userId).Count();
+                return total > 0;
+            }
+        }
+
+        public static bool ReportClub(int clubId, string userId, string reason)
+        {
+            using(var context = new DbModel())
+            {
+                try
+                {
+                    Report report = new Report
+                    {
+                        Owner = userId,
+                        Reason = reason,
+                        ClubId = clubId,
+                        Status = "pending",
+                    };
+                    context.Reports.Add(report);
+                    context.SaveChanges();
+                    return true;
+                }
+                catch(Exception err)
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

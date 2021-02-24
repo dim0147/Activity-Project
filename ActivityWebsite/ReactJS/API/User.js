@@ -36,3 +36,12 @@ export const getCurrentUserFollowing = (callback) => {
         .then(res => callback(null, res))
         .catch(err => callback(err))
 }
+
+export const getCurrentUserReports = (callback) => {
+    axios({
+        method: 'GET',
+        url: `/api/user/reports`
+    })
+        .then(res => callback(null, res))
+        .catch(err => callback(err))
+}

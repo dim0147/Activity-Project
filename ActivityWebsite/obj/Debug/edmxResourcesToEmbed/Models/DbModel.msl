@@ -173,5 +173,21 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Reports">
+      <EntityTypeMapping TypeName="ActivityModel.Report">
+        <MappingFragment StoreEntitySet="Reports">
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ClubId" ColumnName="ClubId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ReplyText" ColumnName="ReplyText" />
+          <ScalarProperty Name="ReplyId" ColumnName="ReplyId" />
+          <ScalarProperty Name="Reason" ColumnName="Reason" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

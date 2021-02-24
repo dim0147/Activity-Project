@@ -214,7 +214,7 @@ namespace ActivityWebsite.Api
             }
 
         }
-        
+
         [HttpGet]
         [System.Web.Http.Authorize]
         [VerifyUser]
@@ -232,7 +232,7 @@ namespace ActivityWebsite.Api
         [System.Web.Http.Authorize]
         [VerifyUser]
         [Route("api/club/{ClubId}/chatbox/message")]
-        public IHttpActionResult GetClubMessages(int ClubId, [FromUri]DateTime? continueTime = null)
+        public IHttpActionResult GetClubMessages(int ClubId, [FromUri] DateTime? continueTime = null)
         {
             var rs = EF.ClubHandle.GetClubMessages(ClubId, continueTime);
             return Json(new
@@ -248,11 +248,12 @@ namespace ActivityWebsite.Api
         [Route("api/club/{ClubId}/chatbox/message")]
         public IHttpActionResult CreateMessageInChatbox(int ClubId, CreateMessageClubAPIModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                Content(HttpStatusCode.BadRequest, new { 
+                Content(HttpStatusCode.BadRequest, new
+                {
                     error = true,
-                    errors = new string[] {"Request invalid!"}
+                    errors = new string[] { "Request invalid!" }
                 });
             }
             if (!EF.ClubHandle.UserCanSendMessage(ClubId, User.Identity.GetUserId()))
@@ -273,7 +274,55 @@ namespace ActivityWebsite.Api
                 message = newMessage
             });
         }
-    
-    
+
+        [HttpPost]
+        [System.Web.Http.Authorize]
+        [VerifyUser]
+        [Route("api/club/{ClubId}/report")]
+        public IHttpActionResult CreateReportClub(int ClubId, CreateReportClub model)
+        {
+            if (!ModelState.IsValid)
+            {
+                Content(HttpStatusCode.BadRequest, new
+                {
+                    error = true,
+                    errors = new string[] { "Request invalid!" }
+                });
+            }
+            bool isExist = EF.ClubHandle.ReportExist(ClubId, User.Identity.GetUserId());
+            if (isExist)
+            {
+                return Content(
+                    HttpStatusCode.Conflict,
+                    new
+                    {
+                        error = true,
+                        errors = new string[] { "You have report this club already!" }
+                    }
+                );
+            }
+            bool isCreated = EF.ClubHandle.ReportClub(ClubId, User.Identity.GetUserId(), model.reason);
+            if (!isCreated)
+            {
+                return Content(
+                    HttpStatusCode.InternalServerError,
+                    new
+                    {
+                        error = true,
+                        errors = new string[] { "Error while create the report!" }
+                    }
+                );
+            }
+
+            return Content(
+                    HttpStatusCode.Created,
+                    new
+                    {
+                        success = true,
+                        messages = new string[] { "Create club success!" }
+                    }
+            );
+        }
+
     }
 }

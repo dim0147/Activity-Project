@@ -142,5 +142,31 @@ namespace ActivityWebsite.EF
                                 .ToListAsync();
             }
         }
+    
+        public static async Task<object> GetUserReport(string userId)
+        {
+            using(var context = new DbModel())
+            {
+                return await context.Reports
+                            .Include(r => r.Club)
+                            .Where(r => r.Owner == userId)
+                            .Select(r => new
+                            {
+                                Id = r.Id,
+                                Club = new {
+                                    Id = r.Club.Id,
+                                    Slug = r.Club.Slug,
+                                    Name = r.Club.Name,
+                                    Image = ConfigurationApp.URL_DIR_CLUB_IMAGE + "/" + r.Club.HeaderImg
+                                },
+                                Reason = r.Reason,
+                                ReplyText = r.ReplyText,
+                                Status = r.Status,
+                                CreatedAt = r.CreatedAt,
+                                UpdatedAt = r.UpdatedAt
+                            })
+                            .ToListAsync();
+            }
+        }
     }
 }

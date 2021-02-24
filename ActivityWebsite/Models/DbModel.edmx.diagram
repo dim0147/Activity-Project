@@ -37,6 +37,11 @@
         <AssociationConnector Association="ActivityModel.FK_ClubMessages_Club" />
         <EntityTypeShape EntityType="ActivityModel.UserConnection" Width="1.5" PointX="5.25" PointY="10" />
         <AssociationConnector Association="ActivityModel.FK_UserConnections_AspNetUsers" />
+        <EntityTypeShape EntityType="ActivityModel.Report" Width="1.5" PointX="13.75" PointY="0.75" />
+        <AssociationConnector Association="ActivityModel.FK_Reports_Owner" />
+        <AssociationConnector Association="ActivityModel.FK_Reports_ReplyId" />
+        <AssociationConnector Association="ActivityModel.FK_Reports_UserId" />
+        <AssociationConnector Association="ActivityModel.FK_Reports_Clubs" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

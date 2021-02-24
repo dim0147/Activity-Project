@@ -1,6 +1,7 @@
 ﻿import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import Rating from 'react-rating-stars-component';
+import ReportDialog from '../Components/ReportClubDialog'
 
 import { getDefaultUser } from '../API/User';
 import { getUserFollowingClub, HandleUserFollowClub } from '../API/Club';
@@ -9,6 +10,7 @@ const DetailAbout = ({ clubId, clubSlug, clubRate, clubOwner, clubHeaderImg, clu
 
     const [user, setUser] = useState(null);
     const [isFollow, setFollow] = useState(false);
+    const [openDialog, setOpenDialog] = useState(0);
 
     useEffect(() => {
         getDefaultUser((err, res) => {
@@ -40,6 +42,10 @@ const DetailAbout = ({ clubId, clubSlug, clubRate, clubOwner, clubHeaderImg, clu
         });
     }
 
+    const openReportClubDialog = (e) => {
+        setOpenDialog(openDialog + 1);
+    }
+
     const Edit = () => {
         return (
             <>
@@ -55,7 +61,7 @@ const DetailAbout = ({ clubId, clubSlug, clubRate, clubOwner, clubHeaderImg, clu
                 {/* Not club owner but login*/}
                 <a href="#" className="primary-btn mr-3" onClick={clubFollowHandle}>{isFollow ? "Unfollow" : "Follow"}</a>
                 {isFollow && <a href={`/club/${clubSlug}/chatbox`} className="primary-btn">Join our chat box</a>}
-                
+
             </>
         )
     }
@@ -98,6 +104,14 @@ const DetailAbout = ({ clubId, clubSlug, clubRate, clubOwner, clubHeaderImg, clu
                                         <a href="/Account/Login" className="primary-btn mr-3">Login to follow</a>
                                     </>
                                 )
+                            }
+                            <button onClick={openReportClubDialog} className="btn btn-warning mt-3"><i className="fas fa-flag"></i>   Report this club</button>
+                            {openDialog > 0 &&
+                                <ReportDialog
+                                    key={openDialog}
+                                    ClubId={clubId}
+                                    ClubName={clubName}
+                                />
                             }
                         </div>
                     </div>

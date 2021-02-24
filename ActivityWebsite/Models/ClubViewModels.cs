@@ -108,4 +108,10 @@ namespace ActivityWebsite.Models
         [Required]
         public string message { get; set; }
     }
+
+    public class CreateReportClub
+    {
+        [Required]
+        public string reason { get; set; }
+    }
 }

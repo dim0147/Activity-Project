@@ -18,6 +18,7 @@ module.exports = {
         Club: './ReactJS/Manage/Club.js',
         Post: './ReactJS/Manage/Post.js',
         Following: './ReactJS/Manage/Following.js',
+        Report: './ReactJS/Manage/Report.js',
     },
     output: {
         //path: path.resolve(__dirname, "../dist/Club"),

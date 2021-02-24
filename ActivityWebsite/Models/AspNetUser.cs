@@ -25,6 +25,9 @@ namespace ActivityWebsite.Models
             this.UserFollows = new HashSet<UserFollow>();
             this.ClubMessages = new HashSet<ClubMessage>();
             this.UserConnections = new HashSet<UserConnection>();
+            this.Reports = new HashSet<Report>();
+            this.Reports1 = new HashSet<Report>();
+            this.Reports2 = new HashSet<Report>();
         }
     
         public string Id { get; set; }
@@ -61,5 +64,11 @@ namespace ActivityWebsite.Models
         public virtual ICollection<ClubMessage> ClubMessages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserConnection> UserConnections { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Report> Reports { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Report> Reports1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Report> Reports2 { get; set; }
     }
 }

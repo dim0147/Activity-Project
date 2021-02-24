@@ -133,6 +133,21 @@
     <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="CreatedAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
   </EntityType>
+  <EntityType Name="Reports">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Owner" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Reason" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="ReplyId" Type="nvarchar" MaxLength="128" />
+    <Property Name="ReplyText" Type="nvarchar" MaxLength="250" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+    <Property Name="ClubId" Type="int" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UpdatedAt" Type="datetime2" Precision="7" Nullable="false" StoreGeneratedPattern="Computed" />
+  </EntityType>
   <EntityType Name="UserConnections">
     <Key>
       <PropertyRef Name="Id" />
@@ -343,6 +358,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Reports_Clubs">
+    <End Role="Clubs" Type="Self.Clubs" Multiplicity="0..1" />
+    <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clubs">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reports">
+        <PropertyRef Name="ClubId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reports_Owner">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reports">
+        <PropertyRef Name="Owner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reports_ReplyId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+    <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reports">
+        <PropertyRef Name="ReplyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reports_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+    <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reports">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_UserConnections_AspNetUsers">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
     <End Role="UserConnections" Type="Self.UserConnections" Multiplicity="*" />
@@ -415,6 +478,7 @@
     <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Posts" EntityType="Self.Posts" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PostTags" EntityType="Self.PostTags" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserConnections" EntityType="Self.UserConnections" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserFollows" EntityType="Self.UserFollows" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserLikes" EntityType="Self.UserLikes" Schema="dbo" store:Type="Tables" />
@@ -477,6 +541,22 @@
     <AssociationSet Name="FK_PostTags_Post" Association="Self.FK_PostTags_Post">
       <End Role="Posts" EntitySet="Posts" />
       <End Role="PostTags" EntitySet="PostTags" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reports_Clubs" Association="Self.FK_Reports_Clubs">
+      <End Role="Clubs" EntitySet="Clubs" />
+      <End Role="Reports" EntitySet="Reports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reports_Owner" Association="Self.FK_Reports_Owner">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Reports" EntitySet="Reports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reports_ReplyId" Association="Self.FK_Reports_ReplyId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Reports" EntitySet="Reports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reports_UserId" Association="Self.FK_Reports_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Reports" EntitySet="Reports" />
     </AssociationSet>
     <AssociationSet Name="FK_UserConnections_AspNetUsers" Association="Self.FK_UserConnections_AspNetUsers">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />

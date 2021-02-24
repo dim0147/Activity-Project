@@ -37,6 +37,9 @@
     <NavigationProperty Name="UserFollows" Relationship="ActivityModel.FK_UserFollows_User" FromRole="AspNetUser" ToRole="UserFollow" />
     <NavigationProperty Name="ClubMessages" Relationship="ActivityModel.FK_ClubMessages_Users" FromRole="AspNetUser" ToRole="ClubMessage" />
     <NavigationProperty Name="UserConnections" Relationship="ActivityModel.FK_UserConnections_AspNetUsers" FromRole="AspNetUser" ToRole="UserConnection" />
+    <NavigationProperty Name="Reports" Relationship="ActivityModel.FK_Reports_Owner" FromRole="AspNetUser" ToRole="Report" />
+    <NavigationProperty Name="Reports1" Relationship="ActivityModel.FK_Reports_ReplyId" FromRole="AspNetUser" ToRole="Report" />
+    <NavigationProperty Name="Reports2" Relationship="ActivityModel.FK_Reports_UserId" FromRole="AspNetUser" ToRole="Report" />
   </EntityType>
   <Association Name="AspNetUserRoles">
     <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
@@ -132,6 +135,23 @@
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
       <End Role="UserConnection" EntitySet="UserConnections" />
     </AssociationSet>
+    <EntitySet Name="Reports" EntityType="ActivityModel.Report" />
+    <AssociationSet Name="FK_Reports_Owner" Association="ActivityModel.FK_Reports_Owner">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Report" EntitySet="Reports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reports_ReplyId" Association="ActivityModel.FK_Reports_ReplyId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Report" EntitySet="Reports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reports_UserId" Association="ActivityModel.FK_Reports_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Report" EntitySet="Reports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reports_Clubs" Association="ActivityModel.FK_Reports_Clubs">
+      <End Role="Club" EntitySet="Clubs" />
+      <End Role="Report" EntitySet="Reports" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Club">
     <Key>
@@ -157,6 +177,7 @@
     <NavigationProperty Name="Comments" Relationship="ActivityModel.FK_Comments_Club" FromRole="Club" ToRole="Comment" />
     <NavigationProperty Name="UserFollows" Relationship="ActivityModel.FK_UserFollows_Club" FromRole="Club" ToRole="UserFollow" />
     <NavigationProperty Name="ClubMessages" Relationship="ActivityModel.FK_ClubMessages_Club" FromRole="Club" ToRole="ClubMessage" />
+    <NavigationProperty Name="Reports" Relationship="ActivityModel.FK_Reports_Clubs" FromRole="Club" ToRole="Report" />
   </EntityType>
   <EntityType Name="Image">
     <Key>
@@ -497,6 +518,73 @@
       </Principal>
       <Dependent Role="UserConnection">
         <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Report">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Owner" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Reason" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ReplyId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ReplyText" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ClubId" Type="Int32" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="AspNetUser" Relationship="ActivityModel.FK_Reports_Owner" FromRole="Report" ToRole="AspNetUser" />
+    <NavigationProperty Name="AspNetUser1" Relationship="ActivityModel.FK_Reports_ReplyId" FromRole="Report" ToRole="AspNetUser" />
+    <NavigationProperty Name="AspNetUser2" Relationship="ActivityModel.FK_Reports_UserId" FromRole="Report" ToRole="AspNetUser" />
+    <NavigationProperty Name="Club" Relationship="ActivityModel.FK_Reports_Clubs" FromRole="Report" ToRole="Club" />
+  </EntityType>
+  <Association Name="FK_Reports_Owner">
+    <End Type="ActivityModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="ActivityModel.Report" Role="Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="Owner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reports_ReplyId">
+    <End Type="ActivityModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+    <End Type="ActivityModel.Report" Role="Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="ReplyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reports_UserId">
+    <End Type="ActivityModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+    <End Type="ActivityModel.Report" Role="Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reports_Clubs">
+    <End Type="ActivityModel.Club" Role="Club" Multiplicity="0..1" />
+    <End Type="ActivityModel.Report" Role="Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Club">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="ClubId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

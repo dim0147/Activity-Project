@@ -111,3 +111,18 @@ export const deleteClub = (clubId, callback) => {
         .then(res => callback(null, res))
         .catch(err => callback(err))
 }
+
+export const reportClub = (clubId, reason, callback) => {
+    axios.post(
+        `/api/club/${clubId}/report`,
+        {
+            reason
+        }
+    )
+        .then(res => callback(null, res))
+        .catch(err => callback(err))
+       
+}
+
+
+
