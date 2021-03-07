@@ -154,6 +154,7 @@ namespace ActivityWebsite.Controllers
             }
         }
 
+
         [Route("club/{slug}")]
         public ActionResult Detail(string slug)
         {
@@ -406,6 +407,13 @@ namespace ActivityWebsite.Controllers
             ViewBag.ClubId = id;
             return View();
         }
+
+        [Route("club/search")]
+        public ActionResult Search(string q)
+        {
+            return View();
+        }
+
 
     }
 }

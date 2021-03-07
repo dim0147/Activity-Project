@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Search Club";
+    ViewBag.BCHeader = "Search Club";
+    ViewBag.BCAction = "";
+    ViewBag.BCController = "";
+    ViewBag.BCActionText = "";
+}
+
+@Html.Partial("_Breadcrumb")
+
+@Html.AntiForgeryToken()
+
+<div id="root">
+
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/dist/Club/Search.js")
+}

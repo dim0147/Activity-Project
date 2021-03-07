@@ -4,10 +4,11 @@ module.exports = {
     mode: 'development',
     entry: {
     /* Club */
-        //Edit: "./ReactJS/Club/Edit.js",
-        //Create: "./ReactJS/Club/Create.js",
-        //Detail: "./ReactJS/Club/Detail.js",
-        //Chatbox: "./ReactJS/Club/Chatbox.js"
+        Edit: "./ReactJS/Club/Edit.js",
+        Create: "./ReactJS/Club/Create.js",
+        Detail: "./ReactJS/Club/Detail.js",
+        Search: "./ReactJS/Club/Search.js",
+        Chatbox: "./ReactJS/Club/Chatbox.js"
 
     /* Post */
         //Create: "./ReactJS/Post/Create.js",
@@ -15,15 +16,15 @@ module.exports = {
         //Detail: "./ReactJS/Post/Detail.js",
 
     /* Manage */
-        Club: './ReactJS/Manage/Club.js',
-        Post: './ReactJS/Manage/Post.js',
-        Following: './ReactJS/Manage/Following.js',
-        Report: './ReactJS/Manage/Report.js',
+        //Club: './ReactJS/Manage/Club.js',
+        //Post: './ReactJS/Manage/Post.js',
+        //Following: './ReactJS/Manage/Following.js',
+        //Report: './ReactJS/Manage/Report.js',
     },
     output: {
-        //path: path.resolve(__dirname, "../dist/Club"),
+        path: path.resolve(__dirname, "../dist/Club"),
         //path: path.resolve(__dirname, "../dist/Post"),
-         path: path.resolve(__dirname, "../dist/Manage"),
+         //path: path.resolve(__dirname, "../dist/Manage"),
         filename: "[name].js"
     },
     resolve: {

@@ -547,6 +547,9 @@
     <Content Include="ReactJS\Club\DetailPost.js" />
     <Content Include="ReactJS\Club\Edit.js" />
     <Content Include="ReactJS\Club\Create.js" />
+    <Content Include="ReactJS\Club\SearchLeftPanel.js" />
+    <Content Include="ReactJS\Club\Search.js" />
+    <Content Include="ReactJS\Club\SearchRightPanel.js" />
     <Content Include="ReactJS\Components\CategoryCard.js" />
     <Content Include="ReactJS\Components\DescriptionArea.js" />
     <Content Include="ReactJS\Components\Alert.js" />
@@ -636,6 +639,7 @@
     <Content Include="Views\Manage\Post.cshtml" />
     <Content Include="Views\Manage\Following.cshtml" />
     <Content Include="Views\Manage\Report.cshtml" />
+    <Content Include="Views\Club\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,6 +12,23 @@ using System.Data.SqlClient;
 
 namespace ActivityWebsite.EF
 {
+
+    public class Result
+    {
+        public int Id;
+
+        public string Slug;
+
+        public string Name;
+
+        public string HeaderImg;
+
+        public DateTime EstablishAt;
+
+        public double? TotalRate;
+
+    }
+
     public class ClubHandle
     {
 
@@ -22,6 +39,57 @@ namespace ActivityWebsite.EF
                 Club club = GetFullClubById(clubId);
                 return club?.Owner == userId;
             }
+        }
+
+        public static async Task<object> SearchClubByName(string name, string category, int page)
+        {
+            using (var context = new DbModel())
+            {
+                var query = context.Clubs
+                    .Include(c => c.Comments)
+                    .Include(c => c.ClubCategories.Select(cc => cc.Category));
+
+                if (name != null)
+                {
+                    query = query.Where(c => c.Name.ToLower().Contains(name.ToLower()));
+                }
+
+                var result = query.Select(c => new
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    HeaderImg = ConfigurationApp.URL_DIR_CLUB_IMAGE + "/" + c.HeaderImg,
+                    Slug = c.Slug,
+                    TotalReviews = c.Comments.Count(),
+                    EstablishedAt = c.EstablishedAt,
+                    Categories = c.ClubCategories.Select(cc => new
+                    {
+                        Name = cc.Category.name
+                    })
+                });
+                if (category != null)
+                {
+                    result = result.Where(c => c.Categories.Any(cate => cate.Name.ToLower().Contains(category.ToLower())));
+                }
+                return await result.OrderBy(c=> c.Name).Skip(page * 4).Take(4).ToListAsync();
+            }
+        }
+
+        public static Task<List<Result>> GetBestClub()
+        {
+            var context = new DbModel();
+                return context.Clubs
+                    .Include(c => c.Comments)
+                    .Select(c => new Result
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Slug = c.Slug,
+                        HeaderImg = ConfigurationApp.URL_DIR_CLUB_IMAGE + "/" + c.HeaderImg,
+                        TotalRate = c.Comments.Where(cm => cm.Rate != 0).Average(cm => cm.Rate),
+                        EstablishAt = c.EstablishedAt
+                    })
+                    .OrderByDescending(c => c.TotalRate).Take(5).ToListAsync();
         }
 
         public static object GetClubById(int id)
@@ -109,7 +177,7 @@ namespace ActivityWebsite.EF
         {
             using (var db = new DbModel())
             {
-                return db.Clubs.Where(c => c.Slug== slug).FirstOrDefault();
+                return db.Clubs.Where(c => c.Slug == slug).FirstOrDefault();
             }
         }
         public static Club GetFullClubById(int id)
@@ -415,7 +483,7 @@ namespace ActivityWebsite.EF
 
         public static bool ReportClub(int clubId, string userId, string reason)
         {
-            using(var context = new DbModel())
+            using (var context = new DbModel())
             {
                 try
                 {
@@ -430,7 +498,7 @@ namespace ActivityWebsite.EF
                     context.SaveChanges();
                     return true;
                 }
-                catch(Exception err)
+                catch (Exception err)
                 {
                     return false;
                 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using ActivityWebsite.CustomHelper;
 using ActivityWebsite.EF;
@@ -29,6 +30,23 @@ namespace ActivityWebsite.Api
         {
             var club = EF.ClubHandle.GetClubById(ClubId);
             return Json(club);
+        }
+
+        [HttpGet]
+        [Route("api/club/search")]
+        public async Task<IHttpActionResult> SearchClub([FromUri] string name = null, [FromUri] string category = null, [FromUri] int page = 1)
+        {
+            page = page - 1;
+            var clubs = await EF.ClubHandle.SearchClubByName(name, category, page);
+            return Json(clubs);
+        }
+
+        [HttpGet]
+        [Route("api/club/top-club")]
+        public async Task<IHttpActionResult> GetTopClub()
+        {
+            var clubs = await EF.ClubHandle.GetBestClub();
+            return Json(clubs);
         }
 
         [HttpGet]
