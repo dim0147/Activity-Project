@@ -270,3 +270,6 @@ D:\PROJECT\Activity-Project\ActivityWebsite\bin\Microsoft.Extensions.Primitives.
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.IO.Pipelines.xml
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Threading.Channels.xml
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Threading.Tasks.Extensions.xml
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Web.Cors.dll
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Web.Http.Cors.dll
+D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Web.Http.Cors.xml

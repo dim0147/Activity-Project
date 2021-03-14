@@ -6,9 +6,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ActivityWebsite.Config;
+using System.Web.Http.Cors;
 
 namespace ActivityWebsite.Api
 {
+    //[EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     public class CategoryController : ApiController
     {
         public IHttpActionResult Get()

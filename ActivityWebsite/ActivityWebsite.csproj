@@ -127,6 +127,9 @@
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -135,6 +138,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
@@ -244,6 +250,7 @@
     <Compile Include="Api\ClubController.cs" />
     <Compile Include="Api\CommentController.cs" />
     <Compile Include="Api\ImageController.cs" />
+    <Compile Include="Api\InfoController.cs" />
     <Compile Include="Api\PostController.cs" />
     <Compile Include="Api\UserController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -255,6 +262,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Admin\Models\CategoryViewModel.cs" />
     <Compile Include="Authenticate\AuthorizeRoute.cs" />
     <Compile Include="Config\Configuration.cs" />
@@ -270,6 +278,7 @@
     <Compile Include="EF\Club.cs" />
     <Compile Include="EF\Comment.cs" />
     <Compile Include="EF\Image.cs" />
+    <Compile Include="EF\Infor.cs" />
     <Compile Include="EF\Post.cs" />
     <Compile Include="EF\User.cs" />
     <Compile Include="EF\UserConnection.cs" />
@@ -361,6 +370,14 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartupSetup.cs" />
+    <Content Include="ReactJS\Admin\Chart.js" />
+    <Content Include="ReactJS\Admin\Dashboard.js" />
+    <Content Include="ReactJS\Admin\Deposits.js" />
+    <Content Include="ReactJS\Admin\listItems.js" />
+    <Content Include="ReactJS\Admin\Orders.js" />
+    <Content Include="ReactJS\Admin\Title.js" />
+    <Content Include="ReactJS\Admin\Users.js" />
+    <Content Include="ReactJS\Admin\App.js" />
     <Content Include="Content\css\Shared\ckeditor.css" />
     <Content Include="ReactJS\API\Comment.js" />
     <Content Include="ReactJS\API\Post.js" />
@@ -529,12 +546,12 @@
       <DependentUpon>DbModel.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
     <Content Include="package.json" />
+    <Content Include="Areas\Admin\Views\Index.cshtml" />
     <None Include="Plugins\jQuery\js\jquery.validate-vsdoc.js" />
     <Content Include="Plugins\jQuery\js\jquery.validate.js" />
     <Content Include="Plugins\jQuery\js\jquery.validate.min.js" />
@@ -567,6 +584,10 @@
     <Content Include="ReactJS\Components\ReportClubDialog.js" />
     <Content Include="ReactJS\Components\SearchBar.js" />
     <Content Include="ReactJS\Components\SnackBars.js" />
+    <Content Include="ReactJS\Home\Category.js" />
+    <Content Include="ReactJS\Home\Index.js" />
+    <Content Include="ReactJS\Home\Club.js" />
+    <Content Include="ReactJS\Home\Information.js" />
     <Content Include="ReactJS\Manage\Club.js" />
     <Content Include="ReactJS\Manage\ClubTable.js" />
     <Content Include="ReactJS\Manage\Following.js" />
@@ -644,10 +665,13 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\Home\" />
+    <Folder Include="Areas\Admin\Views\Users\" />
     <Folder Include="Content\Media\Images\Club\" />
     <Folder Include="Content\Media\Images\Description\" />
     <Folder Include="Content\Media\Images\Post\" />
     <Folder Include="dist\" />
+    <Folder Include="Views\Info\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

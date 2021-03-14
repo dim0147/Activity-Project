@@ -180,6 +180,7 @@ namespace ActivityWebsite.EF
                     {
                         Id = p.Id,
                         Title = p.Title,
+                        CreatedAt = p.CreatedAt,
                         Text = p.Text,
                         Slug = p.Slug,
                         HeaderImg = ConfigurationApp.URL_DIR_POST_IMAGE + "/" + p.HeaderImg,

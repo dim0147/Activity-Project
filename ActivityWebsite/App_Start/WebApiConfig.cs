@@ -13,6 +13,7 @@ namespace ActivityWebsite
         {
             // Web API routes
             configuration.MapHttpAttributeRoutes();
+            //configuration.EnableCors();
 
             configuration.Routes.MapHttpRoute(
                 name: "DefaultApi",
