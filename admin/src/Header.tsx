@@ -1,5 +1,8 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import clsx from 'clsx';
+
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -9,11 +12,13 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import Avatar from '@material-ui/core/Avatar';
+import { MainListItems, secondaryListItems } from './listItems';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { removeUser } from './store/user/actions';
+import { appState } from './store';
 
 const drawerWidth = 240;
 
@@ -99,12 +104,21 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
+    const user = useSelector((state: appState) => state);
+    const dispatch = useDispatch();
     const handleDrawerOpen = () => {
         setOpen(true);
     };
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    const handleLogoutBtn = () => {
+        axios
+            .post('/api/user/logout')
+            .then(() => dispatch(removeUser()))
+            .catch((err) => dispatch(removeUser()));
+    };
+
     return (
         <div>
             <CssBaseline />
@@ -134,13 +148,20 @@ export default function Header() {
                     >
                         Dashboard
                     </Typography>
-                    <IconButton color='inherit'>
-                        <Badge badgeContent={4} color='secondary'>
-                            <NotificationsIcon />
-                        </Badge>
+                    <Avatar
+                        alt='Remy Sharp'
+                        src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png'
+                    />
+                    <Typography component='h1' color='inherit' noWrap>
+                        {' '}
+                        Hello {user?.DisplayName}
+                    </Typography>
+                    <IconButton color='inherit' onClick={handleLogoutBtn}>
+                        <ExitToAppIcon />
                     </IconButton>
                 </Toolbar>
             </AppBar>
+
             <Drawer
                 variant='permanent'
                 classes={{
@@ -157,7 +178,9 @@ export default function Header() {
                     </IconButton>
                 </div>
                 <Divider />
-                <List>{mainListItems}</List>
+                <List>
+                    <MainListItems />
+                </List>
                 <Divider />
                 <List>{secondaryListItems}</List>
             </Drawer>

@@ -8,11 +8,11 @@ module.exports = {
 
 
     /* Club */
-        //Edit: "./ReactJS/Club/Edit.js",
-        //Create: "./ReactJS/Club/Create.js",
-        //Detail: "./ReactJS/Club/Detail.js",
-        //Search: "./ReactJS/Club/Search.js",
-        //Chatbox: "./ReactJS/Club/Chatbox.js"
+        Edit: "./ReactJS/Club/Edit.js",
+        Create: "./ReactJS/Club/Create.js",
+        Detail: "./ReactJS/Club/Detail.js",
+        Search: "./ReactJS/Club/Search.js",
+        Chatbox: "./ReactJS/Club/Chatbox.js"
 
     /* Post */
         //Create: "./ReactJS/Post/Create.js",
@@ -26,15 +26,15 @@ module.exports = {
         //Report: './ReactJS/Manage/Report.js',
 
     /* Admin */
-        App: "./ReactJS/Admin/App.js"
+        //App: "./ReactJS/Admin/App.js"
 
     },
     output: {
         //path: path.resolve(__dirname, "../dist/Home"),
-        //path: path.resolve(__dirname, "../dist/Club"),
+        path: path.resolve(__dirname, "../dist/Club"),
         //path: path.resolve(__dirname, "../dist/Post"),
          //path: path.resolve(__dirname, "../dist/Manage"),
-         path: path.resolve(__dirname, "../dist/Admin"),
+         //path: path.resolve(__dirname, "../dist/Admin"),
         filename: "[name].js"
     },
     resolve: {

@@ -81,5 +81,15 @@ namespace ActivityWebsite.Api
                 });
         }
     
+
+        [HttpGet]
+        [Route("api/post/get-by-time")]
+        [Authorize(Roles="Admin,Moderator")]
+        [VerifyUser]
+        public IHttpActionResult GetByTime()
+        {
+            return Json(EF.PostHandle.GetPostByTime());
+        }
+
     }
 }

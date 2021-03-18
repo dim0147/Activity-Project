@@ -265,7 +265,7 @@ namespace ActivityWebsite.EF
                 .ToList();
             }
         }
-    
+
         public static bool DeletePost(int postId)
         {
             using (var context = new DbModel())
@@ -278,11 +278,26 @@ namespace ActivityWebsite.EF
                     context.SaveChanges();
                     return true;
                 }
-                catch(Exception err)
+                catch (Exception err)
                 {
                     return false;
                 }
 
+            }
+        }
+
+        public static object GetPostByTime()
+        {
+            using (var db = new DbModel())
+            {
+                return db.Posts
+                    .OrderByDescending(p => p.CreatedAt)
+                    .GroupBy(p => p.CreatedAt.Month)
+                    .Select(g => new
+                    {
+                        Month = g.Key,
+                        Total = g.Count()
+                    }).ToList();
             }
         }
     }

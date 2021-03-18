@@ -342,5 +342,16 @@ namespace ActivityWebsite.Api
             );
         }
 
+        [HttpGet]
+        [Route("api/club/get-club-month")]
+        [System.Web.Http.Authorize(Roles = "Admin,Moderator")]
+        [VerifyUser]
+        public IHttpActionResult GetClubMonth()
+        {
+            return Json(new
+            {
+                total = EF.ClubHandle.GetClubMonth()
+            });
+        }
     }
 }

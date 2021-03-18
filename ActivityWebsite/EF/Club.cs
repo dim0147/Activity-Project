@@ -71,25 +71,25 @@ namespace ActivityWebsite.EF
                 {
                     result = result.Where(c => c.Categories.Any(cate => cate.Name.ToLower().Contains(category.ToLower())));
                 }
-                return await result.OrderBy(c=> c.Name).Skip(page * 4).Take(4).ToListAsync();
+                return await result.OrderBy(c => c.Name).Skip(page * 4).Take(4).ToListAsync();
             }
         }
 
         public static Task<List<Result>> GetBestClub()
         {
             var context = new DbModel();
-                return context.Clubs
-                    .Include(c => c.Comments)
-                    .Select(c => new Result
-                    {
-                        Id = c.Id,
-                        Name = c.Name,
-                        Slug = c.Slug,
-                        HeaderImg = ConfigurationApp.URL_DIR_CLUB_IMAGE + "/" + c.HeaderImg,
-                        TotalRate = c.Comments.Where(cm => cm.Rate != 0).Average(cm => cm.Rate),
-                        EstablishAt = c.EstablishedAt
-                    })
-                    .OrderByDescending(c => c.TotalRate).Take(5).ToListAsync();
+            return context.Clubs
+                .Include(c => c.Comments)
+                .Select(c => new Result
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Slug = c.Slug,
+                    HeaderImg = ConfigurationApp.URL_DIR_CLUB_IMAGE + "/" + c.HeaderImg,
+                    TotalRate = c.Comments.Where(cm => cm.Rate != 0).Average(cm => cm.Rate),
+                    EstablishAt = c.EstablishedAt
+                })
+                .OrderByDescending(c => c.TotalRate).Take(5).ToListAsync();
         }
 
         public static object GetClubById(int id)
@@ -134,6 +134,7 @@ namespace ActivityWebsite.EF
                                      {
                                          Id = p.Id,
                                          Title = p.Title,
+                                         Slug = p.Slug,
                                          Text = p.Text,
                                          HeaderImg = ConfigurationApp.URL_DIR_POST_IMAGE + "/" + p.HeaderImg,
                                          CreatedAt = p.CreatedAt,
@@ -359,7 +360,7 @@ namespace ActivityWebsite.EF
                 };
                 db.ClubMessages.Add(newMessage);
                 db.SaveChanges();
-                var Owner = UserHandle.GetUserDetail(userId).Result;
+                var Owner = UserHandle.GetUserDetail(userId);
                 if (Owner == null)
                 {
                     return null;
@@ -502,6 +503,16 @@ namespace ActivityWebsite.EF
                 {
                     return false;
                 }
+            }
+        }
+
+        public static int GetClubMonth()
+        {
+            using (var db = new DbModel())
+            {
+                return db.Clubs
+                    .Where(c => c.CreatedAt.Year == DateTime.Now.Year && c.CreatedAt.Month == DateTime.Now.Month)
+                    .Count();
             }
         }
     }

@@ -15,11 +15,18 @@ namespace ActivityWebsite.EF
     public class UserHandle : ApiController
     {
 
-        public static async Task<object> GetUserDetail(string userId)
+        public static object GetUserDetail(string userId)
         {
             ApplicationUserManager manager = HttpContext.Current.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var user = await manager.FindByIdAsync(userId);
-            var userRole = user != null ? manager.GetRoles(user.Id)?[0] : null;
+            var user = manager.FindById(userId);
+            string userRole = null;
+
+            if(user != null)
+            {
+                var role = manager.GetRoles(user.Id);
+                if (role.Count() > 0) userRole = role[0];
+            }
+
             return user != null ? new
             {
                 Id = user.Id,
@@ -115,7 +122,7 @@ namespace ActivityWebsite.EF
                                 .ToListAsync();
             }
         }
-    
+
         public static async Task<object> GetUserFollowing(string userId)
         {
             using (var context = new DbModel())
@@ -142,10 +149,10 @@ namespace ActivityWebsite.EF
                                 .ToListAsync();
             }
         }
-    
+
         public static async Task<object> GetUserReport(string userId)
         {
-            using(var context = new DbModel())
+            using (var context = new DbModel())
             {
                 return await context.Reports
                             .Include(r => r.Club)
@@ -153,7 +160,8 @@ namespace ActivityWebsite.EF
                             .Select(r => new
                             {
                                 Id = r.Id,
-                                Club = new {
+                                Club = new
+                                {
                                     Id = r.Club.Id,
                                     Slug = r.Club.Slug,
                                     Name = r.Club.Name,
@@ -166,6 +174,65 @@ namespace ActivityWebsite.EF
                                 UpdatedAt = r.UpdatedAt
                             })
                             .ToListAsync();
+            }
+        }
+
+        public static object GetRecentUser()
+        {
+            using (var db = new DbModel())
+            {
+                return db.AspNetUsers.Select(u => new
+                {
+                    Id = u.Id,
+                    Username = u.UserName,
+                    Name = u.DisplayName,
+                    Email = u.Email,
+                    Authenticate = u.authenticateType,
+                    CreatedAt = u.CreatedAt,
+                }).OrderByDescending(u => u.CreatedAt).Take(5).ToList();
+            }
+        }
+
+        public static object GetAllUser()
+        {
+            using (var db = new DbModel())
+            {
+                return db.AspNetUsers
+                    .Include(u => u.Clubs)
+                    .Include(u => u.Posts)
+                    .Select(u => new
+                    {
+                        Id = u.Id,
+                        Username = u.UserName,
+                        Name = u.DisplayName,
+                        Email = u.Email,
+                        Authenticate = u.authenticateType,
+                        TotalClub = u.Clubs.Count(),
+                        TotalPost = u.Posts.Count(),
+                        CreatedAt = u.CreatedAt,
+                    }).ToList();
+            }
+        }
+
+
+        public static bool DeleteUser(string userId)
+        {
+            using (var db = new DbModel())
+            {
+                try
+                {
+                    //    var user = new AspNetUser { Id = userId };
+                    //    db.AspNetUsers.Attach(user);
+                    //    db.AspNetUsers.Remove(user);
+                    db.AspNetUsers.RemoveRange(db.AspNetUsers.Where(u => u.Id == userId));
+                    db.SaveChanges();
+                    return true;
+                }
+                catch(Exception error)
+                {
+                    return false;
+                }
+
             }
         }
     }

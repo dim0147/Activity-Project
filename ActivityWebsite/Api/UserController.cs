@@ -11,9 +11,16 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity; // Maybe this one too
 using System.Web;
 using System.Threading.Tasks;
+using Microsoft.Owin.Security;
 
 namespace ActivityWebsite.Api
 {
+
+    public class ModelDeleteUser
+    {
+        public string UserId { get; set; }
+    }
+
     public class UserController : ApiController
     {
 
@@ -23,12 +30,52 @@ namespace ActivityWebsite.Api
         [Route("api/user")]
         public IHttpActionResult GetDefaultUser()
         {
+            var user = EF.UserHandle.GetUserDetail(User.Identity.GetUserId());
             return Json(new { 
                 success = true,
-                user = EF.UserHandle.GetUserDetail(User.Identity.GetUserId()).Result
+                user = EF.UserHandle.GetUserDetail(User.Identity.GetUserId())
             });
         }
-    
+
+        [HttpPost]
+        [Route("api/user/login")]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> LoginUser(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Content(HttpStatusCode.NotAcceptable, "Missing username or password");
+            }
+            ApplicationUserManager userManager = HttpContext.Current.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationSignInManager signinManager = HttpContext.Current.Request.GetOwinContext().GetUserManager<ApplicationSignInManager>();
+            var user = await userManager.FindByEmailAsync(model.UsernameOrEmail);
+            if(user == null)
+            {
+                return Content(HttpStatusCode.NotAcceptable, "Incorrect username or password");
+            }
+            var roles = await userManager.GetRolesAsync(user.Id);
+            if (!roles.Contains("Admin") && !roles.Contains("Moderator"))
+            {
+                return Content(HttpStatusCode.NotAcceptable, "You don't have permission to access this site");
+            }
+            var result = await signinManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, true);
+            if(result != SignInStatus.Success)
+            {
+                return Content(HttpStatusCode.NotAcceptable, "Incorrect username or password");
+            }
+            return Content(HttpStatusCode.OK, "Login Success");
+        }
+
+        [HttpPost]
+        [Route("api/user/logout")]
+        public IHttpActionResult LogoutUser()
+        {
+
+            IAuthenticationManager AuthenticationManager = HttpContext.Current.Request.GetOwinContext().Authentication;
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return Content(HttpStatusCode.OK, "success");
+        }
+
         [HttpGet]
         [Authorize]
         [VerifyUser]
@@ -83,6 +130,41 @@ namespace ActivityWebsite.Api
                 success = true,
                 data = result
             });
+        }
+    
+        [HttpGet]
+        [Route("api/user/get-recent-user")]
+        [Authorize(Roles ="Admin,Moderator")]
+        [VerifyUser]
+        public IHttpActionResult GetRecentUser()
+        {
+            return Json(EF.UserHandle.GetRecentUser());
+        }
+
+        [HttpGet]
+        [Route("api/user/get-all-user")]
+        [Authorize(Roles = "Admin,Moderator")]
+        [VerifyUser]
+        public IHttpActionResult GetAllUser()
+        {
+            return Json(EF.UserHandle.GetAllUser());
+        }
+
+        [HttpPost]
+        [Route("api/user/delete-user")]
+        [Authorize(Roles = "Admin")]
+        [VerifyUser]
+        public IHttpActionResult DeleteUser(ModelDeleteUser model)
+        {
+            var isSucess = EF.UserHandle.DeleteUser(model.UserId);
+            if (!isSucess)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Cannot delete");
+            }
+
+            return Content(HttpStatusCode.OK, "Delete Success");
+
+
         }
     }
 }

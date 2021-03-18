@@ -16,7 +16,7 @@ function Copyright() {
         <Typography variant='body2' color='textSecondary' align='center'>
             {'Copyright © '}
             <Link color='inherit' href='https://material-ui.com/'>
-                Your Website
+                Dashboard
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -121,7 +121,7 @@ export default function Dashboard() {
                             <Chart />
                         </Paper>
                     </Grid>
-                    {/* Recent Deposits */}
+                    {/* Recent Clubs */}
                     <Grid item xs={12} md={4} lg={3}>
                         <Paper className={fixedHeightPaper}>
                             <Deposits />
