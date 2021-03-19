@@ -515,5 +515,30 @@ namespace ActivityWebsite.EF
                     .Count();
             }
         }
+
+        public static object GetAllClub()
+        {
+            using (var db = new DbModel())
+            {
+                return db.Clubs
+                    .Include(c => c.Posts)
+                    .Include(c => c.UserFollows)
+                    .Include(c => c.ClubCategories.Select(cate => cate.Category))
+                    .Select(c => new
+                    {
+                        Id = c.Id,
+                        Slug = c.Slug,
+                        Name = c.Name,
+                        Image = ConfigurationApp.URL_DIR_CLUB_IMAGE + "/" + c.HeaderImg,
+                        Address = c.Address,
+                        OperationHours = c.OperationHours,
+                        Categories = c.ClubCategories.Select(cate => cate.Category.name),
+                        Follows = c.UserFollows.Count(),
+                        Posts = c.Posts.Count(),
+                        EstablishAt = c.EstablishedAt,
+                        CreatedAt = c.CreatedAt
+                    }).ToList();
+            }
+        }
     }
 }

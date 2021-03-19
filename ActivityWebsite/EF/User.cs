@@ -221,9 +221,6 @@ namespace ActivityWebsite.EF
             {
                 try
                 {
-                    //    var user = new AspNetUser { Id = userId };
-                    //    db.AspNetUsers.Attach(user);
-                    //    db.AspNetUsers.Remove(user);
                     db.AspNetUsers.RemoveRange(db.AspNetUsers.Where(u => u.Id == userId));
                     db.SaveChanges();
                     return true;

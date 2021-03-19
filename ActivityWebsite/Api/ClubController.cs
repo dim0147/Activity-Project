@@ -353,5 +353,33 @@ namespace ActivityWebsite.Api
                 total = EF.ClubHandle.GetClubMonth()
             });
         }
+
+        [HttpGet]
+        [Route("api/club/get-all-club")]
+        [System.Web.Http.Authorize(Roles = "Admin,Moderator")]
+        [VerifyUser]
+        public IHttpActionResult GetAllClub()
+        {
+            return Json(EF.ClubHandle.GetAllClub());
+        }
+
+        [HttpDelete]
+        [Route("api/club/delete/{id}")]
+        [System.Web.Http.Authorize(Roles = "Admin,Moderator")]
+        [VerifyUser]
+        public async Task<IHttpActionResult> DeleteClub(int id)
+        {
+
+            bool isSuccess = await EF.ClubHandle.DeleteClub(id);
+            if (isSuccess)
+            {
+                return Content(HttpStatusCode.OK, "Success");
+            }
+            else
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error");
+            }
+        }
+
     }
 }
