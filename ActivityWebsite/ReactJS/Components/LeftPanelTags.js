@@ -8,8 +8,7 @@ const LeftPanelTags = () => {
 
     return (
         <div className="blog__sidebar__tags">
-            <h4>Search By Tags</h4>
-            {post.Tags.map((tag,i) => <a key={i} href={`/search/post?tags=${tag.Name}`}>{tag.Name}</a>)}
+          
         </div>
     );
 }

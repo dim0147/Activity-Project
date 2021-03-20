@@ -91,5 +91,30 @@ namespace ActivityWebsite.Api
             return Json(EF.PostHandle.GetPostByTime());
         }
 
+        [HttpGet]
+        [Route("api/post/get-all-post")]
+        [Authorize(Roles = "Admin,Moderator")]
+        [VerifyUser]
+        public IHttpActionResult GetAllPost()
+        {
+            return Json(EF.PostHandle.GetAllPost());
+        }
+
+        [HttpDelete]
+        [Route("api/post/delete/{id}")]
+        [Authorize(Roles = "Admin,Moderator")]
+        [VerifyUser]
+        public IHttpActionResult DeletePost(int id)
+        {
+            var result = EF.PostHandle.DeletePost(id);
+
+            if (!result)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Delete Failed");
+            }
+
+            return Content(HttpStatusCode.OK, "Success");
+        }
+
     }
 }

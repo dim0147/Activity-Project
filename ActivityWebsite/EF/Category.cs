@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ActivityWebsite.Config;
 
 namespace ActivityWebsite.EF
 {
@@ -40,7 +41,46 @@ namespace ActivityWebsite.EF
                 return query.FirstOrDefault();
             }
         }
+    
+        public static object GetAllCategoryByAdmin()
+        {
+            using(var db = new DbModel())
+            {
+                return db.Categories
+                    .Include("ClubCategories")
+                    .Select(c => new
+                    {
+                        Id = c.Id,
+                        Image = ConfigurationApp.URL_DIR_CATEGORY_IMAGE + "/" + c.image,
+                        Name = c.name,
+                        Description = c.description,
+                        Slug = c.slug,
+                        Club = c.ClubCategories.Count(),
+                        CreatedAt = c.CreatedAt
+                    }).ToList();
 
+            }
+        }
+
+
+        public static bool DeleteCategory(int id)
+        {
+            using(var db = new DbModel())
+            {
+                try
+                {
+                    var category = new Category { Id = id };
+                    db.Categories.Attach(category);
+                    db.Categories.Remove(category);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch(Exception error)
+                {
+                    return false;
+                }
+            }
+        }
 
     }
 }

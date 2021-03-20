@@ -252,6 +252,7 @@
     <Compile Include="Api\ImageController.cs" />
     <Compile Include="Api\InfoController.cs" />
     <Compile Include="Api\PostController.cs" />
+    <Compile Include="Api\ReportController.cs" />
     <Compile Include="Api\UserController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -280,6 +281,7 @@
     <Compile Include="EF\Image.cs" />
     <Compile Include="EF\Infor.cs" />
     <Compile Include="EF\Post.cs" />
+    <Compile Include="EF\Report.cs" />
     <Compile Include="EF\User.cs" />
     <Compile Include="EF\UserConnection.cs" />
     <Compile Include="Global.asax.cs">

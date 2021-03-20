@@ -200,17 +200,71 @@ namespace ActivityWebsite.EF
                 return db.AspNetUsers
                     .Include(u => u.Clubs)
                     .Include(u => u.Posts)
+                    .Include(u => u.AspNetRoles)
                     .Select(u => new
                     {
                         Id = u.Id,
                         Username = u.UserName,
                         Name = u.DisplayName,
                         Email = u.Email,
+                        Role = u.AspNetRoles.FirstOrDefault().Name,
                         Authenticate = u.authenticateType,
                         TotalClub = u.Clubs.Count(),
                         TotalPost = u.Posts.Count(),
                         CreatedAt = u.CreatedAt,
-                    }).ToList();
+                    })
+                    .Where(u => u.Role != "Admin")
+                    .ToList();
+            }
+        }
+
+        public static object GetModerator()
+        {
+            using(var db = new DbModel())
+            {
+                return db.AspNetUsers.
+                    Include(u => u.AspNetRoles)
+                    .Select(u => new
+                    {
+                        Id = u.Id,
+                        Role = u.AspNetRoles.FirstOrDefault().Name,
+                        Name = u.DisplayName,
+                        UserName = u.UserName,
+                        Email = u.Email
+                    })
+                    .Where(u => u.Role == "Moderator")
+                    .ToList();
+            }
+        }
+
+
+        public static bool DenoteModerator(string userId)
+        {
+            try
+            {
+            var userManager = HttpContext.Current.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            userManager.RemoveFromRole(userId, "Moderator");
+            userManager.AddToRole(userId, "Member");
+            return true;
+            }
+            catch (Exception error)
+            {
+                return false;
+            }
+        }
+
+        public static bool RemoteModerator(string userId)
+        {
+            try
+            {
+                var userManager = HttpContext.Current.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                userManager.RemoveFromRole(userId, "Member");
+                userManager.AddToRole(userId, "Moderator");
+                return true;
+            }
+            catch (Exception error)
+            {
+                return false;
             }
         }
 
@@ -232,5 +286,6 @@ namespace ActivityWebsite.EF
 
             }
         }
+           
     }
 }

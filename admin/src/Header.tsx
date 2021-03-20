@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Avatar from '@material-ui/core/Avatar';
-import { MainListItems, secondaryListItems } from './listItems';
+import { MainListItems, SecondaryListItems } from './listItems';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { removeUser } from './store/user/actions';
 import { appState } from './store';
@@ -182,7 +182,7 @@ export default function Header() {
                     <MainListItems />
                 </List>
                 <Divider />
-                <List>{secondaryListItems}</List>
+                <List><SecondaryListItems /></List>
             </Drawer>
         </div>
     );

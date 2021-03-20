@@ -166,5 +166,33 @@ namespace ActivityWebsite.Api
 
 
         }
+
+        [HttpGet]
+        [Route("api/user/get-moderator")]
+        [Authorize(Roles = "Admin")]
+        [VerifyUser]
+        public IHttpActionResult GetModerator()
+        {
+            return Json(EF.UserHandle.GetModerator());
+        }
+
+        [HttpPost]
+        [Route("api/user/remote-moderator/{id}")]
+        [Authorize(Roles = "Admin")]
+        [VerifyUser]
+        public IHttpActionResult RemoteModerator(string id)
+        {
+            return Json(EF.UserHandle.RemoteModerator(id));
+        }
+
+        [HttpDelete]
+        [Route("api/user/denote-moderator/{id}")]
+        [Authorize(Roles = "Admin")]
+        [VerifyUser]
+        public IHttpActionResult DenoteModerator(string id)
+        {
+            return Json(EF.UserHandle.DenoteModerator(id));
+        }
+
     }
 }

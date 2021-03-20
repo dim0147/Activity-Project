@@ -4,7 +4,6 @@ import MaterialTable from 'material-table';
 import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -32,21 +31,26 @@ import moment from 'moment';
 
 interface IData {
     Id: string;
-    Username: string;
-    Name: string;
-    Role: string;
-    Email: string;
-    Authenticate: string;
-    TotalClub: number;
-    TotalPost: number;
+    Slug: string;
+    Image: string;
+    Title: String;
+    Club: {
+        Id: number,
+        Name: string,
+        Slug: string
+    };
+    Tags: Array<string>,
+    Comments: number,
+    Author: string,
     CreatedAt: string;
+    UpdatedAt: string;
 }
 
 interface IState {
     data: Array<IData>;
 }
 
-export default class User extends Component<{}, IState> {
+export default class Post extends Component<{}, IState> {
     tableIcons = {
         Add: forwardRef((props, ref: any) => <AddBox {...props} ref={ref} />),
         Check: forwardRef((props, ref: any) => <Check {...props} ref={ref} />),
@@ -97,31 +101,16 @@ export default class User extends Component<{}, IState> {
         data: [],
     };
 
-    makeModerator(userId: string): void {
-        axios
-            .post(`/api/user/remote-moderator/${userId}`)
-            .then(() => {
-                this.setState({
-                    data: this.state.data.map((value) => {
-                        if (value.Id === userId) {
-                            value.Role = 'Moderator';
-                        }
-                        return value;
-                    }),
-                });
-            })
-            .catch();
-    }
-
     componentDidMount() {
         axios
-            .get('/api/user/get-all-user')
+            .get('/api/post/get-all-post')
             .then((res) => res.data)
             .then((data: Array<IData>) =>
                 this.setState({
                     data: data.map((value) => ({
                         ...value,
                         CreatedAt: moment(value.CreatedAt).format('LL'),
+                        UpdatedAt: moment(value.CreatedAt).format('LL'),
                     })),
                 })
             )
@@ -142,18 +131,20 @@ export default class User extends Component<{}, IState> {
                                         field: 'Id',
                                         type: 'string',
                                         hidden: true,
-                                    },
+                                    },                                    
                                     {
-                                        title: 'Name',
-                                        field: 'Name',
-                                    },
+                                        title: 'Slug',
+                                        field: 'Slug',
+                                        type: 'string',
+                                        hidden: true,
+                                    },                                    
                                     {
                                         title: 'Image',
                                         sorting: false,
                                         grouping: false,
                                         render: (row) => (
                                             <img
-                                                src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png'
+                                                src={row.Image}
                                                 style={{
                                                     width: 40,
                                                     borderRadius: '50%',
@@ -163,44 +154,43 @@ export default class User extends Component<{}, IState> {
                                         ),
                                     },
                                     {
-                                        title: 'Role',
-                                        field: 'Role',
+                                        title: 'Title',
+                                        field: 'Title',
+                                        render: (row) => <a href={`https://localhost:44377/post/${row.Slug}`}>{row.Title}</a>
                                     },
                                     {
-                                        title: 'Username',
-                                        field: 'Username',
+                                        title: 'Club',
+                                        field: 'Club',
+                                        render: (row) => <a href={`https://localhost:44377/club/${row.Club.Slug}`}>{row.Club.Name}</a>
                                     },
                                     {
-                                        title: 'Email',
-                                        field: 'Email',
+                                        title: 'Tags',
+                                        field: 'Tags',
+                                        render: (row) => row.Tags.join(', ')
                                     },
                                     {
-                                        title: 'Authenticate',
-                                        field: 'Authenticate',
+                                        title: 'Comments',
+                                        field: 'Comments',
                                     },
                                     {
-                                        title: 'Clubs',
-                                        field: 'TotalClub',
-                                        type: 'numeric',
+                                        title: 'Author',
+                                        field: 'Author'
                                     },
                                     {
-                                        title: 'Posts',
-                                        field: 'TotalPost',
-                                        type: 'numeric',
+                                        title: 'CreatedAt',
+                                        field: 'CreatedAt'
                                     },
                                     {
-                                        title: 'Created At',
-                                        field: 'CreatedAt',
-                                    },
+                                        title: 'UpdatedAt',
+                                        field: 'UpdatedAt'
+                                    }
                                 ]}
                                 data={this.state.data}
                                 editable={{
                                     onRowDelete: (oldData: IData) =>
                                         new Promise((resolve, reject) => {
                                             axios
-                                                .post('/api/user/delete-user', {
-                                                    UserId: oldData.Id,
-                                                })
+                                                .delete(`/api/post/delete/${oldData.Id}`)
                                                 .then(() => {
                                                     this.setState({
                                                         data: this.state.data.filter(
@@ -220,29 +210,19 @@ export default class User extends Component<{}, IState> {
                                                 );
                                         }),
                                 }}
-                                actions={[
-                                    {
-                                        icon: () => <Edit />,
-                                        tooltip: 'Remote Moderator',
-                                        onClick: (event, row) =>
-                                            this.makeModerator(
-                                                (row as IData).Id
-                                            ),
-                                    },
-                                ]}
                                 localization={{
                                     body: {
-                                        deleteTooltip: 'Delete this user',
+                                        deleteTooltip: 'Delete this post',
                                         editRow: {
                                             deleteText:
-                                                'Are you sure want to delete this user?',
+                                                'Are you sure want to delete this post?',
                                         },
                                     },
                                 }}
                                 options={{
                                     grouping: true,
                                 }}
-                                title='Manage Users'
+                                title='Manage Posts'
                             />
                         </Box>
                     </Grid>

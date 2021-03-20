@@ -300,5 +300,36 @@ namespace ActivityWebsite.EF
                     }).ToList();
             }
         }
+    
+        public static object GetAllPost()
+        {
+            using(var db = new DbModel())
+            {
+                return db.Posts
+                    .Include(p => p.Club)
+                    .Include(p => p.PostTags)
+                    .Include(p => p.Comments)
+                    .Include(p => p.AspNetUser)
+                    .Select(p => new
+                    {
+                        Id = p.Id,
+                        Slug = p.Slug,
+                        Image = ConfigurationApp.URL_DIR_POST_IMAGE + "/" + p.HeaderImg,
+                        Title = p.Title,
+                        Club = new
+                        {
+                            Id = p.Club.Id,
+                            Name = p.Club.Name,
+                            Slug = p.Club.Slug
+                        },
+                        Tags = p.PostTags.Select(t => t.name),
+                        Comments = p.Comments.Count(),
+                        Author = p.AspNetUser.DisplayName,
+                        CreatedAt = p.CreatedAt,
+                        UpdatedAt = p.UpdatedAt
+                    }).ToList();
+            }
+        }
+        
     }
 }

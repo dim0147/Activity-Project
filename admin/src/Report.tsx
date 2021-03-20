@@ -4,7 +4,6 @@ import MaterialTable from 'material-table';
 import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -21,32 +20,29 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import CallMissedOutgoingIcon from '@material-ui/icons/CallMissedOutgoing';
-import RoomIcon from '@material-ui/icons/Room';
-import RssFeedIcon from '@material-ui/icons/RssFeed';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import ForumIcon from '@material-ui/icons/Forum';
-import FeaturedPlayListIcon from '@material-ui/icons/FeaturedPlayList';
 import axios from 'axios';
 import moment from 'moment';
 
 interface IData {
     Id: string;
-    Username: string;
-    Name: string;
-    Role: string;
-    Email: string;
-    Authenticate: string;
-    TotalClub: number;
-    TotalPost: number;
+    Owner: string;
+    Reason: string;
+    Replier: string;
+    Club?: {
+        Id: string;
+        Slug: string;
+        Name: string;
+    };
+    Status: 'pending' | 'success';
     CreatedAt: string;
+    UpdatedAt: string
 }
 
 interface IState {
     data: Array<IData>;
 }
 
-export default class User extends Component<{}, IState> {
+export default class Report extends Component<{}, IState> {
     tableIcons = {
         Add: forwardRef((props, ref: any) => <AddBox {...props} ref={ref} />),
         Check: forwardRef((props, ref: any) => <Check {...props} ref={ref} />),
@@ -97,25 +93,9 @@ export default class User extends Component<{}, IState> {
         data: [],
     };
 
-    makeModerator(userId: string): void {
-        axios
-            .post(`/api/user/remote-moderator/${userId}`)
-            .then(() => {
-                this.setState({
-                    data: this.state.data.map((value) => {
-                        if (value.Id === userId) {
-                            value.Role = 'Moderator';
-                        }
-                        return value;
-                    }),
-                });
-            })
-            .catch();
-    }
-
     componentDidMount() {
         axios
-            .get('/api/user/get-all-user')
+            .get('/api/report/get-all-report')
             .then((res) => res.data)
             .then((data: Array<IData>) =>
                 this.setState({
@@ -144,53 +124,30 @@ export default class User extends Component<{}, IState> {
                                         hidden: true,
                                     },
                                     {
-                                        title: 'Name',
-                                        field: 'Name',
+                                        title: 'Owner',
+                                        field: 'Owner',
                                     },
                                     {
-                                        title: 'Image',
-                                        sorting: false,
-                                        grouping: false,
-                                        render: (row) => (
-                                            <img
-                                                src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png'
-                                                style={{
-                                                    width: 40,
-                                                    borderRadius: '50%',
-                                                }}
-                                                alt='avatar'
-                                            />
-                                        ),
+                                        title: 'Reason',
+                                        field: 'Reason',
                                     },
                                     {
-                                        title: 'Role',
-                                        field: 'Role',
+                                        title: 'Club',
+                                        field: 'Club',
+                                        render: (row) => row.Club !== undefined ? <a href={`https://localhost:44377/club/${row.Club.Slug}`}>{row.Club.Name}</a> : 'Dont exist'
                                     },
                                     {
-                                        title: 'Username',
-                                        field: 'Username',
+                                        title: 'Status',
+                                        field: 'Status',
+                                        render: row => row.Status.toUpperCase()
                                     },
                                     {
-                                        title: 'Email',
-                                        field: 'Email',
-                                    },
-                                    {
-                                        title: 'Authenticate',
-                                        field: 'Authenticate',
-                                    },
-                                    {
-                                        title: 'Clubs',
-                                        field: 'TotalClub',
-                                        type: 'numeric',
-                                    },
-                                    {
-                                        title: 'Posts',
-                                        field: 'TotalPost',
-                                        type: 'numeric',
-                                    },
-                                    {
-                                        title: 'Created At',
+                                        title: 'CreatedAt',
                                         field: 'CreatedAt',
+                                    },
+                                    {
+                                        title: 'UpdatedAt',
+                                        field: 'UpdatedAt',
                                     },
                                 ]}
                                 data={this.state.data}
@@ -198,9 +155,9 @@ export default class User extends Component<{}, IState> {
                                     onRowDelete: (oldData: IData) =>
                                         new Promise((resolve, reject) => {
                                             axios
-                                                .post('/api/user/delete-user', {
-                                                    UserId: oldData.Id,
-                                                })
+                                                .delete(
+                                                    `/api/report/delete/${oldData.Id}`
+                                                )
                                                 .then(() => {
                                                     this.setState({
                                                         data: this.state.data.filter(
@@ -220,29 +177,19 @@ export default class User extends Component<{}, IState> {
                                                 );
                                         }),
                                 }}
-                                actions={[
-                                    {
-                                        icon: () => <Edit />,
-                                        tooltip: 'Remote Moderator',
-                                        onClick: (event, row) =>
-                                            this.makeModerator(
-                                                (row as IData).Id
-                                            ),
-                                    },
-                                ]}
                                 localization={{
                                     body: {
-                                        deleteTooltip: 'Delete this user',
+                                        deleteTooltip: 'Delete this Report',
                                         editRow: {
                                             deleteText:
-                                                'Are you sure want to delete this user?',
+                                                'Are you sure want to delete this Report?',
                                         },
                                     },
                                 }}
                                 options={{
                                     grouping: true,
                                 }}
-                                title='Manage Users'
+                                title='Manage Report'
                             />
                         </Box>
                     </Grid>

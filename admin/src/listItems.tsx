@@ -11,9 +11,10 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import PersonIcon from '@material-ui/icons/Person';
+import CategoryIcon from '@material-ui/icons/Category';
 
 export const MainListItems = () => {
-  const history = useHistory();
+    const history = useHistory();
 
     return (
         <div>
@@ -31,21 +32,21 @@ export const MainListItems = () => {
                 <ListItemText primary='Users' />
             </ListItem>
 
-            <ListItem button>
+            <ListItem button onClick={() => history.push('/club')}>
                 <ListItemIcon>
                     <PeopleIcon />
                 </ListItemIcon>
                 <ListItemText primary='Clubs' />
             </ListItem>
 
-            <ListItem button>
+            <ListItem button onClick={() => history.push('/post')}>
                 <ListItemIcon>
                     <LayersIcon />
                 </ListItemIcon>
                 <ListItemText primary='Posts' />
             </ListItem>
 
-            <ListItem button>
+            <ListItem button onClick={() => history.push('/report')}>
                 <ListItemIcon>
                     <BarChartIcon />
                 </ListItemIcon>
@@ -55,14 +56,24 @@ export const MainListItems = () => {
     );
 };
 
-export const secondaryListItems = (
-    <div>
-        <ListSubheader inset>Manage</ListSubheader>
-        <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary='Moderator' />
-        </ListItem>
-    </div>
-);
+export const SecondaryListItems = () => {
+    const history = useHistory();
+    return (
+        <div>
+            <ListSubheader inset>Manage</ListSubheader>
+            <ListItem button onClick={() => history.push('/moderator')}>
+                <ListItemIcon>
+                    <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary='Moderator' />
+            </ListItem>
+
+            <ListItem button onClick={() => history.push('/category')}>
+                <ListItemIcon>
+                    <CategoryIcon />
+                </ListItemIcon>
+                <ListItemText primary='Category' />
+            </ListItem>
+        </div>
+    );
+};

@@ -69,7 +69,7 @@ const DetailAbout = ({ clubId, clubSlug, clubRate, clubOwner, clubHeaderImg, clu
     const loginSection = () => {
         let buttonSection;
 
-        if (user.Id === clubOwner.Id || user.Role == 'Admin')
+        if (user.Id === clubOwner.Id)
             buttonSection = <Edit />
         else if (user.Id !== clubOwner.Id)
             buttonSection = <User />

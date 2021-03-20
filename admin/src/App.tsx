@@ -19,6 +19,10 @@ import Dashboard from './Dashboard';
 import Login from './Login';
 import User from './User';
 import Club from './Club';
+import Post from './Post';
+import Category from './Category';
+import Report from './Report';
+import Moderator from './Moderator';
 
 const mapStateToProps = (state: appState) => ({ user: state });
 
@@ -108,8 +112,22 @@ function App({ user, setUser }: IProps) {
                         <Route path='/club'>
                             <Club />
                         </Route>
-                        
-                        
+
+                        <Route path='/post'>
+                            <Post />
+                        </Route>
+
+                        <Route path='/report'>
+                            <Report />
+                        </Route>
+
+                        <Route path='/moderator'>
+                            <Moderator />
+                        </Route>
+
+                        <Route path='/category'>
+                            <Category />
+                        </Route>
 
                         <Route path='/'>
                             <Dashboard />
