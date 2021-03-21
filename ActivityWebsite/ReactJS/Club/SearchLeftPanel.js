@@ -60,7 +60,7 @@ export default class LeftPanel extends Component {
                                     <img width={70} height={70} src={club.HeaderImg} alt="" />
                             </div>
                             <div className="blog__recent__item__text">
-                                    <h6>{club.Name}</h6>
+                                    <a href={`/club/${club.Slug}`}><h6>{club.Name}</h6></a>
                                     <Rating
                                         value={club.TotalRate ? club.TotalRate : 0}
                                         edit={false}

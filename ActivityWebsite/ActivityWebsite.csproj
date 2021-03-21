@@ -673,7 +673,6 @@
     <Folder Include="Content\Media\Images\Description\" />
     <Folder Include="Content\Media\Images\Post\" />
     <Folder Include="dist\" />
-    <Folder Include="Views\Info\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

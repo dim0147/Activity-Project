@@ -36,9 +36,18 @@ export default function Category() {
                                 <div className="services__item">
                                     <img src={cate.image} alt="" />
                                     <a href={`/club/search?category=${cate.name}`}><h5>{cate.name}</h5></a>
-                                    <p>
-                                        {cate.description}
-                                    </p>
+
+                                    <div>
+                                        <button className="btn btn-danger" type="button" data-toggle="collapse" data-target={`#collapse_${cate.Id}`} aria-expanded="false" aria-controls="collapseExample">
+                                            About
+  </button>
+                                        <div className="collapse mt-3" id={`collapse_${cate.Id}`}>
+                                            <div className="card card-body">
+                                                {cate.description}
+    </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         ))}

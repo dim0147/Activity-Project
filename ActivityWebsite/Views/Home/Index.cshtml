@@ -8,41 +8,41 @@
 @section introdution{
     <!-- Hero Section Begin -->
     <section class="hero">
-            <div class="hero__sliders owl-carousel">
-                <div class="hero__items set-bg" data-setbg="/Content/Media/Images/templates/hero/hero-1.jpg">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <div class="hero__text">
-                                    <span>Welcome to the world of largest clubs</span>
-                                    <h2>What hurts today makes you stronger tomorrow</h2>
-                                    <a href="#" class="primary-btn">DISCOVER MORE</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero__items set-bg" data-setbg="/Content/Media/Images/templates/hero/hero-1.jpg">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <div class="hero__text">
-                                    <span>Club Discover</span>
-                                    <h2>Pick and choose your club</h2>
-                                    <a href="#" class="primary-btn">DISCOVER MORE</a>
-                                </div>
+        <div class="hero__sliders owl-carousel">
+            <div class="hero__items set-bg" data-setbg="/Content/Media/Images/templates/hero/hero-1.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="hero__text">
+                                <span>Welcome to the world of largest clubs</span>
+                                <h2>What hurts today makes you stronger tomorrow</h2>
+                                <a href="#welcome_part" class="primary-btn">DISCOVER MORE</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+            <div class="hero__items set-bg" data-setbg="/Content/Media/Images/templates/hero/hero-1.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="hero__text">
+                                <span>Club Discover</span>
+                                <h2>Pick and choose your club</h2>
+                                <a href="#welcome_part" class="primary-btn">DISCOVER MORE</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Hero Section End -->
 }
 
 
 <!-- About Section Begin -->
-<section class="home-about spad">
+<section class="home-about spad" id="welcome_part">
     <div class="container">
         <div class="row">
             <div class="col-lg-7">
@@ -62,17 +62,12 @@
                     </div>
                     <span>“What hurts today makes you stronger tomorrow.”</span>
                     <p>
-                        We are offering internationally certified Design Club in Rishikesh and 300
-                        good training in Rishikesh, India - Join us to have such life-transforming
-                        experience in The world capital of Clubs.
+                        Find a club to share? Come to us, where there are many clubs operating and sharing experiences, tips and information on all activities, interactions with members.
                     </p>
                     <p class="para-2">
-                        Here is a great place for those who are in search of the ancient practice and
-                        true essence of activiews, meditation, health, peace and learning the art of creating a class to
-                        teach safely. We are passionate about adjustments and mainly focus on the alignment of the
-                        asanas.
+                        Here is a great place for those who are in search of the activities and get in touch with many clubs depend on your hobbies.
                     </p>
-                    <a href="#" class="primary-btn">MORE ABOUT US</a>
+                    <a href="#why_choose_us" class="primary-btn">MORE ABOUT US</a>
                 </div>
             </div>
         </div>
@@ -148,6 +143,7 @@
     </div>
 </section>
 <!-- Gallery Section End -->
+
 <!-- Testimonial Section Begin -->
 <section class="testimonial spad">
     <div class="container">
@@ -171,10 +167,10 @@
                     <div class="col-lg-10">
                         <div class="testimonial__text">
                             <p>
-                                Nice place to discover clubs
+                                Getting involved in an extracurricular club could be one of the highlights of your time on campus.
                             </p>
-                            <img src="/Content/Media/Images/templates/testimonial/testimonial-1.png" alt="">
-                            <h5>Linnie Walton <span>- User</span></h5>
+                            <img src="https://blog.hubspot.com/hubfs/Customer-testimonial-page.jpg" alt="">
+                            <h5>Jeny     <span>- User</span></h5>
                         </div>
                     </div>
                 </div>
@@ -184,10 +180,10 @@
                     <div class="col-lg-10">
                         <div class="testimonial__text">
                             <p>
-                                For more health and stronger
+                               We have working and with hark work we will make you to be a best healthy person.
                             </p>
-                            <img src="/Content/Media/Images/templates/testimonial/testimonial-1.png" alt="">
-                            <h5>Linnie Walton <span>- Trainer</span></h5>
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLWltO_RzTpY_bKJ5glRBmGHEPbuUj3YnrVQ&usqp=CAU" alt="">
+                            <h5>Jack William <span>- Moderator</span></h5>
                         </div>
                     </div>
                 </div>
@@ -197,10 +193,10 @@
                     <div class="col-lg-10">
                         <div class="testimonial__text">
                             <p>
-                                How can I become more healthy?
+                              Dont know where to start? Let's begin first at our program, here we will training you completely perfect.
                             </p>
-                            <img src="/Content/Media/Images/templates/testimonial/testimonial-1.png" alt="">
-                            <h5>Linnie Walton <span>- Trainer</span></h5>
+                            <img src="http://www.demoflick.com/blog/wp-content/uploads/2018/07/Screenshot-2018-07-13-10.34.46-740x602.png" alt="">
+                            <h5>Zhu Rui <span>- Trainer</span></h5>
                         </div>
                     </div>
                 </div>
@@ -214,4 +210,15 @@
 
 @section Scripts{
     @Scripts.Render("~/dist/Home/Index.js")
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 }

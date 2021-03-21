@@ -37,8 +37,8 @@ export default function Club() {
                                     <span>{moment(post.CreatedAt).format('ll')}</span>
                                 </div>
 
-                                <div className="classes__item__text">
-                                    <p>{post.TotalRate} rates, {post.AverageRate ? `${post.AverageRate} average` : ''}</p>
+                                <div className="classes__item__text" style={{ marginTop: 10 }}>
+                                  
                                     <h4><a href={`/post/${post.Slug}`}>{post.Title}</a></h4>
                                     <h6>{post.Owner.Name}<span>- Owner Post</span></h6>
                                     <a href={`/post/${post.Slug}`} className="class-btn">READ NOW</a>
