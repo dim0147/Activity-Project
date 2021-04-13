@@ -261,10 +261,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
-    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
-    <Compile Include="Areas\Admin\Models\CategoryViewModel.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReactController.cs" />
     <Compile Include="Authenticate\AuthorizeRoute.cs" />
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Controllers\PostController.cs" />
@@ -548,10 +545,6 @@
       <DependentUpon>DbModel.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
     <Content Include="package.json" />
     <Content Include="Areas\Admin\Views\Index.cshtml" />
     <None Include="Plugins\jQuery\js\jquery.validate-vsdoc.js" />
@@ -667,8 +660,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\Home\" />
-    <Folder Include="Areas\Admin\Views\Users\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\React\" />
     <Folder Include="Content\Media\Images\Club\" />
     <Folder Include="Content\Media\Images\Description\" />
     <Folder Include="Content\Media\Images\Post\" />
