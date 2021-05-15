@@ -171,6 +171,7 @@ namespace ActivityWebsite.Controllers
         [Mvc.Authorize]
         [VerifyUser]
         [Route("club/{slug}/edit")]
+        [HttpGet]
         public ActionResult Edit(string slug)
         {
             var club = EF.ClubHandle.GetFullClubBySlug(slug);
@@ -188,6 +189,7 @@ namespace ActivityWebsite.Controllers
         [ValidateInput(false)]
         [Mvc.Authorize]
         [VerifyUser]
+        [Route("club/{slug}/edit")]
         public ActionResult Edit(int id, EditClubModel model)
         {
             if (!ModelState.IsValid)

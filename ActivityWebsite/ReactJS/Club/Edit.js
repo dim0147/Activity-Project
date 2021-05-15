@@ -205,7 +205,7 @@ class App extends Component {
 
         axios({
             method: 'post',
-            url: window.location.href,
+            url: `/club/${this.state.clubId}/edit?id=${this.state.clubId}`,
             data: formData,
             headers: {
                 'Content-Type': 'multipart/form-data'

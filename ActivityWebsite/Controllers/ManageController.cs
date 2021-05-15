@@ -144,7 +144,7 @@ namespace ActivityWebsite.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] 
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
             if (!ModelState.IsValid)

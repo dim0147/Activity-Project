@@ -27,6 +27,7 @@
     <ProjectView>ProjectFiles</ProjectView>
     <Area_SelectedScaffolderID>ApiControllerWithActionsScaffolder</Area_SelectedScaffolderID>
     <Area_SelectedScaffolderCategoryPath>root/Common/Web API</Area_SelectedScaffolderCategoryPath>
+    <ToolsVersionPromptShown>4.0</ToolsVersionPromptShown>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
