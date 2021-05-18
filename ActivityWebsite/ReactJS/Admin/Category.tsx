@@ -187,13 +187,13 @@ export default class Post extends Component<{}, IState> {
                                     {
                                         icon: () => <Edit />,
                                         tooltip: 'Edit category',
-                                        onClick: (event, row) => window.open(`/admin/category/edit/${(row as IData).Id}`)
+                                        onClick: (event, row) => window.open(`https://localhost:44377/Admin/Category/Edit/${(row as IData).Id}`)
                                     },
                                     {
                                         icon: () => <AddBox />,
                                         tooltip: 'Create new category',
                                         isFreeAction: true,
-                                        onClick: (event) => window.open("/admin/category/create")
+                                        onClick: (event) => window.open("https://localhost:44377/Admin/Category/Create")
                                     },
                                 ]}
                                 localization={{

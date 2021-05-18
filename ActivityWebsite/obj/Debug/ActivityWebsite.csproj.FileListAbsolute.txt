@@ -212,7 +212,6 @@ D:\PROJECT\Activity-Project\ActivityWebsite\bin\Microsoft.Owin.Security.Twitter.
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\Microsoft.Owin.Security.OAuth.xml
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.csprojAssemblyReference.cache
 D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.Migrations.AddCreatedAtAndUpdatedAt.resources
 D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.Migrations.AddAuthenticateType.resources
 D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.csproj.GenerateResource.cache
@@ -273,3 +272,4 @@ D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Threading.Tasks.Extension
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Web.Cors.dll
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Web.Http.Cors.dll
 D:\PROJECT\Activity-Project\ActivityWebsite\bin\System.Web.Http.Cors.xml
+D:\PROJECT\Activity-Project\ActivityWebsite\obj\Debug\ActivityWebsite.csprojAssemblyReference.cache

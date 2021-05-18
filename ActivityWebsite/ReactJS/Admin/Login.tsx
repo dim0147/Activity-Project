@@ -109,16 +109,16 @@ export default function Login() {
                     const { user } = response;
 
                     dispatch(setUser(user));
-                    history.push('/admin');
+                    history.push('/');
                 }
+
                 setError('');
                 getUser();
+
+                // history.push('/');
             })
             .catch((err) => {
-                try {
-                    setError(err.response.data);
-                }
-                catch { setError('Unexpected error from server'); }
+                setError(err.response.data);
                 setLoading(false);
             });
     };
@@ -150,16 +150,6 @@ export default function Login() {
                     <Typography component='h1' variant='h5'>
                         Sign in
                     </Typography>
-
-                    <Typography variant='caption'>
-                        Username: admindemo
-                    </Typography>
-
-                    <Typography variant='caption'>
-                        Password: admindemo
-                    </Typography>
-
-
                     {error !== '' && <Alert severity='error'>{error}</Alert>}
                     <form
                         onSubmit={handleSubmitForm}

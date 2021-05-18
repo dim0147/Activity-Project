@@ -1,10 +1,10 @@
 ﻿const path = require('path');
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: {
         /* Home */
-        // Index: './ReactJS/Home/Index.js',
+         //Index: './ReactJS/Home/Index.js',
 
         /* Club */
         //Edit: "./ReactJS/Club/Edit.js",
@@ -28,7 +28,7 @@ module.exports = {
         App: "./ReactJS/Admin/index.tsx"
     },
     output: {
-        // path: path.resolve(__dirname, '../dist/Home'),
+         //path: path.resolve(__dirname, '../dist/Home'),
         //path: path.resolve(__dirname, "../dist/Club"),
         //path: path.resolve(__dirname, "../dist/Post"),
         //path: path.resolve(__dirname, "../dist/Manage"),

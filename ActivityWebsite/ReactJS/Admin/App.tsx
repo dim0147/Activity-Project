@@ -90,7 +90,7 @@ function App({ user, setUser }: IProps) {
     return (
         <Router>
             <Switch>
-                <Route path='/admin/login'>
+                <Route path='/login'>
                     <Login />
                 </Route>
             </Switch>
@@ -98,42 +98,42 @@ function App({ user, setUser }: IProps) {
             {user === null ? (
                 <>
                     <p>Please login first</p>
-                    <Link to='/admin/login'>Click here to login</Link>
+                    <Link to='/login'>Click here to login</Link>
                 </>
             ) : (
                 <div className={classes.root}>
                     <Header />
 
                     <Switch>
-                        <Route path='/admin/user'>
+                        <Route path='/user'>
                             <User />
                         </Route>
 
-                        <Route path='/admin/club'>
+                        <Route path='/club'>
                             <Club />
                         </Route>
 
-                        <Route path='/admin/post'>
+                        <Route path='/post'>
                             <Post />
                         </Route>
 
-                        <Route path='/admin/report'>
+                        <Route path='/report'>
                             <Report />
                         </Route>
 
-                        <Route path='/admin/moderator'>
+                        <Route path='/moderator'>
                             <Moderator />
                         </Route>
 
-                        <Route path='/admin/category'>
+                        <Route path='/category'>
                             <Category />
                         </Route>
 
-                        <Route path='/admin'>
+                        <Route path='/'>
                             <Dashboard />
                         </Route>
                     </Switch>
-
+                    
                 </div>
             )}
         </Router>

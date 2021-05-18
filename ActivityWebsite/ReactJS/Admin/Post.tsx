@@ -156,12 +156,12 @@ export default class Post extends Component<{}, IState> {
                                     {
                                         title: 'Title',
                                         field: 'Title',
-                                        render: (row) => <a href={`/post/${row.Slug}`}>{row.Title}</a>
+                                        render: (row) => <a href={`https://localhost:44377/post/${row.Slug}`}>{row.Title}</a>
                                     },
                                     {
                                         title: 'Club',
                                         field: 'Club',
-                                        render: (row) => <a href={`/club/${row.Club.Slug}`}>{row.Club.Name}</a>
+                                        render: (row) => <a href={`https://localhost:44377/club/${row.Club.Slug}`}>{row.Club.Name}</a>
                                     },
                                     {
                                         title: 'Tags',

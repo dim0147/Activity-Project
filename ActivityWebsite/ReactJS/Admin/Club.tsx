@@ -156,7 +156,7 @@ export default class Club extends Component<{}, IState> {
                                     {
                                         title: 'Name',
                                         field: 'Name',
-                                        render: (row) => <a href={`/club/${row.Slug}`}>{row.Name}</a>
+                                        render: (row) => <a href={`https://localhost:44377/club/${row.Slug}`}>{row.Name}</a>
                                     },
                                     {
                                         title: 'OperationHours',
