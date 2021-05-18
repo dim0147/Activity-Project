@@ -51,6 +51,10 @@ namespace ActivityWebsite.Api
             var user = await userManager.FindByEmailAsync(model.UsernameOrEmail);
             if(user == null)
             {
+                user = await userManager.FindByNameAsync(model.UsernameOrEmail);
+            }
+            if(user == null)
+            {
                 return Content(HttpStatusCode.NotAcceptable, "Incorrect username or password");
             }
             var roles = await userManager.GetRolesAsync(user.Id);

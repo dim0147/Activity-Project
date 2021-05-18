@@ -34,6 +34,12 @@
     <div class="signup-or">
         <span class="signup-or-text">Or Login With Account</span>
     </div>
+
+    <div class="form-group text-center">
+        <p>Username: admindemo</p>
+        <p>Password: admindemo</p>
+    </div>
+
     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "signup-form", autocomplete = "off" }))
     {
         <div style="padding: 0 600px;">
@@ -44,6 +50,8 @@
                 @Html.TextBoxFor(m => m.UsernameOrEmail, new { @class = "form-input", @id = "name", @placeholder = "Eg: johndoe@gmail.com" })
                 @Html.ValidationMessageFor(m => m.UsernameOrEmail, "", new { @class = "text-danger" })
             </div>
+
+
             <div class="form-group">
                 @Html.LabelFor(m => m.Password, new { @class = "form-label" })
                 @Html.PasswordFor(m => m.Password, new { @class = "form-input", @id = "password" })

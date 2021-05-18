@@ -5,6 +5,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>
     </ProductVersion>
@@ -685,6 +686,29 @@
     <EmbeddedResource Include="Migrations\202012120245175_EditAddStatus.resx">
       <DependentUpon>202012120245175_EditAddStatus.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="ReactJS\Admin\App.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Category.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Chart.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Club.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Dashboard.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Deposits.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Header.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\index.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\listItems.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Login.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Moderator.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Orders.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Post.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\react-app-env.d.ts" />
+    <TypeScriptCompile Include="ReactJS\Admin\Report.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\store\index.ts" />
+    <TypeScriptCompile Include="ReactJS\Admin\store\user\actions.ts" />
+    <TypeScriptCompile Include="ReactJS\Admin\store\user\reducers.ts" />
+    <TypeScriptCompile Include="ReactJS\Admin\store\user\types.ts" />
+    <TypeScriptCompile Include="ReactJS\Admin\Title.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\User.tsx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

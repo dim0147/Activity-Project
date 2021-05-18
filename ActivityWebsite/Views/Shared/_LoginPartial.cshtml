@@ -1,24 +1,26 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-<li>
-    <a href="#">Hello @User.Identity.GetUserName()   <i class="fas fa-chevron-circle-down"></i></a>
-    <ul class="dropdown">
-        <li><a href="@Url.Action("Index", "Manage")"><i class="fas fa-user-cog"></i>   Manage</a></li>
-        <li>
-            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-            {
-                @Html.AntiForgeryToken()
+    <li>
+        <a href="#">Hello @User.Identity.GetUserName()   <i class="fas fa-chevron-circle-down"></i></a>
+        <ul class="dropdown">
+            <li><a href="@Url.Action("Index", "Manage")"><i class="fas fa-user-cog"></i>   Manage</a></li>
+            <li>
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
 
-                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fas fa-sign-out-alt"></i>   Log off</a>
-            }
+                    <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fas fa-sign-out-alt"></i>   Log off</a>
+                }
             </li>
-    </ul>
+        </ul>
 
-</li>
+        <li><a href="@Url.Action("Index", "admin")">Admin Dashboard</a></li>
+
+    </li>
 }
 else
 {
-<li><a href="@Url.Action("Login", "Account")">Log in</a></li>
-<li><a href="@Url.Action("Register", "Account")">Register</a></li>
+    <li><a href="@Url.Action("Login", "Account")">Log in</a></li>
+    <li><a href="@Url.Action("Register", "Account")">Register</a></li>
 }
