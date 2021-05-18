@@ -134,7 +134,7 @@ export default class Report extends Component<{}, IState> {
                                     {
                                         title: 'Club',
                                         field: 'Club',
-                                        render: (row) => row.Club !== undefined ? <a href={`https://localhost:44377/club/${row.Club.Slug}`}>{row.Club.Name}</a> : 'Dont exist'
+                                        render: (row) => row.Club !== undefined ? <a href={`/club/${row.Club.Slug}`}>{row.Club.Name}</a> : 'Dont exist'
                                     },
                                     {
                                         title: 'Status',
