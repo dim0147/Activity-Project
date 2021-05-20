@@ -310,6 +310,7 @@
       <DependentUpon>202012120245175_EditAddStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\CategoryModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetRole.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
@@ -1014,10 +1015,10 @@
     <Content Include="Content\Media\Images\Post\f1e40ad7-525e-4492-9e37-8c125c9626bc_aquatics-sport-thumbnail-600x400.jpg" />
     <Content Include="Content\Media\Images\Post\f77a0505-7dbe-43cd-86e4-06756ce2678c_baseball-sport-thumbnail-600x400.jpg" />
     <Content Include="Content\Media\Images\Post\fa9fbdbe-ddb8-4cae-ad58-17d06878ee05_classes-1.jpg" />
+    <Content Include="dist\Admin\120.js" />
+    <Content Include="dist\Admin\608.js" />
+    <Content Include="dist\Admin\856.js" />
     <Content Include="dist\Admin\App.js" />
-    <Content Include="dist\Admin\vendors-node_modules_canvg_lib_index_es_js.js" />
-    <Content Include="dist\Admin\vendors-node_modules_dompurify_dist_purify_js.js" />
-    <Content Include="dist\Admin\vendors-node_modules_html2canvas_dist_html2canvas_js.js" />
     <Content Include="dist\Club\Chatbox.js" />
     <Content Include="dist\Club\Club.js" />
     <Content Include="dist\Club\Create.js" />
@@ -1026,21 +1027,16 @@
     <Content Include="dist\Club\Search.js" />
     <Content Include="dist\Home\Index.js" />
     <Content Include="dist\Manage\120.js" />
-    <Content Include="dist\Manage\120.js.LICENSE.txt" />
     <Content Include="dist\Manage\608.js" />
     <Content Include="dist\Manage\856.js" />
-    <Content Include="dist\Manage\856.js.LICENSE.txt" />
     <Content Include="dist\Manage\Club.js" />
-    <Content Include="dist\Manage\Club.js.LICENSE.txt" />
     <Content Include="dist\Manage\Following.js" />
     <Content Include="dist\Manage\Post.js" />
     <Content Include="dist\Manage\Report.js" />
-    <Content Include="dist\Manage\vendors-node_modules_canvg_lib_index_es_js.js" />
-    <Content Include="dist\Manage\vendors-node_modules_dompurify_dist_purify_js.js" />
-    <Content Include="dist\Manage\vendors-node_modules_html2canvas_dist_html2canvas_js.js" />
     <Content Include="dist\Post\Create.js" />
     <Content Include="dist\Post\Detail.js" />
     <Content Include="dist\Post\Edit.js" />
+    <TypeScriptCompile Include="ReactJS\Admin\InputFile.tsx" />
     <Content Include="ReactJS\API\Comment.js" />
     <Content Include="ReactJS\API\Post.js" />
     <Content Include="ReactJS\API\User.js" />
@@ -1242,6 +1238,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\React\" />
+    <Folder Include="ReactJS\Admin\%40types\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -1267,6 +1264,29 @@
     <EmbeddedResource Include="Migrations\202012120245175_EditAddStatus.resx">
       <DependentUpon>202012120245175_EditAddStatus.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="ReactJS\Admin\App.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\AddCategoryDialog.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Category.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Chart.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Club.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Dashboard.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Deposits.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Header.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\index.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\listItems.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Login.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Moderator.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Orders.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Post.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\Report.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\store\index.ts" />
+    <TypeScriptCompile Include="ReactJS\Admin\store\user\actions.ts" />
+    <TypeScriptCompile Include="ReactJS\Admin\store\user\reducers.ts" />
+    <TypeScriptCompile Include="ReactJS\Admin\store\user\types.ts" />
+    <TypeScriptCompile Include="ReactJS\Admin\Title.tsx" />
+    <TypeScriptCompile Include="ReactJS\Admin\User.tsx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

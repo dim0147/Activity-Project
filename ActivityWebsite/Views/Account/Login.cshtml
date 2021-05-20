@@ -18,7 +18,7 @@
     @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "form-login-service" }))
     {
         @Html.AntiForgeryToken()
-        <div style="padding: 0 600px;">
+        <div class="row text-center">
             <input type="hidden" id="provider" name="provider">
             <a href="#" class="signup-google google-color  signup-btn" provider="Google">
                 <i class="fab fa-google signup-google-icon"></i>
@@ -29,6 +29,7 @@
                 <i class="fab fa-facebook-f signup-google-icon"></i>
                 <span class="signup-google-text">Log In with Facebook</span>
             </a>
+
         </div>
     }
     <div class="signup-or">
@@ -42,32 +43,39 @@
 
     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "signup-form", autocomplete = "off" }))
     {
-        <div style="padding: 0 600px;">
+        <div class="row text-center">
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(m => m.UsernameOrEmail, new { @class = "form-label" })
-                @Html.TextBoxFor(m => m.UsernameOrEmail, new { @class = "form-input", @id = "name", @placeholder = "Eg: johndoe@gmail.com" })
-                @Html.ValidationMessageFor(m => m.UsernameOrEmail, "", new { @class = "text-danger" })
+
+            <div class="col-md-12 text-center">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UsernameOrEmail, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.UsernameOrEmail, new { @class = "form-input", @id = "name", @placeholder = "Eg: johndoe@gmail.com" })
+                    @Html.ValidationMessageFor(m => m.UsernameOrEmail, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+            <div class="col-md-12 text-center">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-input", @id = "password" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
             </div>
 
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Password, new { @class = "form-label" })
-                @Html.PasswordFor(m => m.Password, new { @class = "form-input", @id = "password" })
-                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <div class="checkbox">
-                        @Html.CheckBoxFor(m => m.RememberMe)
-                        @Html.LabelFor(m => m.RememberMe)
+            <div class="col-md-12 text-center">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>
                     </div>
                 </div>
             </div>
 
             <button type="submit" class="form-submit">Log In</button>
+
         </div>
     }
     <p class="signup-already">Don't have account ? <a href="@Url.Action("Register", "Account")" class="signup-already-link">Register</a></p>

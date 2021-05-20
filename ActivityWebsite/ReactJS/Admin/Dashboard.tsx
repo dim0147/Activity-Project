@@ -1,4 +1,6 @@
 import React from 'react';
+import { Helmet } from "react-helmet";
+
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -112,6 +114,12 @@ export default function Dashboard() {
 
     return (
         <main className={classes.content}>
+
+
+            <Helmet>
+                <title>Dashboard</title>
+            </Helmet>
+
             <div className={classes.appBarSpacer} />
             <Container maxWidth='lg' className={classes.container}>
                 <Grid container spacing={3}>

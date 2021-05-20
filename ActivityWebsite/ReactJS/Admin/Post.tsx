@@ -1,5 +1,7 @@
 import React, { Component, forwardRef } from 'react';
 import MaterialTable from 'material-table';
+import { Helmet } from "react-helmet";
+
 
 import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
@@ -120,6 +122,11 @@ export default class Post extends Component<{}, IState> {
     render() {
         return (
             <div style={{ paddingTop: 100 }}>
+
+                <Helmet>
+                    <title>Post</title>
+                </Helmet>
+
                 <Grid container direction='row' spacing={3}>
                     <Grid item xs={12}>
                         <Box p={3}>

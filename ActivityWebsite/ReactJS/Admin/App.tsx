@@ -90,7 +90,7 @@ function App({ user, setUser }: IProps) {
     return (
         <Router>
             <Switch>
-                <Route path='/login'>
+                <Route path='/admin/login'>
                     <Login />
                 </Route>
             </Switch>
@@ -98,38 +98,38 @@ function App({ user, setUser }: IProps) {
             {user === null ? (
                 <>
                     <p>Please login first</p>
-                    <Link to='/login'>Click here to login</Link>
+                    <Link to='/admin/login'>Click here to login</Link>
                 </>
             ) : (
                 <div className={classes.root}>
                     <Header />
 
                     <Switch>
-                        <Route path='/user'>
+                        <Route path='/admin/user'>
                             <User />
                         </Route>
 
-                        <Route path='/club'>
+                        <Route path='/admin/club'>
                             <Club />
                         </Route>
 
-                        <Route path='/post'>
+                        <Route path='/admin/post'>
                             <Post />
                         </Route>
 
-                        <Route path='/report'>
+                        <Route path='/admin/report'>
                             <Report />
                         </Route>
 
-                        <Route path='/moderator'>
+                        <Route path='/admin/moderator'>
                             <Moderator />
                         </Route>
 
-                        <Route path='/category'>
+                        <Route path='/admin/category'>
                             <Category />
                         </Route>
 
-                        <Route path='/'>
+                        <Route path='/admin'>
                             <Dashboard />
                         </Route>
                     </Switch>

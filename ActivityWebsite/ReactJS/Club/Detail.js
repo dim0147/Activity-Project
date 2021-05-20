@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Helmet } from "react-helmet";
 
 import { getClubDetail } from '../API/Club';
 
@@ -89,6 +90,12 @@ class App extends Component {
         else if (this.state.status === 'success') {
             return (
                 <>
+
+                    <Helmet>
+                        <title>{this.state.clubName}</title>
+                    </Helmet>
+
+
                     <DetailAbout
                         clubId={this.state.clubId}
                         clubSlug={this.state.clubSlug}

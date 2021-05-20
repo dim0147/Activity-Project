@@ -1,4 +1,6 @@
 import React, { useRef, useState } from 'react';
+import { Helmet } from "react-helmet";
+
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
@@ -109,7 +111,7 @@ export default function Login() {
                     const { user } = response;
 
                     dispatch(setUser(user));
-                    history.push('/');
+                    history.push('admin/');
                 }
 
                 setError('');
@@ -133,6 +135,11 @@ export default function Login() {
     return (
         <Grid container component='main' className={classes.root}>
             <CssBaseline />
+
+            <Helmet>
+                <title>Login</title>
+            </Helmet>
+
             <Grid item xs={false} sm={4} md={7} className={classes.image} />
             <Grid
                 item

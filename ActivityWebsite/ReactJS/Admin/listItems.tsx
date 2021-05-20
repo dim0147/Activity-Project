@@ -18,35 +18,35 @@ export const MainListItems = () => {
 
     return (
         <div>
-            <ListItem button onClick={() => history.push('/')}>
+            <ListItem button onClick={() => history.push('/admin/')}>
                 <ListItemIcon>
                     <DashboardIcon />
                 </ListItemIcon>
                 <ListItemText primary='Dashboard' />
             </ListItem>
 
-            <ListItem button onClick={() => history.push('/user')}>
+            <ListItem button onClick={() => history.push('/admin/user')}>
                 <ListItemIcon>
                     <PersonIcon />
                 </ListItemIcon>
                 <ListItemText primary='Users' />
             </ListItem>
 
-            <ListItem button onClick={() => history.push('/club')}>
+            <ListItem button onClick={() => history.push('/admin/club')}>
                 <ListItemIcon>
                     <PeopleIcon />
                 </ListItemIcon>
                 <ListItemText primary='Clubs' />
             </ListItem>
 
-            <ListItem button onClick={() => history.push('/post')}>
+            <ListItem button onClick={() => history.push('/admin/post')}>
                 <ListItemIcon>
                     <LayersIcon />
                 </ListItemIcon>
                 <ListItemText primary='Posts' />
             </ListItem>
 
-            <ListItem button onClick={() => history.push('/report')}>
+            <ListItem button onClick={() => history.push('/admin/report')}>
                 <ListItemIcon>
                     <BarChartIcon />
                 </ListItemIcon>
@@ -61,14 +61,14 @@ export const SecondaryListItems = () => {
     return (
         <div>
             <ListSubheader inset>Manage</ListSubheader>
-            <ListItem button onClick={() => history.push('/moderator')}>
+            <ListItem button onClick={() => history.push('/admin/moderator')}>
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
                 <ListItemText primary='Moderator' />
             </ListItem>
 
-            <ListItem button onClick={() => history.push('/category')}>
+            <ListItem button onClick={() => history.push('/admin/category')}>
                 <ListItemIcon>
                     <CategoryIcon />
                 </ListItemIcon>

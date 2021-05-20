@@ -1,5 +1,9 @@
 import React, { Component, forwardRef } from 'react';
 import MaterialTable from 'material-table';
+import { Helmet } from "react-helmet";
+import axios from 'axios';
+import moment from 'moment';
+
 
 import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
@@ -20,8 +24,9 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import axios from 'axios';
-import moment from 'moment';
+
+import AddCategoryDialog from './AddCategoryDialog';
+
 
 interface IData {
     Id: string;
@@ -35,6 +40,7 @@ interface IData {
 
 interface IState {
     data: Array<IData>;
+    addCategoryDialogNumber: number;
 }
 
 export default class Post extends Component<{}, IState> {
@@ -86,6 +92,7 @@ export default class Post extends Component<{}, IState> {
 
     state: Readonly<IState> = {
         data: [],
+        addCategoryDialogNumber: 0
     };
 
     componentDidMount() {
@@ -106,6 +113,11 @@ export default class Post extends Component<{}, IState> {
     render() {
         return (
             <div style={{ paddingTop: 100 }}>
+                <Helmet>
+                    <title>Category</title>
+                 </Helmet>
+
+
                 <Grid container direction='row' spacing={3}>
                     <Grid item xs={12}>
                         <Box p={3}>
@@ -184,17 +196,20 @@ export default class Post extends Component<{}, IState> {
                                         }),
                                 }}
                                 actions={[
-                                    {
-                                        icon: () => <Edit />,
-                                        tooltip: 'Edit category',
-                                        onClick: (event, row) => window.open(`/Admin/Category/Edit/${(row as IData).Id}`)
-                                    },
-                                    {
-                                        icon: () => <AddBox />,
-                                        tooltip: 'Create new category',
-                                        isFreeAction: true,
-                                        onClick: (event) => window.open("/Admin/Category/Create")
-                                    },
+                                    //{
+                                    //    icon: () => <Edit />,
+                                    //    tooltip: 'Edit category',
+                                    //    onClick: (event, row) => window.open(`/Admin/Category/Edit/${(row as IData).Id}`)
+                                    //},
+                                    //{
+                                    //    icon: () => <AddBox />,
+                                    //    tooltip: 'Create new category',
+                                    //    isFreeAction: true,
+                                    //    onClick: (event) => {
+                                    //        console.log('starttt');
+                                    //        this.setState({ addCategoryDialogNumber: this.state.addCategoryDialogNumber + 1 });
+                                    //    }
+                                    //},
                                 ]}
                                 localization={{
                                     body: {
@@ -213,6 +228,8 @@ export default class Post extends Component<{}, IState> {
                         </Box>
                     </Grid>
                 </Grid>
+
+                {this.state.addCategoryDialogNumber !== 0 && <AddCategoryDialog key={this.state.addCategoryDialogNumber} />}
             </div>
         );
     }

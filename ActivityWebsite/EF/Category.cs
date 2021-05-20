@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ActivityWebsite.Config;
+using ActivityWebsite.CustomHelper;
 
 namespace ActivityWebsite.EF
 {
@@ -12,11 +13,44 @@ namespace ActivityWebsite.EF
 
         public static List<Category> GetAllCategory()
         {
-            using(var db = new DbModel())
+            using (var db = new DbModel())
             {
                 return db.Categories.OrderBy(c => c.name).ToList();
             }
         }
+
+        public static Category CreateNewCategory(string name, string description, HttpPostedFile img, string type = "entity")
+        {
+            using (var db = new DbModel())
+            {
+
+                try
+                {
+                    // Check is exist
+                    var categoryFounded = FindCategoryByName(name);
+                    if (categoryFounded != null) return null;
+
+                    // Save image
+                    string imgName = EF.ImageHandle.SaveImg(img, ConfigurationApp.VIRTUAL_DIR_CATEGORY_IMAGE);
+                    if (imgName == null) return null;
+
+                    // Gerenate new slug
+                    string slug = Helper.GerenateUrlSlug(name);
+
+                    // Create new category
+                    var category = new Category { name = name, description = description, image = imgName, type = type, slug = slug };
+
+                    db.Categories.Add(category);
+                    db.SaveChanges();
+                    return category;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
 
         public static Category FindCategoryById(long id)
         {
@@ -41,10 +75,10 @@ namespace ActivityWebsite.EF
                 return query.FirstOrDefault();
             }
         }
-    
+
         public static object GetAllCategoryByAdmin()
         {
-            using(var db = new DbModel())
+            using (var db = new DbModel())
             {
                 return db.Categories
                     .Include("ClubCategories")
@@ -65,7 +99,7 @@ namespace ActivityWebsite.EF
 
         public static bool DeleteCategory(int id)
         {
-            using(var db = new DbModel())
+            using (var db = new DbModel())
             {
                 try
                 {
@@ -75,7 +109,7 @@ namespace ActivityWebsite.EF
                     db.SaveChanges();
                     return true;
                 }
-                catch(Exception error)
+                catch (Exception error)
                 {
                     return false;
                 }

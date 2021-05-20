@@ -4,7 +4,7 @@ module.exports = {
     mode: 'production',
     entry: {
         /* Home */
-         //Index: './ReactJS/Home/Index.js',
+         Index: './ReactJS/Home/Index.js',
 
         /* Club */
         //Edit: "./ReactJS/Club/Edit.js",
@@ -25,14 +25,14 @@ module.exports = {
         //Report: './ReactJS/Manage/Report.js',
 
         /* Admin */
-        App: "./ReactJS/Admin/index.tsx"
+        //App: "./ReactJS/Admin/index.tsx"
     },
     output: {
-         //path: path.resolve(__dirname, '../dist/Home'),
+         path: path.resolve(__dirname, '../dist/Home'),
         //path: path.resolve(__dirname, "../dist/Club"),
         //path: path.resolve(__dirname, "../dist/Post"),
         //path: path.resolve(__dirname, "../dist/Manage"),
-        path: path.resolve(__dirname, "../dist/Admin"),
+        //path: path.resolve(__dirname, "../dist/Admin"),
         filename: '[name].js',
     },
     resolve: {

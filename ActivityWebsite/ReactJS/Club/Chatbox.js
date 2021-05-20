@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { Helmet } from "react-helmet";
 import 'react-toastify/dist/ReactToastify.css';
 
 import Header from './ChatboxHeader';
@@ -74,6 +75,11 @@ class App extends Component {
         else if (this.state.status === 'success') {
             return (
                 <div className="container py-5 px-4">
+
+
+                    <Helmet>
+                        <title>{`${this.state.club.Name} Chat Box`}</title>
+                    </Helmet>
 
                     <Header
                         club={this.state.club}

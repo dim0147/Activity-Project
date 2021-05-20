@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Helmet } from "react-helmet";
 
 import LeftPanel from '../Components/LeftPanel';
 import DetailText from './DetailText';
@@ -50,12 +51,17 @@ class App extends Component {
                 )
             else
                 return (
-                    <div className="text-center"><i className="fas fa-spinner fa-spin"></i>   Loading Club Detail...</div>
+                    <div className="text-center"><i className="fas fa-spinner fa-spin"></i>   Loading Post Detail...</div>
                 )
         } else {
             return (
                 <PostDetailContext.Provider value={this.state.post.Id}>
                     <PostContext.Provider value={this.state.post}>
+
+                        <Helmet>
+                            <title>{this.state.post.Title}</title>
+                        </Helmet>
+
                         <div>
                             <section className="blog-details spad">
                                 <div className="container">

@@ -6,8 +6,10 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ActivityWebsite.Config;
+using ActivityWebsite.Models;
 using System.Web.Http.Cors;
 using static ActivityWebsite.Authenticate.AuthorizeRoute;
+using System.Web;
 
 namespace ActivityWebsite.Api
 {
@@ -33,6 +35,22 @@ namespace ActivityWebsite.Api
         {
             return Json(EF.CategoryHandle.GetAllCategoryByAdmin());
         }
+
+
+        [HttpPost]
+        [Route("api/category/add")]
+        [Authorize(Roles = "Admin")]
+        [VerifyUser]
+        public IHttpActionResult AddCategory(AddCategoryModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Content(HttpStatusCode.BadRequest, "Invalid request");
+            }
+
+            return Content(HttpStatusCode.BadRequest, new { model = model, test = HttpContext.Current.Request.Files });
+        }
+
 
         [HttpDelete]
         [Route("api/category/delete/{id}")]

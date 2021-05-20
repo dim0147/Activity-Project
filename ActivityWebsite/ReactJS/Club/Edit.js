@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
+import { Helmet } from "react-helmet";
 
 import { getClubOwner } from '../API/Club';
 import { getAllCategory } from '../API/Category';
@@ -266,7 +267,13 @@ class App extends Component {
         }
         else
             return (
-                <div className="leave-comment spad">            
+                <div className="leave-comment spad">
+
+                    <Helmet>
+                        <title>{`Edit ${this.state.originalName}`}</title>
+                    </Helmet>
+
+
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12">
